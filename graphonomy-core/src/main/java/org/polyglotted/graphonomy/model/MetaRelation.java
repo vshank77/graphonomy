@@ -2,7 +2,12 @@ package org.polyglotted.graphonomy.model;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class MetaRelation {
+import java.util.Arrays;
+
+import org.polyglotted.graphonomy.domain.DatabaseConstants;
+import org.polyglotted.graphonomy.util.LinkUtils;
+
+public class MetaRelation implements GraphRelation {
 
     private RelationClass relationClass;
     private TermClass targetClass;
@@ -12,6 +17,14 @@ public class MetaRelation {
     public MetaRelation(RelationClass relationClass, TermClass targetClass) {
         setRelationClass(relationClass);
         setTargetClass(targetClass);
+    }
+
+    @Override
+    public Iterable<String> getLinks(String fromNodeId) {
+        return Arrays.asList(
+                LinkUtils.getLink(fromNodeId, DatabaseConstants.IS_META_RELATION_OF, relationClass.getRelationId()),
+                LinkUtils.getLink(relationClass.getRelationId(), DatabaseConstants.IS_META_RELATION_TO,
+                        targetClass.getClassId()));
     }
 
     @Override

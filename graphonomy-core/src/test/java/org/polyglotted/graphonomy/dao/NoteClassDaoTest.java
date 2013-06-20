@@ -36,7 +36,7 @@ public class NoteClassDaoTest extends AbstractDaoTest<NoteClass> {
 
     @Override
     protected NoteClass loadTestSubject(String nodeId) {
-        return new NoteClass(nodeId, "name", TypeSafe.str);
+        return new NoteClass(nodeId);
     }
 
     @Override

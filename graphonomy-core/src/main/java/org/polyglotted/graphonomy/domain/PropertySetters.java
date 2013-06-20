@@ -8,6 +8,7 @@ import java.util.TimeZone;
 
 import org.neo4j.graphdb.PropertyContainer;
 import org.polyglotted.graphonomy.model.Fragment;
+import org.polyglotted.graphonomy.model.GraphRelation;
 import org.polyglotted.graphonomy.util.GsonUtils;
 
 import com.google.gson.Gson;
@@ -46,6 +47,9 @@ class PropertySetters {
 
             ParameterizedType listType = (ParameterizedType) field.getGenericType();
             Class<?> genType = (Class<?>) listType.getActualTypeArguments()[0];
+            if (GraphRelation.class.isAssignableFrom(genType))
+                return;
+
             if (PropertyTypes.isDefaultClass(genType)) {
                 node.setProperty("L$" + field.getName(), listValue.toArray(PropertyTypes.getArrayFor(genType)));
             }

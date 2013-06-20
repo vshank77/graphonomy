@@ -29,7 +29,7 @@ public class RelationClassDaoTest extends AbstractDaoTest<RelationClass> {
 
     @Override
     protected RelationClass loadTestSubject(String nodeId) {
-        return new RelationClass(nodeId, "fwdName", "fwdDesc", "revName", "revDesc");
+        return new RelationClass(nodeId);
     }
 
     @Override

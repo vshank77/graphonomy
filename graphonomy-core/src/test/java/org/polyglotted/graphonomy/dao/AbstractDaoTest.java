@@ -1,5 +1,7 @@
 package org.polyglotted.graphonomy.dao;
 
+import static org.polyglotted.graphonomy.domain.DatabaseConstants.NodeId;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
@@ -13,6 +15,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.PropertyContainer;
+import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.test.TestGraphDatabaseFactory;
 import org.polyglotted.graphonomy.domain.DomainFailureException;
@@ -102,7 +106,6 @@ public abstract class AbstractDaoTest<T extends GraphNode> {
         getAbstractDao().loadNode(nodeId);
     }
 
-
     @Test(expected = NullPointerException.class)
     public void testForceDelete() {
         final String nodeId = "id";
@@ -115,36 +118,63 @@ public abstract class AbstractDaoTest<T extends GraphNode> {
         });
         getAbstractDao().loadNode(nodeId);
     }
-    
+
     protected abstract BaseDao<T> getAbstractDao();
-    
-    protected abstract T loadTestSubject(String id);
-    
-    
+
+    protected abstract T loadTestSubject(String nodeId);
+
     public static InputStream asStream(String path) {
         return AbstractDaoTest.class.getClassLoader().getResourceAsStream(path);
     }
 
     public static String inspectNode(Node node) {
-        final Iterator<String> propertyKeys = node.getPropertyKeys().iterator();
-        if (!propertyKeys.hasNext())
-            return null;
-
         StringBuilder builder = new StringBuilder();
         builder.append("{");
+        final Iterator<String> propertyKeys = node.getPropertyKeys().iterator();
+        if (propertyKeys.hasNext())
+            inspectProperties(node, propertyKeys, builder);
+        builder.append("}");
+        return builder.toString();
+    }
+
+    public static String inspectRelationships(Iterable<Relationship> relationships) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("[");
+        int i = 0;
+        for (Relationship rel : relationships) {
+            if (i++ != 0) {
+                builder.append(",");
+            }
+            builder.append("{");
+            builder.append("\"from\":");
+            builder.append(escapeString(rel.getStartNode().getProperty(NodeId)));
+            builder.append(",\"rel\":");
+            builder.append(escapeString(rel.getType().name()));
+            builder.append(",\"to\":");
+            builder.append(escapeString(rel.getEndNode().getProperty(NodeId)));
+            Iterator<String> propertyKeys = rel.getPropertyKeys().iterator();
+            if (propertyKeys.hasNext()) {
+                builder.append(",");
+                inspectProperties(rel, propertyKeys, builder);
+            }
+            builder.append("}");
+        }
+        builder.append("]");
+        return builder.toString();
+    }
+
+    private static void inspectProperties(PropertyContainer node, Iterator<String> propertyKeys, StringBuilder builder) {
         int i = 0;
         while (propertyKeys.hasNext()) {
             if (i++ != 0)
                 builder.append(",");
             String prop = propertyKeys.next();
             builder.append("\"" + prop + "\":");
-            inspect(node.getProperty(prop), builder);
+            inspectProperty(node.getProperty(prop), builder);
         }
-        builder.append("}");
-        return builder.toString();
     }
 
-    private static void inspect(Object property, final StringBuilder builder) {
+    private static void inspectProperty(Object property, final StringBuilder builder) {
         if (property.getClass().isArray()) {
             List<?> list = Lists.transform(Arrays.asList((Object[]) property), new Function<Object, String>() {
                 @Override

@@ -2,7 +2,12 @@ package org.polyglotted.graphonomy.model;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class MetaNote {
+import java.util.Arrays;
+
+import org.polyglotted.graphonomy.domain.DatabaseConstants;
+import org.polyglotted.graphonomy.util.LinkUtils;
+
+public class MetaNote implements GraphRelation {
 
     private NoteClass noteClass;
     private boolean mandatory;
@@ -12,6 +17,11 @@ public class MetaNote {
     public MetaNote(NoteClass noteClass, boolean mandatory) {
         setNoteClass(noteClass);
         setMandatory(mandatory);
+    }
+
+    @Override
+    public Iterable<String> getLinks(String fromNodeId) {
+        return Arrays.asList(LinkUtils.getLink(fromNodeId, DatabaseConstants.IS_META_NOTE_OF, noteClass.getNoteId()));
     }
 
     @Override
