@@ -1,7 +1,5 @@
 package org.polyglotted.graphonomy.domain;
 
-import static org.polyglotted.graphonomy.util.JsonUtils.GSON;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.text.SimpleDateFormat;
@@ -9,7 +7,10 @@ import java.util.List;
 import java.util.TimeZone;
 
 import org.neo4j.graphdb.PropertyContainer;
-import org.polyglotted.graphonomy.model.GraphFragment;
+import org.polyglotted.graphonomy.model.Fragment;
+import org.polyglotted.graphonomy.util.GsonUtils;
+
+import com.google.gson.Gson;
 
 class PropertySetters {
 
@@ -35,6 +36,8 @@ class PropertySetters {
     }
 
     public static class ListPropertySetter implements PropertySetter {
+        private static Gson gson = GsonUtils.createGson(false, false);
+
         @Override
         public void setProperty(PropertyContainer node, Field field, Object value) {
             List<?> listValue = (List<?>) value;
@@ -46,8 +49,8 @@ class PropertySetters {
             if (PropertyTypes.isDefaultClass(genType)) {
                 node.setProperty("L$" + field.getName(), listValue.toArray(PropertyTypes.getArrayFor(genType)));
             }
-            else if (GraphFragment.class.isAssignableFrom(genType)) {
-                node.setProperty("D$" + field.getName(), GSON.toJson(listValue));
+            else if (Fragment.class.isAssignableFrom(genType)) {
+                node.setProperty("F$" + field.getName(), gson.toJson(listValue));
             }
             else
                 throw new DomainFailureException();

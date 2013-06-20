@@ -15,6 +15,10 @@ public class RelationClass implements GraphNode {
 
     public RelationClass() {}
 
+    public RelationClass(String relationId) {
+        setRelationId(relationId);
+    }
+
     public RelationClass(String relationId, String forwardName, String forwardDesc, String reverseName,
             String reverseDesc) {
         setRelationId(relationId);

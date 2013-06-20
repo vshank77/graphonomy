@@ -4,7 +4,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.net.URI;
 
-public class Posting implements GraphFragment {
+public class Posting implements Fragment {
 
     private URI sourceDb;
     private String fieldName;

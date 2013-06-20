@@ -20,10 +20,14 @@ public class NoteClass implements GraphNode {
 
     public NoteClass() {}
 
+    public NoteClass(String noteId) {
+        setNoteId(noteId);
+    }
+
     public NoteClass(String noteId, String noteName, TypeSafe type) {
-        setNoteId(checkNotNull(noteId));
-        setNoteName(checkNotNull(noteName));
-        setType(checkNotNull(type));
+        setNoteId(noteId);
+        setNoteName(noteName);
+        setType(type);
     }
 
     public <T> T validate(String value) {
@@ -110,8 +114,13 @@ public class NoteClass implements GraphNode {
         return enums;
     }
 
+    public NoteClass addEnum(String enumVal) {
+        enums.add(enumVal);
+        return this;
+    }
+
     public NoteClass setEnums(List<String> enums) {
-        this.enums = enums;
+        this.enums = Lists.newArrayList(enums);
         return this;
     }
 

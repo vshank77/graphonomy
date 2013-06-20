@@ -18,3 +18,5 @@ test-output/
 
 #Jrebel
 src/main/resources/rebel.xml
+
+graphonomy-external/
