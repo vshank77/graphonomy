@@ -1,0 +1,2 @@
+NoteClassDaoTest.testCreate={"nodeId":"id","id":"1","noteId":"id","noteName":"name","E$type":"str","defaultValue":"apple","required":"true","L$enums":["apple","mango","berry"]}
+RelationClassDaoTest.testCreate={"nodeId":"a1b2c3","id":"1","relationId":"a1b2c3","forwardName":"NT","forwardDesc":"Narrow Term","reverseName":"BT","reverseDesc":"Broad Term"}
