@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<thesaurusStructure version="5">
+  <properties>
+    <property>
+      <pName>SchemaVersion</pName>
+      <pValue>34</pValue>
+    </property>
+  </properties>
+  <attributeTypes>
+    <attributeType addToNewTerms="0" changeable="0" propagateToChildren="0" id="2">
+      <name>Do not use for concept mapping</name>
+    </attributeType>
+    <attributeType addToNewTerms="0" changeable="1" propagateToChildren="0" id="8">
+      <name>ROOT NODE</name>
+    </attributeType>
+  </attributeTypes>
+  <choiceTypes>
+    <choiceType changeable="0" defaultValueId="23" id="8">
+      <name>Match on stemmed term</name>
+      <values>
+        <value id="23">Yes</value>
+        <value id="24">No</value>
+      </values>
+    </choiceType>
+    <choiceType changeable="0" defaultValueId="13" id="5">
+      <name>Influence in rulebase</name>
+      <values>
+        <value id="13">Normal (default)</value>
+        <value id="14">Low</value>
+        <value id="15">High</value>
+        <value id="16">None</value>
+        <value id="17">Tag if present</value>
+      </values>
+    </choiceType>
+    <choiceType changeable="0" defaultValueId="19" id="6">
+      <name>Behaviour in rulebase</name>
+      <values>
+        <value id="18">Treat as exact phrase only</value>
+        <value id="19">Allow phrase variants (default)</value>
+      </values>
+    </choiceType>
+    <choiceType changeable="0" defaultValueId="21" id="7">
+      <name>Rulebase action</name>
+      <values>
+        <value id="20">Do not generate rulebase</value>
+        <value id="21">Generate rulebase (default)</value>
+        <value id="22">Substitute in manually edited rulebase</value>
+      </values>
+    </choiceType>
+  </choiceTypes>
+  <noteTypes>
+    <noteType changeable="0" unique="0" id="2">
+      <name>Scope note</name>
+      <defaultValue/>
+      <regexpType minLength="0" maxLength="4000" expr=".*"/>
+    </noteType>
+    <noteType changeable="1" unique="0" id="58">
+      <name>Search Engine Note</name>
+      <defaultValue>DO NOT INDEX</defaultValue>
+      <regexpType minLength="0" maxLength="15" expr=".*"/>
+    </noteType>
+    <noteType changeable="1" unique="0" id="77">
+      <name>Currency Codes</name>
+      <defaultValue/>
+      <regexpType minLength="0" maxLength="100" expr=".*"/>
+    </noteType>
+    <noteType changeable="1" unique="0" id="88">
+      <name>Region Codes</name>
+      <defaultValue/>
+      <regexpType minLength="0" maxLength="100" expr=".*"/>
+    </noteType>
+    <noteType changeable="1" unique="0" id="93">
+      <name>ISO 3166-1 3 Digit codes</name>
+      <defaultValue/>
+      <regexpType minLength="0" maxLength="3" expr="[A-Z]{3}"/>
+    </noteType>
+  </noteTypes>
+  <relationshipTypes>
+    <relationshipType baseTypeCode="0" changeable="0" id="1">
+      <forwardName abbreviation="NT">Narrower Term</forwardName>
+      <reverseName abbreviation="BT">Broader Term</reverseName>
+    </relationshipType>
+    <relationshipType baseTypeCode="1" changeable="0" id="2">
+      <forwardName abbreviation="RT">Related To</forwardName>
+      <reverseName abbreviation="RT">Related To</reverseName>
+    </relationshipType>
+    <relationshipType baseTypeCode="2" changeable="0" id="3">
+      <forwardName abbreviation="USE">Use</forwardName>
+      <reverseName abbreviation="UF">Use For</reverseName>
+    </relationshipType>
+    <relationshipType baseTypeCode="1" changeable="1" id="12">
+      <forwardName abbreviation="Includes Country">Includes Country</forwardName>
+      <reverseName abbreviation="Part of Region">Part of Region</reverseName>
+    </relationshipType>
+    <relationshipType baseTypeCode="1" changeable="1" id="16">
+      <forwardName abbreviation="Currency of">Currency of</forwardName>
+      <reverseName abbreviation="Has Currency">Has Currency</reverseName>
+    </relationshipType>
+    <relationshipType baseTypeCode="1" changeable="1" id="17">
+      <forwardName abbreviation="Currency Pair of">Currency Pair of</forwardName>
+      <reverseName abbreviation="Has Currency Pair">Has Currency Pair</reverseName>
+    </relationshipType>
+    <relationshipType baseTypeCode="1" changeable="1" id="18">
+      <forwardName abbreviation="City of">City of</forwardName>
+      <reverseName abbreviation="Has City">Has City</reverseName>
+    </relationshipType>
+    <relationshipType baseTypeCode="1" changeable="1" id="39">
+      <forwardName abbreviation="ISO Country Code for">ISO Country Code for</forwardName>
+      <reverseName abbreviation="Has ISO Code">Has ISO Code</reverseName>
+    </relationshipType>
+    <relationshipType baseTypeCode="1" changeable="1" id="40">
+      <forwardName abbreviation="ISO to Region">ISO to Region</forwardName>
+      <reverseName abbreviation="Region to ISO">Region to ISO</reverseName>
+    </relationshipType>
+    <relationshipType baseTypeCode="1" changeable="1" id="41">
+      <forwardName abbreviation="ISO to Political Region">ISO to Political Region</forwardName>
+      <reverseName abbreviation="Political Region to ISO">Political Region to ISO</reverseName>
+    </relationshipType>
+    <relationshipType baseTypeCode="1" changeable="1" id="45">
+      <forwardName abbreviation="Language Spoken">Language Spoken</forwardName>
+      <reverseName abbreviation="Spoken In">Spoken In</reverseName>
+    </relationshipType>
+  </relationshipTypes>
+  <classTypes>
+    <classType id="14">
+      <classTypeName>Country Class</classTypeName>
+      <attributeTypesForClassType>
+        <attributeTypeForClassType typeId="8"/>
+      </attributeTypesForClassType>
+      <noteTypesForClassType>
+        <noteTypeForClassType typeId="58" mandatory="0"/>
+        <noteTypeForClassType typeId="93" mandatory="0"/>
+      </noteTypesForClassType>
+      <relationshipTypesForClassType>
+        <relationshipTypeForClassType typeId="1" targetClassTypeId="14"/>
+        <relationshipTypeForClassType typeId="1" targetClassTypeId="106"/>
+        <relationshipTypeForClassType typeId="45" targetClassTypeId="119"/>
+      </relationshipTypesForClassType>
+    </classType>
+    <classType id="15">
+      <classTypeName>Currency Class</classTypeName>
+      <attributeTypesForClassType>
+        <attributeTypeForClassType typeId="8"/>
+      </attributeTypesForClassType>
+      <noteTypesForClassType>
+        <noteTypeForClassType typeId="58" mandatory="0"/>
+        <noteTypeForClassType typeId="77" mandatory="1"/>
+      </noteTypesForClassType>
+      <relationshipTypesForClassType>
+        <relationshipTypeForClassType typeId="1" targetClassTypeId="15"/>
+        <relationshipTypeForClassType typeId="16" targetClassTypeId="14"/>
+        <relationshipTypeForClassType typeId="17" targetClassTypeId="14"/>
+        <relationshipTypeForClassType typeId="16" targetClassTypeId="25"/>
+        <relationshipTypeForClassType typeId="17" targetClassTypeId="25"/>
+      </relationshipTypesForClassType>
+    </classType>
+    <classType id="25">
+      <classTypeName>Region Class</classTypeName>
+      <attributeTypesForClassType>
+        <attributeTypeForClassType typeId="8"/>
+      </attributeTypesForClassType>
+      <noteTypesForClassType>
+        <noteTypeForClassType typeId="88" mandatory="0"/>
+        <noteTypeForClassType typeId="58" mandatory="0"/>
+      </noteTypesForClassType>
+      <relationshipTypesForClassType>
+        <relationshipTypeForClassType typeId="1" targetClassTypeId="25"/>
+        <relationshipTypeForClassType typeId="12" targetClassTypeId="14"/>
+        <relationshipTypeForClassType typeId="2" targetClassTypeId="25"/>
+        <relationshipTypeForClassType typeId="1" targetClassTypeId="109"/>
+      </relationshipTypesForClassType>
+    </classType>
+    <classType id="43">
+      <classTypeName>Cities Class</classTypeName>
+      <attributeTypesForClassType>
+        <attributeTypeForClassType typeId="8"/>
+      </attributeTypesForClassType>
+      <noteTypesForClassType>
+        <noteTypeForClassType typeId="58" mandatory="0"/>
+      </noteTypesForClassType>
+      <relationshipTypesForClassType>
+        <relationshipTypeForClassType typeId="1" targetClassTypeId="43"/>
+        <relationshipTypeForClassType typeId="18" targetClassTypeId="14"/>
+      </relationshipTypesForClassType>
+    </classType>
+    <classType id="62">
+      <parentClassTypeId>15</parentClassTypeId>
+      <classTypeName>Currency Pairs Class</classTypeName>
+    </classType>
+    <classType id="106">
+      <classTypeName>ISO Country Codes Class</classTypeName>
+      <attributeTypesForClassType>
+        <attributeTypeForClassType typeId="8"/>
+      </attributeTypesForClassType>
+      <relationshipTypesForClassType>
+        <relationshipTypeForClassType typeId="1" targetClassTypeId="106"/>
+        <relationshipTypeForClassType typeId="39" targetClassTypeId="14"/>
+        <relationshipTypeForClassType typeId="40" targetClassTypeId="25"/>
+        <relationshipTypeForClassType typeId="41" targetClassTypeId="109"/>
+      </relationshipTypesForClassType>
+    </classType>
+    <classType id="109">
+      <parentClassTypeId>25</parentClassTypeId>
+      <classTypeName>Political Regions Class</classTypeName>
+      <noteTypesForClassType>
+        <noteTypeForClassType typeId="58" mandatory="0"/>
+      </noteTypesForClassType>
+      <relationshipTypesForClassType>
+        <relationshipTypeForClassType typeId="1" targetClassTypeId="109"/>
+        <relationshipTypeForClassType typeId="12" targetClassTypeId="14"/>
+      </relationshipTypesForClassType>
+    </classType>
+    <classType id="119">
+      <classTypeName>Language Class</classTypeName>
+      <attributeTypesForClassType>
+        <attributeTypeForClassType typeId="2"/>
+      </attributeTypesForClassType>
+      <choiceTypesForClassType>
+        <choiceTypeForClassType typeId="8" mandatory="0"/>
+        <choiceTypeForClassType typeId="5" mandatory="0"/>
+        <choiceTypeForClassType typeId="6" mandatory="0"/>
+        <choiceTypeForClassType typeId="7" mandatory="0"/>
+      </choiceTypesForClassType>
+      <relationshipTypesForClassType>
+        <relationshipTypeForClassType typeId="1" targetClassTypeId="119"/>
+      </relationshipTypesForClassType>
+    </classType>
+  </classTypes>
+</thesaurusStructure>
