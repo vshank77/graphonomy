@@ -2,6 +2,8 @@
 .settings/
 .DS_Store
 
+do_not_git_version/
+
 # idea
 *.iml
 
@@ -19,4 +21,3 @@ test-output/
 #Jrebel
 src/main/resources/rebel.xml
 
-graphonomy-external/
