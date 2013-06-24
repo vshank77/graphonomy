@@ -14,8 +14,6 @@ public class ChoiceTypeWrapper {
     @XmlAttribute
     private String id;
 
-    private String guid;
-
     @XmlElement
     private String name;
 
@@ -55,14 +53,6 @@ public class ChoiceTypeWrapper {
 
     public ValueList getValues() {
         return values;
-    }
-
-    public void setGuid(String guid) {
-        this.guid = guid;
-    }
-
-    public String getGuid() {
-        return guid;
     }
 
     @XmlType

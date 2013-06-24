@@ -9,26 +9,22 @@ import com.google.common.collect.Lists;
 public class TermClass implements GraphNode {
 
     private long id = -1;
-    private String classId;
+    @GraphProperty
     private String className;
-    private String parentClassId;
+    @GraphProperty
+    private String parentClassName;
     private List<MetaNote> metaNotes = Lists.newArrayList();
     private List<MetaRelation> metaRelations = Lists.newArrayList();
 
     public TermClass() {}
 
-    public TermClass(String classId) {
-        setClassId(classId);
-    }
-
-    public TermClass(String classId, String className) {
-        setClassId(classId);
+    public TermClass(String className) {
         setClassName(className);
     }
 
     @Override
     public int hashCode() {
-        return 47 * ((classId == null) ? 0 : classId.hashCode());
+        return 47 * ((className == null) ? 0 : className.hashCode());
     }
 
     @Override
@@ -40,7 +36,7 @@ public class TermClass implements GraphNode {
         if (getClass() != obj.getClass())
             return false;
         TermClass other = (TermClass) obj;
-        return (classId == null) ? (other.classId == null) : (classId.equals(other.classId));
+        return (className == null) ? (other.className == null) : (className.equals(other.className));
     }
 
     @Override
@@ -55,22 +51,12 @@ public class TermClass implements GraphNode {
 
     @Override
     public String getNodeId() {
-        return getClassId();
+        return getClassName();
     }
 
     @Override
     public GraphNode validate() {
-        checkNotNull(classId);
         checkNotNull(className);
-        return this;
-    }
-
-    public String getClassId() {
-        return classId;
-    }
-
-    public TermClass setClassId(String classId) {
-        this.classId = checkNotNull(classId);
         return this;
     }
 
@@ -83,12 +69,12 @@ public class TermClass implements GraphNode {
         return this;
     }
 
-    public String getParentClassId() {
-        return parentClassId;
+    public String getParentClassName() {
+        return parentClassName;
     }
 
-    public TermClass setParentClassId(String parentClassId) {
-        this.parentClassId = checkNotNull(parentClassId);
+    public TermClass setParentClassName(String parentClassName) {
+        this.parentClassName = checkNotNull(parentClassName);
         return this;
     }
 

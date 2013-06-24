@@ -1,17 +1,10 @@
 package org.polyglotted.graphonomy.domain;
 
-import java.util.Date;
-import java.util.List;
 import java.util.Map;
-
-import org.polyglotted.graphonomy.domain.PropertySetters.DatePropertySetter;
-import org.polyglotted.graphonomy.domain.PropertySetters.EnumPropertySetter;
-import org.polyglotted.graphonomy.domain.PropertySetters.ListPropertySetter;
-import org.polyglotted.graphonomy.domain.PropertySetters.PropertySetter;
 
 import com.google.common.collect.Maps;
 
-class PropertyTypes {
+class Neo4jSupportedTypes {
 
     private static final Map<Class<?>, Object> defaultClasses = Maps.newHashMap();
     static {
@@ -51,10 +44,6 @@ class PropertyTypes {
         defaultClasses.put(String[].class, new String[0]);
     }
 
-    public static boolean isDefaultClass(Object obj) {
-        return defaultClasses.containsKey(obj.getClass());
-    }
-
     public static boolean isDefaultClass(Class<?> clazz) {
         return defaultClasses.containsKey(clazz);
     }
@@ -62,19 +51,5 @@ class PropertyTypes {
     @SuppressWarnings("unchecked")
     public static <T> T[] getArrayFor(Class<?> clazz) {
         return (T[]) defaultClasses.get(clazz);
-    }
-
-    public static PropertySetter getExtended(Object obj) {
-        Class<?> objClass = obj.getClass();
-        if (objClass.isEnum() || Enum.class.isAssignableFrom(objClass)) {
-            return new EnumPropertySetter();
-        }
-        else if (List.class.isAssignableFrom(objClass)) {
-            return new ListPropertySetter();
-        }
-        else if (Date.class.isAssignableFrom(objClass)) {
-            return new DatePropertySetter();
-        }
-        return null;
     }
 }

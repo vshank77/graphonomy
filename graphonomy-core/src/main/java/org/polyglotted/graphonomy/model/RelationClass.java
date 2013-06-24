@@ -2,35 +2,39 @@ package org.polyglotted.graphonomy.model;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import org.polyglotted.graphonomy.model.GraphProperty.PropertyType;
+
 public class RelationClass implements GraphNode {
 
-    public static final RelationClass HIERARCHY = new RelationClass("a1b2c3", "NT", "Narrow Term", "BT", "Broad Term");
-
+    public enum BaseType {
+        hierarchy, related, usefor;
+    }
+    
     private long id = -1;
-    private String relationId;
-    private String forwardName;
-    private String forwardDesc;
-    private String reverseName;
-    private String reverseDesc;
+    @GraphProperty
+    private String relationName;
+    @GraphProperty(PropertyType.ENUM)
+    private BaseType type = BaseType.related;
+    @GraphProperty
+    private String description;
+    @GraphProperty
+    private boolean extended = true;
 
     public RelationClass() {}
 
-    public RelationClass(String relationId) {
-        setRelationId(relationId);
+    public RelationClass(String relationName) {
+        this(relationName, BaseType.related, relationName);
     }
 
-    public RelationClass(String relationId, String forwardName, String forwardDesc, String reverseName,
-            String reverseDesc) {
-        setRelationId(relationId);
-        setForwardName(forwardName);
-        setForwardDesc(forwardDesc);
-        setReverseName(reverseName);
-        setReverseDesc(reverseDesc);
+    public RelationClass(String relationName, BaseType type, String description) {
+        setRelationName(relationName);
+        setType(type);
+        setDescription(description);
     }
 
     @Override
     public int hashCode() {
-        return 19 * ((relationId == null) ? 0 : relationId.hashCode());
+        return 19 * ((relationName == null) ? 0 : relationName.hashCode());
     }
 
     @Override
@@ -45,7 +49,7 @@ public class RelationClass implements GraphNode {
             return false;
         }
         RelationClass other = (RelationClass) obj;
-        return (relationId == null) ? (other.relationId == null) : (relationId.equals(other.relationId));
+        return (relationName == null) ? (other.relationName == null) : (relationName.equals(other.relationName));
     }
 
     @Override
@@ -60,59 +64,50 @@ public class RelationClass implements GraphNode {
 
     @Override
     public String getNodeId() {
-        return getRelationId();
+        return getRelationName();
     }
 
     @Override
     public GraphNode validate() {
-        checkNotNull(relationId);
-        checkNotNull(forwardName);
-        checkNotNull(reverseName);
+        checkNotNull(relationName);
+        checkNotNull(type);
+        checkNotNull(description);
         return this;
     }
 
-    public String getRelationId() {
-        return relationId;
+    public String getRelationName() {
+        return relationName;
     }
 
-    public RelationClass setRelationId(String relationId) {
-        this.relationId = checkNotNull(relationId);
+    public RelationClass setRelationName(String relationName) {
+        this.relationName = checkNotNull(relationName);
         return this;
     }
 
-    public String getForwardName() {
-        return forwardName;
+    public BaseType getType() {
+        return type;
     }
 
-    public RelationClass setForwardName(String forwardName) {
-        this.forwardName = checkNotNull(forwardName);
+    public RelationClass setType(BaseType type) {
+        this.type = checkNotNull(type);
         return this;
     }
 
-    public String getForwardDesc() {
-        return forwardDesc;
+    public String getDescription() {
+        return description;
     }
 
-    public RelationClass setForwardDesc(String forwardDesc) {
-        this.forwardDesc = forwardDesc;
+    public RelationClass setDescription(String description) {
+        this.description = checkNotNull(description);
         return this;
     }
 
-    public String getReverseName() {
-        return reverseName;
+    public boolean isExtended() {
+        return extended;
     }
 
-    public RelationClass setReverseName(String reverseName) {
-        this.reverseName = checkNotNull(reverseName);
-        return this;
-    }
-
-    public String getReverseDesc() {
-        return reverseDesc;
-    }
-
-    public RelationClass setReverseDesc(String reverseDesc) {
-        this.reverseDesc = reverseDesc;
+    public RelationClass setExtended(boolean extended) {
+        this.extended = extended;
         return this;
     }
 }

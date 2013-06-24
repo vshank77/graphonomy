@@ -20,13 +20,12 @@ public class TermClassDaoImpl extends AbstractDao<TermClass> implements TermClas
 
     @Override
     protected Node createHook(Node node, TermClass gnode) {
-        for(MetaNote note : gnode.getMetaNotes()) {
-            database.saveRelations(gnode, note);
+        for (MetaNote note : gnode.getMetaNotes()) {
+            database.saveRelations(note);
         }
-        for(MetaRelation rel : gnode.getMetaRelations()) {
-            database.saveRelations(gnode, rel);
+        for (MetaRelation rel : gnode.getMetaRelations()) {
+            database.saveRelations(rel);
         }
-        
         return node;
     }
 }

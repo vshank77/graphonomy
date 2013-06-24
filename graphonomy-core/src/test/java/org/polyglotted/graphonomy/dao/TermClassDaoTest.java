@@ -1,5 +1,9 @@
 package org.polyglotted.graphonomy.dao;
 
+import static org.junit.Assert.assertEquals;
+
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.neo4j.graphdb.Node;
@@ -8,7 +12,8 @@ import org.polyglotted.graphonomy.model.MetaRelation;
 import org.polyglotted.graphonomy.model.NoteClass;
 import org.polyglotted.graphonomy.model.RelationClass;
 import org.polyglotted.graphonomy.model.TermClass;
-import org.polyglotted.graphonomy.model.TypeSafe;
+
+import com.google.common.collect.Lists;
 
 public class TermClassDaoTest extends AbstractDaoTest<TermClass> {
 
@@ -25,25 +30,29 @@ public class TermClassDaoTest extends AbstractDaoTest<TermClass> {
 
     @Test
     public void testCreate() {
-        final NoteClass noteClass = new NoteClass("note1", "note1", TypeSafe.str);
-        final TermClass cls1 = new TermClass("parCls", "parCls");
-        final TermClass cls2 = new TermClass("relCls", "relCls");
-        final TermClass testCls = new TermClass("testCls", "testCls").setParentClassId("parCls");
-        testCls.addMetaNote(new MetaNote(noteClass, true));
-        testCls.addMetaRelation(new MetaRelation(RelationClass.HIERARCHY, cls2));
+        final NoteClass noteClass = new NoteClass("note1");
+        final RelationClass relClass = new RelationClass("relation");
+        final TermClass cls1 = new TermClass("parCls");
+        final TermClass cls2 = new TermClass("relCls");
+        final TermClass testCls = new TermClass("testCls").setParentClassName("parCls");
+        testCls.addMetaNote(new MetaNote(testCls, noteClass, true));
+        testCls.addMetaRelation(new MetaRelation(testCls, relClass, cls2));
 
-        Node node = execute(new TxCallback<Node>() {
+        List<Node> nodes = execute(new TxCallback<List<Node>>() {
             @Override
-            public Node doInTransaction() {
-                noteClassDao.create(noteClass);
-                relationClassDao.create(RelationClass.HIERARCHY);
-                termClassDao.create(cls1);
-                termClassDao.create(cls2);
-                return termClassDao.create(testCls);
+            public List<Node> doInTransaction() {
+                List<Node> result = Lists.newArrayList();
+                result.add(noteClassDao.create(noteClass));
+                result.add(relationClassDao.create(relClass));
+                result.add(termClassDao.create(cls1));
+                result.add(termClassDao.create(cls2));
+                result.add(termClassDao.create(testCls));
+                return result;
             }
         });
-        System.out.println(inspectNode(node));
-        System.out.println(inspectRelationships(node.getRelationships()));
+        Node termNode = nodes.get(nodes.size() - 1);
+        assertEquals(outputs.get("TermClassDaoTest.testCreateNodes"), inspectNodes(nodes));
+        assertEquals(outputs.get("TermClassDaoTest.testCreateRels"), inspectRelationships(termNode.getRelationships()));
     }
 
     @Override

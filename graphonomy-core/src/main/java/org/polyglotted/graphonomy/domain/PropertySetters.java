@@ -1,5 +1,7 @@
 package org.polyglotted.graphonomy.domain;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.text.SimpleDateFormat;
@@ -8,7 +10,7 @@ import java.util.TimeZone;
 
 import org.neo4j.graphdb.PropertyContainer;
 import org.polyglotted.graphonomy.model.Fragment;
-import org.polyglotted.graphonomy.model.GraphRelation;
+import org.polyglotted.graphonomy.model.GraphProperty;
 import org.polyglotted.graphonomy.util.GsonUtils;
 
 import com.google.gson.Gson;
@@ -19,12 +21,41 @@ class PropertySetters {
         void setProperty(PropertyContainer node, Field field, Object value);
     }
 
+    public static PropertySetter getSetter(GraphProperty property) {
+        switch (property.value()) {
+            case DATE:
+                return new DatePropertySetter();
+            case ENUM:
+                return new EnumPropertySetter();
+            case LIST:
+                return new ListPropertySetter();
+            case STRING:
+                return new ToStringPropertySetter();
+            default:
+                return new DefaultPropertySetter();
+        }
+    }
+
+    public static class DefaultPropertySetter implements PropertySetter {
+        @Override
+        public void setProperty(PropertyContainer node, Field field, Object value) {
+            node.setProperty(field.getName(), value);
+        }
+    }
+
+    public static class ToStringPropertySetter implements PropertySetter {
+        @Override
+        public void setProperty(PropertyContainer node, Field field, Object value) {
+            node.setProperty(field.getName(), String.valueOf(checkNotNull(value)));
+        }
+    }
+
     public static class DatePropertySetter implements PropertySetter {
         @Override
         public void setProperty(PropertyContainer node, Field field, Object value) {
             SimpleDateFormat dateFormat = new SimpleDateFormat(DatabaseConstants.DateFormat);
             dateFormat.setTimeZone(TimeZone.getTimeZone("Zulu"));
-            node.setProperty("D$" + field.getName(), dateFormat.format(value));
+            node.setProperty(field.getName(), dateFormat.format(value));
         }
     }
 
@@ -32,7 +63,7 @@ class PropertySetters {
         @Override
         public void setProperty(PropertyContainer node, Field field, Object value) {
             Enum<?> enumValue = (Enum<?>) value;
-            node.setProperty("E$" + field.getName(), enumValue.name());
+            node.setProperty(field.getName(), enumValue.name());
         }
     }
 
@@ -47,17 +78,14 @@ class PropertySetters {
 
             ParameterizedType listType = (ParameterizedType) field.getGenericType();
             Class<?> genType = (Class<?>) listType.getActualTypeArguments()[0];
-            if (GraphRelation.class.isAssignableFrom(genType))
-                return;
-
-            if (PropertyTypes.isDefaultClass(genType)) {
-                node.setProperty("L$" + field.getName(), listValue.toArray(PropertyTypes.getArrayFor(genType)));
+            if (Neo4jSupportedTypes.isDefaultClass(genType)) {
+                node.setProperty(field.getName(), listValue.toArray(Neo4jSupportedTypes.getArrayFor(genType)));
             }
             else if (Fragment.class.isAssignableFrom(genType)) {
-                node.setProperty("F$" + field.getName(), gson.toJson(listValue));
+                node.setProperty(field.getName(), gson.toJson(listValue));
             }
             else
-                throw new DomainFailureException();
+                throw new DomainFailureException("failed to create node for " + field.getName());
         }
     }
 }

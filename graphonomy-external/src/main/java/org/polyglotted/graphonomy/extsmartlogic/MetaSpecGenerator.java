@@ -13,6 +13,7 @@ import org.polyglotted.graphonomy.model.MetaRelation;
 import org.polyglotted.graphonomy.model.MetaSpec;
 import org.polyglotted.graphonomy.model.NoteClass;
 import org.polyglotted.graphonomy.model.RelationClass;
+import org.polyglotted.graphonomy.model.RelationClass.BaseType;
 import org.polyglotted.graphonomy.model.TermClass;
 import org.polyglotted.graphonomy.model.TypeSafe;
 
@@ -38,37 +39,37 @@ public class MetaSpecGenerator {
     private void generateClasses() {
         for (Map.Entry<String, ClassTypeWrapper> entry : handlerFactory.classes.entrySet()) {
             ClassTypeWrapper classType = entry.getValue();
-            TermClass termCls = new TermClass(classType.getGuid(), classType.getName());
+            TermClass termCls = new TermClass(classType.getName());
             if (classType.getParentClassTypeId() != null) {
                 ClassTypeWrapper parType = handlerFactory.classes.get(classType.getParentClassTypeId());
-                termCls.setParentClassId(parType.getGuid());
+                termCls.setParentClassName(parType.getName());
             }
             if (classType.getAttributeTypesForClassType() != null) {
                 for (AttrTypeForClass attr : classType.getAttributeTypesForClassType().getAttributeTypeForClassType()) {
                     NoteClass noteCls = notesMap.get("attr" + attr.getTypeId());
-                    termCls.addMetaNote(new MetaNote(noteCls, false));
+                    termCls.addMetaNote(new MetaNote(termCls, noteCls, false));
                 }
             }
             if (classType.getChoiceTypesForClassType() != null) {
                 for (OptionTypeForClass choice : classType.getChoiceTypesForClassType().getChoiceTypeForClassType()) {
                     NoteClass noteCls = notesMap.get("choice" + choice.getTypeId());
-                    termCls.addMetaNote(new MetaNote(noteCls, choice.isMandatory() == (byte) 1));
+                    termCls.addMetaNote(new MetaNote(termCls, noteCls, choice.isMandatory() == (byte) 1));
                 }
             }
             if (classType.getNoteTypesForClassType() != null) {
                 for (OptionTypeForClass note : classType.getNoteTypesForClassType().getNoteTypeForClassType()) {
                     NoteClass noteCls = notesMap.get("note" + note.getTypeId());
-                    termCls.addMetaNote(new MetaNote(noteCls, note.isMandatory() == (byte) 1));
+                    termCls.addMetaNote(new MetaNote(termCls, noteCls, note.isMandatory() == (byte) 1));
                 }
             }
             if (classType.getRelationshipTypesForClassType() != null) {
-                for (RelationshipTypeForClass relationship : classType.getRelationshipTypesForClassType()
+                for (RelationshipTypeForClass rel : classType.getRelationshipTypesForClassType()
                         .getRelationshipTypeForClassType()) {
-                    String relGuid = handlerFactory.relationships.get(relationship.getTypeId()).getGuid();
-                    RelationClass relClass = new RelationClass(relGuid);
-                    String clsGuid = handlerFactory.classes.get(relationship.getTargetClassTypeId()).getGuid();
-                    TermClass relatedClass = new TermClass(clsGuid);
-                    termCls.addMetaRelation(new MetaRelation(relClass, relatedClass));
+                    String termClassName = termCls.getClassName();
+                    String targetClassName = handlerFactory.classes.get(rel.getTargetClassTypeId()).getName();
+                    RelationshipTypeWrapper relWrapper = handlerFactory.relationships.get(rel.getTypeId());
+                    termCls.addMetaRelation(new MetaRelation(termClassName, relWrapper.getForwardName()
+                            .getAbbreviation(), targetClassName));
                 }
             }
             spec.addTermClass(termCls);
@@ -80,8 +81,14 @@ public class MetaSpecGenerator {
             RelationshipTypeWrapper relationship = entry.getValue();
             InnerType fwdName = relationship.getForwardName();
             InnerType revName = relationship.getReverseName();
-            spec.addRelationClass(new RelationClass(relationship.getGuid(), fwdName.getAbbreviation(), fwdName
-                    .getDesc(), revName.getAbbreviation(), revName.getDesc()));
+            BaseType type = BaseType.values()[relationship.getBaseTypeCode()];
+            boolean extended = (relationship.getChangeable() == (byte) 1);
+            spec.addRelationClass(new RelationClass(fwdName.getAbbreviation(), type, fwdName.getDesc())
+                    .setExtended(extended));
+            if (!revName.getAbbreviation().equals(fwdName.getAbbreviation())) {
+                spec.addRelationClass(new RelationClass(revName.getAbbreviation(), type, revName.getDesc())
+                        .setExtended(extended));
+            }
         }
     }
 
@@ -94,7 +101,7 @@ public class MetaSpecGenerator {
     private void generateNotesFromNotes(List<NoteTypeWrapper> notes) {
         for (NoteTypeWrapper note : notes) {
             RegExpr regEx = note.getRegexpType();
-            NoteClass cls = new NoteClass(note.getGuid(), note.getName(), TypeSafe.str);
+            NoteClass cls = new NoteClass(note.getName(), TypeSafe.str);
             cls.setDefaultValue(note.getDefaultValue());
             cls.setRange(regEx.getMinLength(), regEx.getMaxLength());
             cls.setPattern(regEx.getExpr());
@@ -105,7 +112,7 @@ public class MetaSpecGenerator {
 
     private void generateNotesFromChoices(List<ChoiceTypeWrapper> choices) {
         for (ChoiceTypeWrapper choice : choices) {
-            NoteClass cls = new NoteClass(choice.getGuid(), choice.getName(), TypeSafe.str);
+            NoteClass cls = new NoteClass(choice.getName(), TypeSafe.str);
             for (ChoiceTypeWrapper.Value val : choice.getValues().getValue()) {
                 cls.addEnum(val.getValue());
                 if (val.getId().equals(choice.getDefaultValueId())) {
@@ -119,7 +126,7 @@ public class MetaSpecGenerator {
 
     private void generateNotesFromAttributes(List<AttributeTypeWrapper> attributes) {
         for (AttributeTypeWrapper attr : attributes) {
-            NoteClass cls = new NoteClass(attr.getGuid(), attr.getName(), TypeSafe.bool).setDefaultValue("1");
+            NoteClass cls = new NoteClass(attr.getName(), TypeSafe.bool).setDefaultValue("1");
             spec.addNoteClass(cls);
             notesMap.put("attr" + attr.getId(), cls);
         }

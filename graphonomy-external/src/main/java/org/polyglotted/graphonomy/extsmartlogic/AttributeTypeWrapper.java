@@ -10,8 +10,6 @@ public class AttributeTypeWrapper {
     @XmlAttribute
     private String id;
 
-    private String guid;
-
     @XmlElement
     private String name;
 
@@ -29,13 +27,5 @@ public class AttributeTypeWrapper {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setGuid(String guid) {
-        this.guid = guid;
-    }
-
-    public String getGuid() {
-        return guid;
     }
 }

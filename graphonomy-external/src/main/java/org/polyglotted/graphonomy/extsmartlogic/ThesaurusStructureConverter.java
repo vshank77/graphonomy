@@ -13,7 +13,7 @@ public class ThesaurusStructureConverter {
 
     public static void main(String ar[]) {
         try {
-            FileInputStream input = new FileInputStream("src/do_not_git_version/ontology-dd.xml");
+            FileInputStream input = new FileInputStream("src/do_not_git_version/simple-dd.xml");
             ThesaurusStructureConverter converter = new ThesaurusStructureConverter();
             converter.convert(input);
         }

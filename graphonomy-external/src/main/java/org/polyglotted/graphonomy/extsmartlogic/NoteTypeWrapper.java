@@ -11,8 +11,6 @@ public class NoteTypeWrapper {
     @XmlAttribute
     private String id;
 
-    private String guid;
-
     @XmlElement
     private String name;
 
@@ -63,14 +61,6 @@ public class NoteTypeWrapper {
 
     public void setRegexpType(RegExpr regexpType) {
         this.regexpType = regexpType;
-    }
-
-    public void setGuid(String guid) {
-        this.guid = guid;
-    }
-
-    public String getGuid() {
-        return guid;
     }
 
     @XmlType

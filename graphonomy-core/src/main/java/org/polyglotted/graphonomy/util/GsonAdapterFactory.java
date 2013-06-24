@@ -9,9 +9,6 @@ import java.util.TimeZone;
 
 import org.polyglotted.graphonomy.model.MetaNote;
 import org.polyglotted.graphonomy.model.MetaRelation;
-import org.polyglotted.graphonomy.model.NoteClass;
-import org.polyglotted.graphonomy.model.RelationClass;
-import org.polyglotted.graphonomy.model.TermClass;
 
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
@@ -23,12 +20,18 @@ import com.google.gson.stream.JsonWriter;
 
 public class GsonAdapterFactory implements TypeAdapterFactory {
 
+    private static final String MANDATORY = "mandatory";
+    private static final String NOTE_LABEL = "noteLabel";
+    private static final String RELATION_NAME = "relationName";
+    private static final String TERM_CLASS_NAME = "termClassName";
+    private static final String TARGET_CLASS_NAME = "targetClassName";
+
     private Map<Class<?>, TypeAdapter<?>> typeAdapterMap = Maps.newConcurrentMap();
 
     public GsonAdapterFactory() {
         typeAdapterMap.put(Date.class, new DateAdapter().nullSafe());
-        typeAdapterMap.put(MetaNote.class, new MetaNoteAdapter());
-        typeAdapterMap.put(MetaRelation.class, new MetaRelationAdapter());
+        typeAdapterMap.put(MetaNote.class, new MetaNoteAdapter().nullSafe());
+        typeAdapterMap.put(MetaRelation.class, new MetaRelationAdapter().nullSafe());
     }
 
     @Override
@@ -73,15 +76,19 @@ public class GsonAdapterFactory implements TypeAdapterFactory {
     private static class MetaNoteAdapter extends TypeAdapter<MetaNote> {
         @Override
         public MetaNote read(JsonReader reader) throws IOException {
-            String noteId = null;
+            String termClassName = null;
+            String noteLabel = null;
             boolean mandatory = false;
             reader.beginObject();
             while (reader.hasNext()) {
                 String name = reader.nextName();
-                if ("noteId".equals(name)) {
-                    noteId = reader.nextString();
+                if (TERM_CLASS_NAME.equals(name)) {
+                    termClassName = reader.nextString();
                 }
-                else if ("mandatory".equals(name)) {
+                else if (NOTE_LABEL.equals(name)) {
+                    noteLabel = reader.nextString();
+                }
+                else if (MANDATORY.equals(name)) {
                     mandatory = reader.nextBoolean();
                 }
                 else {
@@ -89,14 +96,15 @@ public class GsonAdapterFactory implements TypeAdapterFactory {
                 }
             }
             reader.endObject();
-            return new MetaNote(new NoteClass(noteId), mandatory);
+            return new MetaNote(termClassName, noteLabel, mandatory);
         }
 
         @Override
         public void write(JsonWriter writer, MetaNote metaNote) throws IOException {
             writer.beginObject();
-            writer.name("noteId").value(metaNote.getNoteClass().getNoteId());
-            writer.name("mandatory").value(metaNote.isMandatory());
+            writer.name(TERM_CLASS_NAME).value(metaNote.getTermClassName());
+            writer.name(NOTE_LABEL).value(metaNote.getNoteLabel());
+            writer.name(MANDATORY).value(metaNote.isMandatory());
             writer.endObject();
         }
     }
@@ -104,30 +112,35 @@ public class GsonAdapterFactory implements TypeAdapterFactory {
     private static class MetaRelationAdapter extends TypeAdapter<MetaRelation> {
         @Override
         public MetaRelation read(JsonReader reader) throws IOException {
-            String relationId = null;
-            String targetId = null;
+            String termClassName = null;
+            String relationName = null;
+            String targetClassName = null;
             reader.beginObject();
             while (reader.hasNext()) {
                 String name = reader.nextName();
-                if ("relation".equals(name)) {
-                    relationId = reader.nextString();
+                if (TERM_CLASS_NAME.equals(name)) {
+                    termClassName = reader.nextString();
                 }
-                else if ("target".equals(name)) {
-                    targetId = reader.nextString();
+                else if (RELATION_NAME.equals(name)) {
+                    relationName = reader.nextString();
+                }
+                else if (TARGET_CLASS_NAME.equals(name)) {
+                    targetClassName = reader.nextString();
                 }
                 else {
                     reader.skipValue();
                 }
             }
             reader.endObject();
-            return new MetaRelation(new RelationClass(relationId), new TermClass(targetId));
+            return new MetaRelation(termClassName, relationName, targetClassName);
         }
 
         @Override
         public void write(JsonWriter writer, MetaRelation metaRel) throws IOException {
             writer.beginObject();
-            writer.name("relation").value(metaRel.getRelationClass().getRelationId());
-            writer.name("target").value(metaRel.getTargetClass().getClassId());
+            writer.name(TERM_CLASS_NAME).value(metaRel.getTermClassName());
+            writer.name(RELATION_NAME).value(metaRel.getRelationName());
+            writer.name(TARGET_CLASS_NAME).value(metaRel.getTargetClassName());
             writer.endObject();
         }
     }

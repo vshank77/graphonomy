@@ -1,38 +1,45 @@
 package org.polyglotted.graphonomy.model;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static org.polyglotted.graphonomy.domain.DatabaseConstants.HAS_META_RELATION;
+import static org.polyglotted.graphonomy.domain.DatabaseConstants.IS_META_RELATED_TO;
 
 import java.util.Arrays;
-
-import org.polyglotted.graphonomy.domain.DatabaseConstants;
-import org.polyglotted.graphonomy.util.LinkUtils;
+import java.util.List;
 
 public class MetaRelation implements GraphRelation {
 
-    private RelationClass relationClass;
-    private TermClass targetClass;
+    private String termClassName;
+    @GraphProperty
+    private String relationName;
+    @GraphProperty
+    private String targetClassName;
 
     public MetaRelation() {}
 
-    public MetaRelation(RelationClass relationClass, TermClass targetClass) {
-        setRelationClass(relationClass);
-        setTargetClass(targetClass);
+    public MetaRelation(TermClass termClass, RelationClass relationClass, TermClass targetClass) {
+        this(termClass.getClassName(), relationClass.getRelationName(), targetClass.getClassName());
+    }
+
+    public MetaRelation(String termClassName, String relationName, String targetClassName) {
+        setTermClassName(termClassName);
+        setRelationName(relationName);
+        setTargetClassName(targetClassName);
     }
 
     @Override
-    public Iterable<String> getLinks(String fromNodeId) {
-        return Arrays.asList(
-                LinkUtils.getLink(fromNodeId, DatabaseConstants.IS_META_RELATION_OF, relationClass.getRelationId()),
-                LinkUtils.getLink(relationClass.getRelationId(), DatabaseConstants.IS_META_RELATION_TO,
-                        targetClass.getClassId()));
+    public List<Link> getLinks() {
+        return Arrays.asList(new Link(termClassName, IS_META_RELATED_TO, targetClassName), new Link(termClassName,
+                HAS_META_RELATION, relationName));
     }
 
     @Override
     public int hashCode() {
         final int prime = 47;
         int result = 1;
-        result = prime * result + ((relationClass == null) ? 0 : relationClass.hashCode());
-        result = prime * result + ((targetClass == null) ? 0 : targetClass.hashCode());
+        result = prime * result + ((termClassName == null) ? 0 : termClassName.hashCode());
+        result = prime * result + ((relationName == null) ? 0 : relationName.hashCode());
+        result = prime * result + ((targetClassName == null) ? 0 : targetClassName.hashCode());
         return result;
     }
 
@@ -45,28 +52,40 @@ public class MetaRelation implements GraphRelation {
         if (getClass() != obj.getClass())
             return false;
         MetaRelation other = (MetaRelation) obj;
-        if ((relationClass == null) ? (other.relationClass != null) : !relationClass.equals(other.relationClass))
+        if (termClassName == null ? (other.termClassName != null) : !termClassName.equals(other.termClassName))
             return false;
-        if ((targetClass == null) ? (other.targetClass != null) : !targetClass.equals(other.targetClass))
+        if ((relationName == null) ? (other.relationName != null) : !relationName.equals(other.relationName))
+            return false;
+        if ((targetClassName == null) ? (other.targetClassName != null) : !targetClassName
+                .equals(other.targetClassName))
             return false;
         return true;
     }
 
-    public RelationClass getRelationClass() {
-        return relationClass;
+    public String getTermClassName() {
+        return termClassName;
     }
 
-    public MetaRelation setRelationClass(RelationClass relationClass) {
-        this.relationClass = checkNotNull(relationClass);
+    public MetaRelation setTermClassName(String termClassName) {
+        this.termClassName = checkNotNull(termClassName);
         return this;
     }
 
-    public TermClass getTargetClass() {
-        return targetClass;
+    public String getRelationName() {
+        return relationName;
     }
 
-    public MetaRelation setTargetClass(TermClass targetClass) {
-        this.targetClass = checkNotNull(targetClass);
+    public MetaRelation setRelationName(String relationName) {
+        this.relationName = checkNotNull(relationName);
+        return this;
+    }
+
+    public String getTargetClassName() {
+        return targetClassName;
+    }
+
+    public MetaRelation setTargetClassName(String targetClassName) {
+        this.targetClassName = checkNotNull(targetClassName);
         return this;
     }
 }

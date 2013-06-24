@@ -21,9 +21,9 @@ public class NoteClassDaoTest extends AbstractDaoTest<NoteClass> {
 
     @Test
     public void testCreate() {
-        final NoteClass noteClass = new NoteClass("id", "name", TypeSafe.str);
+        final NoteClass noteClass = new NoteClass("name", TypeSafe.str);
         noteClass.setEnums(Arrays.asList("apple", "mango", "berry"));
-        noteClass.setRequired(true).setDefaultValue("apple");
+        noteClass.setRequired(true).setRange(5, 5).setDefaultValue("apple");
 
         Node node = execute(new TxCallback<Node>() {
             @Override

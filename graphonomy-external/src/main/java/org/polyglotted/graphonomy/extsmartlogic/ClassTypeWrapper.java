@@ -13,8 +13,6 @@ public class ClassTypeWrapper {
     @XmlAttribute
     private String id;
 
-    private String guid;
-
     @XmlAttribute
     private String parentClassTypeId;
 
@@ -87,14 +85,6 @@ public class ClassTypeWrapper {
 
     public void setRelationshipTypesForClassType(RelationshipTypeList relationshipTypesForClassType) {
         this.relationshipTypesForClassType = relationshipTypesForClassType;
-    }
-
-    public void setGuid(String guid) {
-        this.guid = guid;
-    }
-
-    public String getGuid() {
-        return guid;
     }
 
     @XmlType

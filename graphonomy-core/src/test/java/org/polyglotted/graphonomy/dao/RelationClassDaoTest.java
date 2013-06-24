@@ -21,7 +21,7 @@ public class RelationClassDaoTest extends AbstractDaoTest<RelationClass> {
         Node node = execute(new TxCallback<Node>() {
             @Override
             public Node doInTransaction() {
-                return relationClassDao.create(RelationClass.HIERARCHY);
+                return relationClassDao.create(new RelationClass("relation"));
             }
         });
         assertEquals(outputs.get("RelationClassDaoTest.testCreate"), inspectNode(node));

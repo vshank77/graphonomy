@@ -1,27 +1,33 @@
 package org.polyglotted.graphonomy.model;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static org.polyglotted.graphonomy.domain.DatabaseConstants.HAS_META_NOTE;
 
 import java.util.Arrays;
-
-import org.polyglotted.graphonomy.domain.DatabaseConstants;
-import org.polyglotted.graphonomy.util.LinkUtils;
+import java.util.List;
 
 public class MetaNote implements GraphRelation {
 
-    private NoteClass noteClass;
+    private String termClassName;
+    private String noteLabel;
+    @GraphProperty
     private boolean mandatory;
 
     public MetaNote() {}
 
-    public MetaNote(NoteClass noteClass, boolean mandatory) {
-        setNoteClass(noteClass);
+    public MetaNote(TermClass termClass, NoteClass noteClass, boolean mandatory) {
+        this(termClass.getClassName(), noteClass.getNoteLabel(), mandatory);
+    }
+
+    public MetaNote(String termClassName, String noteLabel, boolean mandatory) {
+        setTermClassName(termClassName);
+        setNoteLabel(noteLabel);
         setMandatory(mandatory);
     }
 
     @Override
-    public Iterable<String> getLinks(String fromNodeId) {
-        return Arrays.asList(LinkUtils.getLink(fromNodeId, DatabaseConstants.IS_META_NOTE_OF, noteClass.getNoteId()));
+    public List<Link> getLinks() {
+        return Arrays.asList(new Link(termClassName, HAS_META_NOTE, noteLabel).setUnique(true));
     }
 
     @Override
@@ -29,7 +35,8 @@ public class MetaNote implements GraphRelation {
         final int prime = 19;
         int result = 1;
         result = prime * result + (mandatory ? 1231 : 1237);
-        result = prime * result + ((noteClass == null) ? 0 : noteClass.hashCode());
+        result = prime * result + ((termClassName == null) ? 0 : termClassName.hashCode());
+        result = prime * result + ((noteLabel == null) ? 0 : noteLabel.hashCode());
         return result;
     }
 
@@ -44,15 +51,28 @@ public class MetaNote implements GraphRelation {
         MetaNote other = (MetaNote) obj;
         if (mandatory != other.mandatory)
             return false;
-        return (noteClass == null) ? (other.noteClass == null) : noteClass.equals(other.noteClass);
+        if (termClassName == null ? (other.termClassName != null) : !termClassName.equals(other.termClassName))
+            return false;
+        if (noteLabel == null ? (other.noteLabel != null) : !noteLabel.equals(other.noteLabel))
+            return false;
+        return true;
     }
 
-    public NoteClass getNoteClass() {
-        return noteClass;
+    public String getTermClassName() {
+        return termClassName;
     }
 
-    public MetaNote setNoteClass(NoteClass noteClass) {
-        this.noteClass = checkNotNull(noteClass);
+    public MetaNote setTermClassName(String termClassName) {
+        this.termClassName = checkNotNull(termClassName);
+        return this;
+    }
+
+    public String getNoteLabel() {
+        return noteLabel;
+    }
+
+    public MetaNote setNoteLabel(String noteLabel) {
+        this.noteLabel = checkNotNull(noteLabel);
         return this;
     }
 

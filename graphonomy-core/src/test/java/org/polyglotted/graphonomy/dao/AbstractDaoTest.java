@@ -127,14 +127,31 @@ public abstract class AbstractDaoTest<T extends GraphNode> {
         return AbstractDaoTest.class.getClassLoader().getResourceAsStream(path);
     }
 
-    public static String inspectNode(Node node) {
+    public static String inspectNodes(Iterable<Node> nodes) {
         StringBuilder builder = new StringBuilder();
+        builder.append("[");
+        int i = 0;
+        for (Node node : nodes) {
+            if (i++ != 0) {
+                builder.append(",");
+            }
+            inspectNode(node, builder);
+        }
+        builder.append("]");
+        return builder.toString();
+    }
+
+    public static String inspectNode(Node node) {
+        return inspectNode(node, new StringBuilder()).toString();
+    }
+
+    private static StringBuilder inspectNode(Node node, StringBuilder builder) {
         builder.append("{");
         final Iterator<String> propertyKeys = node.getPropertyKeys().iterator();
         if (propertyKeys.hasNext())
             inspectProperties(node, propertyKeys, builder);
         builder.append("}");
-        return builder.toString();
+        return builder;
     }
 
     public static String inspectRelationships(Iterable<Relationship> relationships) {
@@ -146,12 +163,13 @@ public abstract class AbstractDaoTest<T extends GraphNode> {
                 builder.append(",");
             }
             builder.append("{");
-            builder.append("\"from\":");
-            builder.append(escapeString(rel.getStartNode().getProperty(NodeId)));
-            builder.append(",\"rel\":");
-            builder.append(escapeString(rel.getType().name()));
-            builder.append(",\"to\":");
-            builder.append(escapeString(rel.getEndNode().getProperty(NodeId)));
+            builder.append("\"link\":\"");
+            builder.append(rel.getStartNode().getProperty(NodeId));
+            builder.append("-");
+            builder.append(rel.getType().name());
+            builder.append("-");
+            builder.append(rel.getEndNode().getProperty(NodeId));
+            builder.append("\"");
             Iterator<String> propertyKeys = rel.getPropertyKeys().iterator();
             if (propertyKeys.hasNext()) {
                 builder.append(",");

@@ -12,8 +12,12 @@ public class RelationshipTypeWrapper {
     @XmlAttribute
     private String id;
 
-    private String guid;
+    @XmlAttribute
+    private int baseTypeCode;
 
+    @XmlAttribute
+    private byte changeable;
+    
     @XmlElement
     private InnerType forwardName;
 
@@ -26,6 +30,22 @@ public class RelationshipTypeWrapper {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public int getBaseTypeCode() {
+        return baseTypeCode;
+    }
+
+    public void setBaseTypeCode(int baseTypeCode) {
+        this.baseTypeCode = baseTypeCode;
+    }
+
+    public byte getChangeable() {
+        return changeable;
+    }
+
+    public void setChangeable(byte changeable) {
+        this.changeable = changeable;
     }
 
     public InnerType getForwardName() {
@@ -42,14 +62,6 @@ public class RelationshipTypeWrapper {
 
     public void setReverseName(InnerType reverseName) {
         this.reverseName = reverseName;
-    }
-
-    public void setGuid(String guid) {
-        this.guid = guid;
-    }
-
-    public String getGuid() {
-        return guid;
     }
 
     @XmlType

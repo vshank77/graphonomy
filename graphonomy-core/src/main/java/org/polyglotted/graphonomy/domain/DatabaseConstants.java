@@ -14,7 +14,7 @@ public final class DatabaseConstants {
     public static final String IndexIds = "index-ids";
     public static final String IndexLinks = "index-links";
 
-    public static RelationshipType IS_META_NOTE_OF = DynamicRelationshipType.withName("is_meta_note_of");
-    public static RelationshipType IS_META_RELATION_OF = DynamicRelationshipType.withName("is_meta_relation_of");
-    public static RelationshipType IS_META_RELATION_TO = DynamicRelationshipType.withName("is_meta_relation_to");
+    public static RelationshipType HAS_META_NOTE = DynamicRelationshipType.withName("has_meta_note");
+    public static RelationshipType HAS_META_RELATION = DynamicRelationshipType.withName("has_meta_relation");
+    public static RelationshipType IS_META_RELATED_TO = DynamicRelationshipType.withName("is_meta_related_to");
 }

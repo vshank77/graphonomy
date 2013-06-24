@@ -4,29 +4,36 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.List;
 
+import org.polyglotted.graphonomy.model.GraphProperty.PropertyType;
+
 import com.google.common.collect.Lists;
 
 public class NoteClass implements GraphNode {
 
     private long id = -1;
-    private String noteId;
-    private String noteName;
+    @GraphProperty
+    private String noteLabel;
+    @GraphProperty(PropertyType.ENUM)
     private TypeSafe type;
+    @GraphProperty
     private String defaultValue;
+    @GraphProperty
     private boolean required;
+    @GraphProperty(PropertyType.LIST)
     private List<String> enums = Lists.newArrayList();
+    @GraphProperty
     private String pattern;
+    @GraphProperty(PropertyType.STRING)
     private Range range;
 
     public NoteClass() {}
 
-    public NoteClass(String noteId) {
-        setNoteId(noteId);
+    public NoteClass(String noteLabel) {
+        this(noteLabel, TypeSafe.str);
     }
 
-    public NoteClass(String noteId, String noteName, TypeSafe type) {
-        setNoteId(noteId);
-        setNoteName(noteName);
+    public NoteClass(String noteLabel, TypeSafe type) {
+        setNoteLabel(noteLabel);
         setType(type);
     }
 
@@ -36,7 +43,7 @@ public class NoteClass implements GraphNode {
 
     @Override
     public int hashCode() {
-        return 47 * ((noteId == null) ? 0 : noteId.hashCode());
+        return 47 * ((noteLabel == null) ? 0 : noteLabel.hashCode());
     }
 
     @Override
@@ -48,7 +55,7 @@ public class NoteClass implements GraphNode {
         if (getClass() != obj.getClass())
             return false;
         NoteClass other = (NoteClass) obj;
-        return (noteId == null) ? (other.noteId == null) : (noteId.equals(other.noteId));
+        return (noteLabel == null) ? (other.noteLabel == null) : (noteLabel.equals(other.noteLabel));
     }
 
     @Override
@@ -63,32 +70,22 @@ public class NoteClass implements GraphNode {
 
     @Override
     public String getNodeId() {
-        return getNoteId();
+        return getNoteLabel();
     }
 
     @Override
     public GraphNode validate() {
-        checkNotNull(noteId);
-        checkNotNull(noteName);
+        checkNotNull(noteLabel);
         checkNotNull(type);
         return this;
     }
 
-    public String getNoteId() {
-        return noteId;
+    public String getNoteLabel() {
+        return noteLabel;
     }
 
-    public NoteClass setNoteId(String noteId) {
-        this.noteId = checkNotNull(noteId);
-        return this;
-    }
-
-    public String getNoteName() {
-        return noteName;
-    }
-
-    public NoteClass setNoteName(String noteName) {
-        this.noteName = checkNotNull(noteName);
+    public NoteClass setNoteLabel(String noteLabel) {
+        this.noteLabel = checkNotNull(noteLabel);
         return this;
     }
 
@@ -174,6 +171,11 @@ public class NoteClass implements GraphNode {
 
         public boolean isInRange(double value) {
             return value >= min && value <= max;
+        }
+
+        @Override
+        public String toString() {
+            return "[" + min + "," + max + "]";
         }
     }
 }

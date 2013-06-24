@@ -1,7 +1,10 @@
 package org.polyglotted.graphonomy.model;
 
+import java.util.List;
+
+
 //marker relation
 public interface GraphRelation {
 
-    Iterable<String> getLinks(String fromNodeId);
+    List<Link> getLinks();
 }
