@@ -34,16 +34,17 @@ public class GraphonomyDatabase {
     private static final Logger logger = LoggerFactory.getLogger(GraphonomyDatabase.class);
     private static final Joiner SPACE_JOINER = Joiner.on(" ");
 
-    private final PropertyUpdater updater = new PropertyUpdater();
-    private final GraphDatabaseService graphDb;
-    private final UniqNodeFactory nodeFactory;
-    private final UniqRelFactory relFactory;
+    protected final GraphDatabaseService graphDb;
+    protected final UniqNodeFactory nodeFactory;
+    protected final UniqRelFactory relFactory;
+    protected final PropertyUpdater updater = new PropertyUpdater();
 
     @Autowired
     public GraphonomyDatabase(GraphDatabaseService graphDb) {
         this.graphDb = graphDb;
         this.nodeFactory = new UniqNodeFactory(graphDb);
         this.relFactory = new UniqRelFactory(graphDb);
+        DatabaseDefaults.saveAll(this);
     }
 
     public Node saveNode(GraphNode gnode) {
@@ -64,8 +65,7 @@ public class GraphonomyDatabase {
         List<Relationship> result = Lists.newArrayList();
         try {
             for (Link link : relation.getLinks()) {
-                Relationship relationship = link.isUnique() ? relFactory.getOrCreate(Link, link)
-                        : createRelationshipFrom(link);
+                Relationship relationship = relFactory.getOrCreate(Link, link);
                 checkNotNull(relationship, "error creating or accessing relationship for " + link);
                 updater.reflectUpdate(relationship, relation);
                 result.add(relationship);
@@ -91,18 +91,6 @@ public class GraphonomyDatabase {
         return graphDb.index().forNodes(nodeType);
     }
 
-    protected Relationship createRelationshipFrom(Link link) {
-        try {
-            Node fromNode = findNodeByCode(link.getFrom());
-            Node toNode = findNodeByCode(link.getTo());
-            return fromNode.createRelationshipTo(toNode, link.getRel());
-        }
-        catch (RuntimeException re) {
-            System.err.println("failed to create rel on " + link);
-            throw re;
-        }
-    }
-
     protected class UniqNodeFactory extends UniqueFactory.UniqueNodeFactory {
         public UniqNodeFactory(GraphDatabaseService database) {
             super(database, IndexIds);
@@ -122,7 +110,15 @@ public class GraphonomyDatabase {
         @Override
         protected Relationship create(Map<String, Object> properties) {
             Link link = (Link) properties.get(Link);
-            return createRelationshipFrom(link);
+            try {
+                Node fromNode = findNodeByCode(link.getFrom());
+                Node toNode = findNodeByCode(link.getTo());
+                return fromNode.createRelationshipTo(toNode, link.getRel());
+            }
+            catch (RuntimeException re) {
+                System.err.println("failed to create rel on " + link);
+                throw re;
+            }
         }
     }
 }

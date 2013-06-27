@@ -2,13 +2,16 @@ package org.polyglotted.graphonomy.dao;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.StringWriter;
 import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.neo4j.graphdb.Node;
+import org.polyglotted.graphonomy.exports.NoteClassJsonExporter;
 import org.polyglotted.graphonomy.model.NoteClass;
 import org.polyglotted.graphonomy.model.TypeSafe;
+import org.polyglotted.graphonomy.util.JsonUtils;
 
 public class NoteClassDaoTest extends AbstractDaoTest<NoteClass> {
 
@@ -31,7 +34,9 @@ public class NoteClassDaoTest extends AbstractDaoTest<NoteClass> {
                 return noteClassDao.create(noteClass);
             }
         });
-        assertEquals(outputs.get("NoteClassDaoTest.testCreate"), inspectNode(node));
+        final StringWriter writer = new StringWriter();
+        new NoteClassJsonExporter(writer).safeWrite(node);
+        assertEquals(JsonUtils.asJson(noteClass), writer.toString());
     }
 
     @Override

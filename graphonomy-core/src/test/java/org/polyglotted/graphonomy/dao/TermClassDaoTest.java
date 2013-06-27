@@ -2,18 +2,18 @@ package org.polyglotted.graphonomy.dao;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.List;
+import java.io.StringWriter;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.neo4j.graphdb.Node;
+import org.polyglotted.graphonomy.exports.TermClassJsonExporter;
 import org.polyglotted.graphonomy.model.MetaNote;
 import org.polyglotted.graphonomy.model.MetaRelation;
 import org.polyglotted.graphonomy.model.NoteClass;
 import org.polyglotted.graphonomy.model.RelationClass;
 import org.polyglotted.graphonomy.model.TermClass;
-
-import com.google.common.collect.Lists;
+import org.polyglotted.graphonomy.util.JsonUtils;
 
 public class TermClassDaoTest extends AbstractDaoTest<TermClass> {
 
@@ -34,25 +34,22 @@ public class TermClassDaoTest extends AbstractDaoTest<TermClass> {
         final RelationClass relClass = new RelationClass("relation");
         final TermClass cls1 = new TermClass("parCls");
         final TermClass cls2 = new TermClass("relCls");
-        final TermClass testCls = new TermClass("testCls").setParentClassName("parCls");
-        testCls.addMetaNote(new MetaNote(testCls, noteClass, true));
-        testCls.addMetaRelation(new MetaRelation(testCls, relClass, cls2));
-
-        List<Node> nodes = execute(new TxCallback<List<Node>>() {
+        final TermClass termClass = new TermClass("testCls").setParentClassName("parCls");
+        termClass.addMetaNote(new MetaNote(termClass, noteClass, true));
+        termClass.addMetaRelation(new MetaRelation(termClass, relClass, cls2));
+        Node node = execute(new TxCallback<Node>() {
             @Override
-            public List<Node> doInTransaction() {
-                List<Node> result = Lists.newArrayList();
-                result.add(noteClassDao.create(noteClass));
-                result.add(relationClassDao.create(relClass));
-                result.add(termClassDao.create(cls1));
-                result.add(termClassDao.create(cls2));
-                result.add(termClassDao.create(testCls));
-                return result;
+            public Node doInTransaction() {
+                noteClassDao.create(noteClass);
+                relationClassDao.create(relClass);
+                termClassDao.create(cls1);
+                termClassDao.create(cls2);
+                return termClassDao.create(termClass);
             }
         });
-        Node termNode = nodes.get(nodes.size() - 1);
-        assertEquals(outputs.get("TermClassDaoTest.testCreateNodes"), inspectNodes(nodes));
-        assertEquals(outputs.get("TermClassDaoTest.testCreateRels"), inspectRelationships(termNode.getRelationships()));
+        final StringWriter writer = new StringWriter();
+        new TermClassJsonExporter(writer).safeWrite(node);
+        assertEquals(JsonUtils.asJson(termClass), writer.toString());
     }
 
     @Override

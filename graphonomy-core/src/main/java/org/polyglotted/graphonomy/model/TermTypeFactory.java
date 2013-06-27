@@ -23,6 +23,11 @@ public class TermTypeFactory {
         public String name() {
             return name;
         }
+
+        @Override
+        public String toString() {
+            return name();
+        }
     }
 
     public enum StandardTermType implements TermType {
@@ -32,6 +37,11 @@ public class TermTypeFactory {
 
         StandardTermType(String desc) {
             this.description = desc;
+        }
+
+        @Override
+        public String toString() {
+            return name();
         }
     }
 }

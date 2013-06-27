@@ -2,9 +2,10 @@ package org.polyglotted.graphonomy.model;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.util.List;
+import java.util.Collections;
+import java.util.Set;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 public class TermClass implements GraphNode {
 
@@ -13,8 +14,8 @@ public class TermClass implements GraphNode {
     private String className;
     @GraphProperty
     private String parentClassName;
-    private List<MetaNote> metaNotes = Lists.newArrayList();
-    private List<MetaRelation> metaRelations = Lists.newArrayList();
+    private Set<MetaNote> metaNotes;
+    private Set<MetaRelation> metaRelations;
 
     public TermClass() {}
 
@@ -78,31 +79,43 @@ public class TermClass implements GraphNode {
         return this;
     }
 
-    public List<MetaNote> getMetaNotes() {
+    public Set<MetaNote> getMetaNotes() {
+        if(metaNotes == null) {
+            return Collections.emptySet();
+        }
         return metaNotes;
     }
 
     public TermClass addMetaNote(MetaNote metaNote) {
+        if(metaNotes == null) {
+            metaNotes = Sets.newLinkedHashSet();
+        }
         metaNotes.add(metaNote);
         return this;
     }
 
-    public TermClass setMetaNotes(List<MetaNote> metaNotes) {
-        this.metaNotes = Lists.newArrayList(metaNotes);
+    public TermClass setMetaNotes(Set<MetaNote> metaNotes) {
+        this.metaNotes = Sets.newLinkedHashSet(metaNotes);
         return this;
     }
 
-    public List<MetaRelation> getMetaRelations() {
+    public Set<MetaRelation> getMetaRelations() {
+        if(metaRelations == null) {
+            return Collections.emptySet();
+        }
         return metaRelations;
     }
 
     public TermClass addMetaRelation(MetaRelation metaRelation) {
+        if(metaRelations == null) {
+            metaRelations = Sets.newLinkedHashSet();
+        }
         metaRelations.add(metaRelation);
         return this;
     }
 
-    public TermClass setMetaRelations(List<MetaRelation> metaRelations) {
-        this.metaRelations = Lists.newArrayList(metaRelations);
+    public TermClass setMetaRelations(Set<MetaRelation> metaRelations) {
+        this.metaRelations = Sets.newLinkedHashSet(metaRelations);
         return this;
     }
 }

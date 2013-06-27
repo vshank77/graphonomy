@@ -4,10 +4,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.polyglotted.graphonomy.util.GsonUtils;
+import org.polyglotted.graphonomy.util.JsonUtils;
 import org.polyglotted.xpathstax.XPathStaxParser;
-
-import com.google.gson.Gson;
 
 public class ThesaurusStructureConverter {
 
@@ -36,7 +34,6 @@ public class ThesaurusStructureConverter {
         MetaSpecGenerator generator = new MetaSpecGenerator(handlerFactory);
         generator.generateSpec();
 
-        Gson gson = GsonUtils.createGson(true, false);
-        System.out.println(gson.toJson(generator.spec));
+        System.out.println(JsonUtils.asPrettyJson(generator.spec));
     }
 }

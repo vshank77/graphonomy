@@ -8,7 +8,9 @@ import java.util.List;
 
 public class MetaNote implements GraphRelation {
 
+    @GraphProperty
     private String termClassName;
+    @GraphProperty
     private String noteLabel;
     @GraphProperty
     private boolean mandatory;
@@ -27,7 +29,7 @@ public class MetaNote implements GraphRelation {
 
     @Override
     public List<Link> getLinks() {
-        return Arrays.asList(new Link(termClassName, HAS_META_NOTE, noteLabel).setUnique(true));
+        return Arrays.asList(new Link(termClassName, HAS_META_NOTE, noteLabel));
     }
 
     @Override

@@ -2,6 +2,7 @@ package org.polyglotted.graphonomy.model;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.polyglotted.graphonomy.model.GraphProperty.PropertyType;
@@ -20,10 +21,10 @@ public class NoteClass implements GraphNode {
     @GraphProperty
     private boolean required;
     @GraphProperty(PropertyType.LIST)
-    private List<String> enums = Lists.newArrayList();
+    private List<String> enums;
     @GraphProperty
     private String pattern;
-    @GraphProperty(PropertyType.STRING)
+    @GraphProperty(PropertyType.FRAGMENT)
     private Range range;
 
     public NoteClass() {}
@@ -108,10 +109,16 @@ public class NoteClass implements GraphNode {
     }
 
     public List<String> getEnums() {
+        if (enums == null) {
+            return Collections.emptyList();
+        }
         return enums;
     }
 
     public NoteClass addEnum(String enumVal) {
+        if (enums == null) {
+            enums = Lists.newArrayList();
+        }
         enums.add(enumVal);
         return this;
     }
@@ -160,7 +167,7 @@ public class NoteClass implements GraphNode {
         return this;
     }
 
-    private static class Range {
+    protected static class Range {
         private final int max;
         private final int min;
 
@@ -171,11 +178,6 @@ public class NoteClass implements GraphNode {
 
         public boolean isInRange(double value) {
             return value >= min && value <= max;
-        }
-
-        @Override
-        public String toString() {
-            return "[" + min + "," + max + "]";
         }
     }
 }

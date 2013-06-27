@@ -2,6 +2,8 @@ package org.polyglotted.graphonomy.model;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import org.neo4j.graphdb.DynamicRelationshipType;
+import org.neo4j.graphdb.RelationshipType;
 import org.polyglotted.graphonomy.model.GraphProperty.PropertyType;
 
 public class RelationClass implements GraphNode {
@@ -75,6 +77,10 @@ public class RelationClass implements GraphNode {
         return this;
     }
 
+    public RelationshipType toRelationshipType() {
+        return DynamicRelationshipType.withName(checkNotNull(relationName));
+    }
+    
     public String getRelationName() {
         return relationName;
     }

@@ -5,9 +5,9 @@ import mockit.NonStrict;
 
 import org.junit.Test;
 import org.neo4j.graphdb.Node;
+import org.polyglotted.graphonomy.model.Category;
 import org.polyglotted.graphonomy.model.Posting;
 import org.polyglotted.graphonomy.model.Term;
-import org.polyglotted.graphonomy.model.TermClass;
 
 public class PropertyUpdaterTest {
 
@@ -24,7 +24,7 @@ public class PropertyUpdaterTest {
 
         PropertyUpdater updater = new PropertyUpdater();
         Term term = new Term("id", "value");
-        term.addTermCategory(new TermClass("Test Class"));
+        term.addCategory(new Category("id", "Test Class"));
         term.addPosting(new Posting("urn:isbn:12331Abcd28", "field", "325"));
         updater.reflectUpdate(mockNode, term.validate());
     }

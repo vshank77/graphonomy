@@ -14,6 +14,6 @@ public @interface GraphProperty {
     PropertyType value() default PropertyType.DEFAULT;
 
     public enum PropertyType {
-        DEFAULT, DATE, ENUM, LIST, STRING;
+        DEFAULT, DATE, ENUM, LIST, STRING, FRAGMENT;
     }
 }

@@ -9,6 +9,7 @@ import java.util.List;
 
 public class MetaRelation implements GraphRelation {
 
+    @GraphProperty
     private String termClassName;
     @GraphProperty
     private String relationName;
@@ -29,8 +30,8 @@ public class MetaRelation implements GraphRelation {
 
     @Override
     public List<Link> getLinks() {
-        return Arrays.asList(new Link(termClassName, IS_META_RELATED_TO, targetClassName), new Link(termClassName,
-                HAS_META_RELATION, relationName));
+        return Arrays.asList(new Link(termClassName, IS_META_RELATED_TO, targetClassName, relationName), new Link(termClassName,
+                HAS_META_RELATION, relationName, targetClassName));
     }
 
     @Override

@@ -1,13 +1,10 @@
 package org.polyglotted.graphonomy.model;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.TimeZone;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import org.polyglotted.graphonomy.domain.DatabaseConstants;
+import org.polyglotted.graphonomy.util.DateUtils;
 
 public enum TypeSafe {
     str {
@@ -105,18 +102,16 @@ public enum TypeSafe {
         @Override
         @SuppressWarnings("unchecked")
         public Date validatedValue(String value, NoteClass clazz) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat(DatabaseConstants.DateFormat);
-            dateFormat.setTimeZone(TimeZone.getTimeZone("Zulu"));
             if (value == null) {
                 if (clazz.getDefaultValue() != null) {
-                    return asDate(clazz.getDefaultValue(), dateFormat, "unable to parse defaultValue as a date ");
+                    return asDate(clazz.getDefaultValue(), "unable to parse defaultValue as a date ");
                 }
                 else if (clazz.isRequired())
                     throw new TypeValidationException("value is required for this note type");
                 return null;
             }
             // TODO should we support range for dates?
-            return asDate(value, dateFormat, "unable to parse value as date ");
+            return asDate(value, "unable to parse value as date ");
         }
     };
 
@@ -144,11 +139,11 @@ public enum TypeSafe {
         }
     }
 
-    private static Date asDate(String value, SimpleDateFormat dateFormat, String message) {
+    private static Date asDate(String value, String message) {
         try {
-            return dateFormat.parse(value);
+            return DateUtils.parseSilent(value);
         }
-        catch (ParseException e) {
+        catch (RuntimeException e) {
             throw new TypeValidationException(message + value);
         }
     }

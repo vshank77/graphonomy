@@ -4,19 +4,16 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
-import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 import org.neo4j.graphdb.PropertyContainer;
 import org.polyglotted.graphonomy.model.Fragment;
 import org.polyglotted.graphonomy.model.GraphProperty;
-import org.polyglotted.graphonomy.util.GsonUtils;
-
-import com.google.gson.Gson;
+import org.polyglotted.graphonomy.util.DateUtils;
+import org.polyglotted.graphonomy.util.JsonUtils;
 
 class PropertySetters {
-
     public interface PropertySetter {
         void setProperty(PropertyContainer node, Field field, Object value);
     }
@@ -29,6 +26,8 @@ class PropertySetters {
                 return new EnumPropertySetter();
             case LIST:
                 return new ListPropertySetter();
+            case FRAGMENT:
+                return new FragmentPropertySetter();
             case STRING:
                 return new ToStringPropertySetter();
             default:
@@ -53,9 +52,7 @@ class PropertySetters {
     public static class DatePropertySetter implements PropertySetter {
         @Override
         public void setProperty(PropertyContainer node, Field field, Object value) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat(DatabaseConstants.DateFormat);
-            dateFormat.setTimeZone(TimeZone.getTimeZone("Zulu"));
-            node.setProperty(field.getName(), dateFormat.format(value));
+            node.setProperty(field.getName(), DateUtils.format((Date) value));
         }
     }
 
@@ -68,8 +65,6 @@ class PropertySetters {
     }
 
     public static class ListPropertySetter implements PropertySetter {
-        private static Gson gson = GsonUtils.createGson(false, false);
-
         @Override
         public void setProperty(PropertyContainer node, Field field, Object value) {
             List<?> listValue = (List<?>) value;
@@ -82,10 +77,17 @@ class PropertySetters {
                 node.setProperty(field.getName(), listValue.toArray(Neo4jSupportedTypes.getArrayFor(genType)));
             }
             else if (Fragment.class.isAssignableFrom(genType)) {
-                node.setProperty(field.getName(), gson.toJson(listValue));
+                node.setProperty("$" + field.getName(), JsonUtils.asJson(listValue));
             }
             else
                 throw new DomainFailureException("failed to create node for " + field.getName());
+        }
+    }
+
+    public static class FragmentPropertySetter implements PropertySetter {
+        @Override
+        public void setProperty(PropertyContainer node, Field field, Object value) {
+            node.setProperty("$" + field.getName(), JsonUtils.asJson(value));
         }
     }
 }
