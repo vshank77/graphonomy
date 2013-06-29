@@ -1,11 +1,15 @@
 package org.polyglotted.graphonomy.extsmartlogic;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
 import org.polyglotted.graphonomy.util.JsonUtils;
 import org.polyglotted.xpathstax.XPathStaxParser;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
 
 public class ThesaurusStructureConverter {
 
@@ -34,6 +38,6 @@ public class ThesaurusStructureConverter {
         MetaSpecGenerator generator = new MetaSpecGenerator(handlerFactory);
         generator.generateSpec();
 
-        System.out.println(JsonUtils.asPrettyJson(generator.spec));
+        Files.write(JsonUtils.asPrettyJson(generator.spec), new File("src/do_not_git_version/metaspec-simple.txt"), Charsets.UTF_8);
     }
 }

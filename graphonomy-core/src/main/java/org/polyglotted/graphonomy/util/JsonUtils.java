@@ -6,14 +6,21 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 import org.polyglotted.graphonomy.exports.JsonException;
+import org.polyglotted.graphonomy.model.TermType;
+import org.polyglotted.graphonomy.model.TermTypeFactory;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 
 public class JsonUtils {
     protected static final ObjectMapper Mapper = new ObjectMapper();
@@ -27,6 +34,9 @@ public class JsonUtils {
                 .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
                 .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
                 .withCreatorVisibility(JsonAutoDetect.Visibility.NONE));
+        SimpleModule jsonModule = new SimpleModule("polyglotted module").addDeserializer(TermType.class,
+                new TermTypeDeserializer());
+        Mapper.registerModule(jsonModule);
         JsonFactory.enable(JsonGenerator.Feature.FLUSH_PASSED_TO_STREAM);
     }
 
@@ -61,12 +71,23 @@ public class JsonUtils {
         }
     }
 
-    public static <T> T parse(String content, Class<T> type) {
-        try {
-            return Mapper.readValue(content, type);
+    public static ObjectMapper mapper() {
+        return Mapper;
+    }
+
+    static class TermTypeDeserializer extends StdDeserializer<TermType> {
+
+        private static final long serialVersionUID = -3640287104633732032L;
+
+        public TermTypeDeserializer() {
+            super(TermType.class);
         }
-        catch (IOException ioe) {
-            throw new JsonException("parse failed", ioe);
+
+        @Override
+        public TermType deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException,
+                JsonProcessingException {
+            String text = jp.getText();
+            return TermTypeFactory.with(text);
         }
     }
 }

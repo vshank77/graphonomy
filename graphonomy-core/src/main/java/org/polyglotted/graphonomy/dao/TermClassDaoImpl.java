@@ -7,10 +7,8 @@ import org.polyglotted.graphonomy.model.MetaRelation;
 import org.polyglotted.graphonomy.model.TermClass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 @Component
-@Transactional
 public class TermClassDaoImpl extends AbstractDao<TermClass> implements TermClassDao {
 
     @Autowired
@@ -23,9 +21,13 @@ public class TermClassDaoImpl extends AbstractDao<TermClass> implements TermClas
         for (MetaNote note : gnode.getMetaNotes()) {
             database.saveRelations(note);
         }
+        return node;
+    }
+
+    @Override
+    public void saveMetaRelations(TermClass gnode) {
         for (MetaRelation rel : gnode.getMetaRelations()) {
             database.saveRelations(rel);
         }
-        return node;
     }
 }

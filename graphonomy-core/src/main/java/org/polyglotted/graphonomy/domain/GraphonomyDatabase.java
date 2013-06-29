@@ -63,19 +63,20 @@ public class GraphonomyDatabase {
 
     public List<Relationship> saveRelations(GraphRelation relation) {
         List<Relationship> result = Lists.newArrayList();
-        try {
-            for (Link link : relation.getLinks()) {
+        for (Link link : relation.getLinks()) {
+            try {
                 Relationship relationship = relFactory.getOrCreate(Link, link);
                 checkNotNull(relationship, "error creating or accessing relationship for " + link);
                 updater.reflectUpdate(relationship, relation);
                 result.add(relationship);
             }
-            return result;
+            catch (Exception ex) {
+                logger.error("error in " + link.toString());
+                logger.error("error creating relationship \n", ex);
+                throw new DomainFailureException();
+            }
         }
-        catch (Exception ex) {
-            logger.error("error creating relationship \n", ex);
-            throw new DomainFailureException();
-        }
+        return result;
     }
 
     public Node findNodeByCode(String code) {

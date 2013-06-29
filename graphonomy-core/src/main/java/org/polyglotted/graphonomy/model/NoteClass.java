@@ -168,8 +168,10 @@ public class NoteClass implements GraphNode {
     }
 
     protected static class Range {
-        private final int max;
-        private final int min;
+        private int max;
+        private int min;
+
+        public Range() {}
 
         public Range(int min, int max) {
             this.min = min;

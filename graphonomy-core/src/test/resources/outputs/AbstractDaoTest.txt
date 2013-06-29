@@ -1,4 +1,0 @@
-NoteClassDaoTest.testCreate={"nodeId":"name","noteLabel":"name","type":"str","defaultValue":"apple","required":"true","enums":["apple","mango","berry"],"range":"[5,5]"}
-RelationClassDaoTest.testCreate={"nodeId":"relation","relationName":"relation","type":"related","description":"relation","extended":"true"}
-TermClassDaoTest.testCreateNodes=[{"nodeId":"note1","noteLabel":"note1","type":"str","required":"false"},{"nodeId":"relation","type":"related","relationName":"relation","description":"relation","extended":"true"},{"nodeId":"parCls","className":"parCls"},{"nodeId":"relCls","className":"relCls"},{"nodeId":"testCls","className":"testCls","parentClassName":"parCls"}]
-TermClassDaoTest.testCreateRels=[{"link":"testCls-has_meta_note-note1","mandatory":"true"},{"link":"testCls-is_meta_related_to-relCls","relationName":"relation","targetClassName":"relCls"},{"link":"testCls-has_meta_relation-relation","relationName":"relation","targetClassName":"relCls"}]

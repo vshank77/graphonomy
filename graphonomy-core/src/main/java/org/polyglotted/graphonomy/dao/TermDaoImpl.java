@@ -8,10 +8,8 @@ import org.polyglotted.graphonomy.model.Relation;
 import org.polyglotted.graphonomy.model.Term;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 @Component
-@Transactional
 public class TermDaoImpl extends AbstractDao<Term> implements TermDao {
 
     @Autowired
@@ -27,9 +25,13 @@ public class TermDaoImpl extends AbstractDao<Term> implements TermDao {
         for(Note note : gnode.getNotes()) {
             database.saveRelations(note);
         }
+        return node;
+    }
+
+    @Override
+    public void saveRelations(Term gnode) {
         for(Relation rel : gnode.getRelations()) {
             database.saveRelations(rel);
         }
-        return node;
     }
 }

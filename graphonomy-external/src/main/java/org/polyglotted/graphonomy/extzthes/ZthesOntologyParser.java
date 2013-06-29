@@ -1,5 +1,6 @@
 package org.polyglotted.graphonomy.extzthes;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,8 +17,10 @@ import org.polyglotted.graphonomy.util.JsonUtils;
 import org.polyglotted.xpathstax.XPathStaxParser;
 import org.polyglotted.xpathstax.bind.NodeConverter;
 
+import com.google.common.base.Charsets;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+import com.google.common.io.Files;
 
 public class ZthesOntologyParser {
 
@@ -27,13 +30,14 @@ public class ZthesOntologyParser {
             ZthesOntologyParser reader = new ZthesOntologyParser();
             List<Term> list = reader.parse(input);
 
-            System.out.println(JsonUtils.asPrettyJson(list));
+            Files.write(JsonUtils.asPrettyJson(list), new File("src/do_not_git_version/ontology-sample.txt"),
+                    Charsets.UTF_8);
         }
         catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     public List<Term> parse(InputStream input) throws IOException {
         XPathStaxParser parser = new XPathStaxParser();
         final List<Term> terms = Lists.newArrayList();
@@ -99,7 +103,9 @@ public class ZthesOntologyParser {
         List<Relation> relations = Lists.transform(wrapper.getRelation(), new Function<RelationWrapper, Relation>() {
             @Override
             public Relation apply(RelationWrapper rel) {
-                return new Relation(termId, rel.getRelationType(), rel.getTermId());
+                String relType = rel.getRelationType();
+                relType = relType.startsWith("X-") ? relType.substring(2) : relType; 
+                return new Relation(termId, relType, rel.getTermId());
             }
         });
         if (relations.size() > 0) {

@@ -54,7 +54,9 @@ public class TermDaoTest extends AbstractDaoTest<Term> {
                 relationClassDao.create(relClass);
                 termClassDao.create(termClass);
                 termDao.create(relTerm);
-                return termDao.create(term);
+                Node result = termDao.create(term);
+                termDao.saveRelations(term);
+                return result;
             }
         });
         final StringWriter writer = new StringWriter();

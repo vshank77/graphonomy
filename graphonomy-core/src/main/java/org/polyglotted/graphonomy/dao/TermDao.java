@@ -3,5 +3,14 @@ package org.polyglotted.graphonomy.dao;
 import org.polyglotted.graphonomy.model.Term;
 
 public interface TermDao extends BaseDao<Term> {
-    // no additional methods
+
+    /**
+     * when creating a term in database, the relations are not saved automatically (while notes and categories are
+     * saved). This is to allow to forward referencing the relationships while batch loading. So callers have to
+     * explicitly invoke this method to save the relationships.
+     * 
+     * @param term
+     *            the Term origin for saving the relationships
+     */
+    void saveRelations(Term term);
 }

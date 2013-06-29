@@ -1,22 +1,11 @@
 package org.polyglotted.graphonomy.dao;
 
-import static org.polyglotted.graphonomy.domain.DatabaseConstants.NodeId;
-
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Properties;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.PropertyContainer;
-import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.test.TestGraphDatabaseFactory;
 import org.polyglotted.graphonomy.domain.DomainFailureException;
@@ -25,15 +14,12 @@ import org.polyglotted.graphonomy.model.GraphNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Function;
 import com.google.common.base.Joiner;
-import com.google.common.collect.Lists;
 
 public abstract class AbstractDaoTest<T extends GraphNode> {
 
     protected static final Logger LOGGER = LoggerFactory.getLogger(AbstractDaoTest.class);
     protected static final Joiner COMMA_JOINER = Joiner.on(",");
-    protected static Properties outputs = new Properties();
 
     protected interface TxCallback<V> {
         V doInTransaction();
@@ -45,11 +31,6 @@ public abstract class AbstractDaoTest<T extends GraphNode> {
 
     protected GraphDatabaseService graphDb;
     protected GraphonomyDatabase database;
-
-    @BeforeClass
-    public static void initOutputs() throws IOException {
-        outputs.load(asStream("outputs/AbstractDaoTest.txt"));
-    }
 
     @Before
     public void initDb() {
@@ -125,91 +106,5 @@ public abstract class AbstractDaoTest<T extends GraphNode> {
 
     public static InputStream asStream(String path) {
         return AbstractDaoTest.class.getClassLoader().getResourceAsStream(path);
-    }
-
-    public static String inspectNodes(Iterable<Node> nodes) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("[");
-        int i = 0;
-        for (Node node : nodes) {
-            if (i++ != 0) {
-                builder.append(",");
-            }
-            inspectNode(node, builder);
-        }
-        builder.append("]");
-        return builder.toString();
-    }
-
-    public static String inspectNode(Node node) {
-        return inspectNode(node, new StringBuilder()).toString();
-    }
-
-    private static StringBuilder inspectNode(Node node, StringBuilder builder) {
-        builder.append("{");
-        final Iterator<String> propertyKeys = node.getPropertyKeys().iterator();
-        if (propertyKeys.hasNext())
-            inspectProperties(node, propertyKeys, builder);
-        builder.append("}");
-        return builder;
-    }
-
-    public static String inspectRelationships(Iterable<Relationship> relationships) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("[");
-        int i = 0;
-        for (Relationship rel : relationships) {
-            if (i++ != 0) {
-                builder.append(",");
-            }
-            builder.append("{");
-            builder.append("\"link\":\"");
-            builder.append(rel.getStartNode().getProperty(NodeId));
-            builder.append("-");
-            builder.append(rel.getType().name());
-            builder.append("-");
-            builder.append(rel.getEndNode().getProperty(NodeId));
-            builder.append("\"");
-            Iterator<String> propertyKeys = rel.getPropertyKeys().iterator();
-            if (propertyKeys.hasNext()) {
-                builder.append(",");
-                inspectProperties(rel, propertyKeys, builder);
-            }
-            builder.append("}");
-        }
-        builder.append("]");
-        return builder.toString();
-    }
-
-    private static void inspectProperties(PropertyContainer node, Iterator<String> propertyKeys, StringBuilder builder) {
-        int i = 0;
-        while (propertyKeys.hasNext()) {
-            if (i++ != 0)
-                builder.append(",");
-            String prop = propertyKeys.next();
-            builder.append("\"" + prop + "\":");
-            inspectProperty(node.getProperty(prop), builder);
-        }
-    }
-
-    private static void inspectProperty(Object property, final StringBuilder builder) {
-        if (property.getClass().isArray()) {
-            List<?> list = Lists.transform(Arrays.asList((Object[]) property), new Function<Object, String>() {
-                @Override
-                public String apply(Object o) {
-                    return escapeString(o);
-                }
-            });
-            builder.append("[");
-            COMMA_JOINER.appendTo(builder, list);
-            builder.append("]");
-        }
-        else {
-            builder.append(escapeString(property));
-        }
-    }
-
-    private static String escapeString(Object property) {
-        return "\"" + String.valueOf(property) + "\"";
     }
 }

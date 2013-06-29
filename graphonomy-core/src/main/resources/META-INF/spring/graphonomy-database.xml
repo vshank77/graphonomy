@@ -8,7 +8,8 @@
     <context:annotation-config />
 
     <context:component-scan
-        base-package="org.polyglotted.graphonomy.domain,org.polyglotted.graphonomy.dao,org.polyglotted.graphonomy.services" />
+        base-package="org.polyglotted.graphonomy.domain,org.polyglotted.graphonomy.dao,
+                org.polyglotted.graphonomy.imports,org.polyglotted.graphonomy.services" />
 
     <tx:annotation-driven transaction-manager="domain.neo4jTransactionManager" />
 
