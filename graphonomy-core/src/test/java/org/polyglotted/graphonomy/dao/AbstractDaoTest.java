@@ -1,6 +1,9 @@
 package org.polyglotted.graphonomy.dao;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.InputStream;
+import java.util.EnumMap;
 
 import org.junit.After;
 import org.junit.Before;
@@ -10,7 +13,9 @@ import org.neo4j.graphdb.Transaction;
 import org.neo4j.test.TestGraphDatabaseFactory;
 import org.polyglotted.graphonomy.domain.DomainFailureException;
 import org.polyglotted.graphonomy.domain.GraphonomyDatabase;
+import org.polyglotted.graphonomy.domain.PageResult;
 import org.polyglotted.graphonomy.model.GraphNode;
+import org.polyglotted.graphonomy.model.NodeType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -71,6 +76,27 @@ public abstract class AbstractDaoTest<T extends GraphNode> {
         }
         finally {
             tx.finish();
+        }
+    }
+
+    @Test
+    public void testFindAllDefault() {
+        final String nodeId = "id";
+        execute(new TxVoidCallback() {
+            @Override
+            public void doInTransaction() {
+                getAbstractDao().create(loadTestSubject(nodeId));
+            }
+        });
+        EnumMap<NodeType, Integer> hitCounts = new EnumMap<NodeType, Integer>(NodeType.class);
+        hitCounts.put(NodeType.NOTE_CLASS, 2); hitCounts.put(NodeType.RELATION_CLASS, 6);
+        hitCounts.put(NodeType.TERM_CLASS, 2); hitCounts.put(NodeType.TERM, 1);
+        PageResult result = getAbstractDao().findAll(10, 0);
+        try {
+            assertEquals(hitCounts.get(getAbstractDao().getNodeType()), Integer.valueOf(result.size()));
+        }
+        finally {
+            result.close();
         }
     }
 

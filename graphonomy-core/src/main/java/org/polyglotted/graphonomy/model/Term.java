@@ -91,6 +91,11 @@ public class Term implements GraphNode {
     }
 
     @Override
+    public NodeType getNodeType() {
+        return NodeType.TERM;
+    }
+
+    @Override
     public GraphNode validate() {
         checkNotNull(termId);
         checkNotNull(termName);

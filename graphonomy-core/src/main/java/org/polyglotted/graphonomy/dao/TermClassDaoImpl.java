@@ -4,6 +4,7 @@ import org.neo4j.graphdb.Node;
 import org.polyglotted.graphonomy.domain.GraphonomyDatabase;
 import org.polyglotted.graphonomy.model.MetaNote;
 import org.polyglotted.graphonomy.model.MetaRelation;
+import org.polyglotted.graphonomy.model.NodeType;
 import org.polyglotted.graphonomy.model.TermClass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,11 @@ public class TermClassDaoImpl extends AbstractDao<TermClass> implements TermClas
     @Autowired
     public TermClassDaoImpl(GraphonomyDatabase database) {
         super(database);
+    }
+
+    @Override
+    public NodeType getNodeType() {
+        return NodeType.TERM_CLASS;
     }
 
     @Override

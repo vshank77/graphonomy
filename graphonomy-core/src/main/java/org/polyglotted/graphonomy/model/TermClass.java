@@ -56,6 +56,11 @@ public class TermClass implements GraphNode {
     }
 
     @Override
+    public NodeType getNodeType() {
+        return NodeType.TERM_CLASS;
+    }
+
+    @Override
     public GraphNode validate() {
         checkNotNull(className);
         return this;

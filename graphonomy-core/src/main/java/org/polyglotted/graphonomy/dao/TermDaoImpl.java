@@ -3,6 +3,7 @@ package org.polyglotted.graphonomy.dao;
 import org.neo4j.graphdb.Node;
 import org.polyglotted.graphonomy.domain.GraphonomyDatabase;
 import org.polyglotted.graphonomy.model.Category;
+import org.polyglotted.graphonomy.model.NodeType;
 import org.polyglotted.graphonomy.model.Note;
 import org.polyglotted.graphonomy.model.Relation;
 import org.polyglotted.graphonomy.model.Term;
@@ -15,6 +16,11 @@ public class TermDaoImpl extends AbstractDao<Term> implements TermDao {
     @Autowired
     public TermDaoImpl(GraphonomyDatabase database) {
         super(database);
+    }
+
+    @Override
+    public NodeType getNodeType() {
+        return NodeType.TERM;
     }
 
     @Override

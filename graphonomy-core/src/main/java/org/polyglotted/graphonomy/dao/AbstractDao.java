@@ -2,6 +2,7 @@ package org.polyglotted.graphonomy.dao;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.polyglotted.graphonomy.domain.DatabaseConstants.Status;
+import static org.polyglotted.graphonomy.model.Status.active;
 import static org.polyglotted.graphonomy.model.Status.deleted;
 
 import java.lang.reflect.ParameterizedType;
@@ -10,6 +11,7 @@ import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.polyglotted.graphonomy.domain.DomainFailureException;
 import org.polyglotted.graphonomy.domain.GraphonomyDatabase;
+import org.polyglotted.graphonomy.domain.PageResult;
 import org.polyglotted.graphonomy.model.GraphNode;
 
 public abstract class AbstractDao<T extends GraphNode> implements BaseDao<T> {
@@ -34,9 +36,14 @@ public abstract class AbstractDao<T extends GraphNode> implements BaseDao<T> {
     @Override
     public Node loadNode(String nodeId) {
         Node node = checkNotNull(database.findNodeByCode(nodeId), "unable to find node with Id " + nodeId);
-        if (node.hasProperty(Status) && deleted.name().equals(node.getProperty(Status)))
-            throw new DomainFailureException("loading deleted node");
+        if (node.hasProperty(Status) && !active.name().equals(node.getProperty(Status)))
+            throw new DomainFailureException("loading inactive or deleted node");
         return node;
+    }
+
+    @Override
+    public PageResult findAll(int pageSize, int pageStart) {
+        return database.findNodesByType(getNodeType(), pageSize, pageStart);
     }
 
     @Override

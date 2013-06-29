@@ -1,6 +1,7 @@
 package org.polyglotted.graphonomy.dao;
 
 import org.polyglotted.graphonomy.domain.GraphonomyDatabase;
+import org.polyglotted.graphonomy.model.NodeType;
 import org.polyglotted.graphonomy.model.NoteClass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,5 +12,10 @@ public class NoteClassDaoImpl extends AbstractDao<NoteClass> implements NoteClas
     @Autowired
     public NoteClassDaoImpl(GraphonomyDatabase database) {
         super(database);
+    }
+
+    @Override
+    public NodeType getNodeType() {
+        return NodeType.NOTE_CLASS;
     }
 }

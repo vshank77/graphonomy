@@ -75,6 +75,11 @@ public class NoteClass implements GraphNode {
     }
 
     @Override
+    public NodeType getNodeType() {
+        return NodeType.NOTE_CLASS;
+    }
+
+    @Override
     public GraphNode validate() {
         checkNotNull(noteLabel);
         checkNotNull(type);

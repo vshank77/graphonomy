@@ -9,6 +9,8 @@ public interface GraphNode {
     void setId(long id);
     
     String getNodeId();
+ 
+    NodeType getNodeType();
     
     GraphNode validate();
 }

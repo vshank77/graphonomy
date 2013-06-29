@@ -70,6 +70,11 @@ public class RelationClass implements GraphNode {
     }
 
     @Override
+    public NodeType getNodeType() {
+        return NodeType.RELATION_CLASS;
+    }
+
+    @Override
     public GraphNode validate() {
         checkNotNull(relationName);
         checkNotNull(type);

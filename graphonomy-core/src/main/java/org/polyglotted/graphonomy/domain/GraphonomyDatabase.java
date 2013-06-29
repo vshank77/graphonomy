@@ -3,8 +3,10 @@ package org.polyglotted.graphonomy.domain;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.polyglotted.graphonomy.domain.DatabaseConstants.IndexIds;
 import static org.polyglotted.graphonomy.domain.DatabaseConstants.IndexLinks;
+import static org.polyglotted.graphonomy.domain.DatabaseConstants.IndexTypes;
 import static org.polyglotted.graphonomy.domain.DatabaseConstants.Link;
 import static org.polyglotted.graphonomy.domain.DatabaseConstants.NodeId;
+import static org.polyglotted.graphonomy.domain.DatabaseConstants.NodeType;
 
 import java.util.List;
 import java.util.Map;
@@ -20,6 +22,7 @@ import org.neo4j.index.lucene.QueryContext;
 import org.polyglotted.graphonomy.model.GraphNode;
 import org.polyglotted.graphonomy.model.GraphRelation;
 import org.polyglotted.graphonomy.model.Link;
+import org.polyglotted.graphonomy.model.NodeType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +54,8 @@ public class GraphonomyDatabase {
         try {
             Node node = nodeFactory.getOrCreate(NodeId, gnode.validate().getNodeId());
             checkNotNull(node, "error creating or accessing node");
+            node.setProperty(NodeType, gnode.getNodeType().name());
+            indexFor(IndexTypes).add(node, NodeType, gnode.getNodeType());
             gnode.setId(node.getId());
             updater.reflectUpdate(node, gnode);
             return node;
@@ -83,13 +88,18 @@ public class GraphonomyDatabase {
         return indexFor(IndexIds).get(NodeId, code).getSingle();
     }
 
+    public PageResult findNodesByType(NodeType type, int pageSize, int pageStart) {
+        IndexHits<Node> source = indexFor(IndexTypes).get(NodeType, type);
+        return new PageResult(source, pageSize, pageStart);
+    }
+
     public IndexHits<Node> findNodesByCode(Iterable<String> codes) {
         String query = SPACE_JOINER.join(codes).toString();
         return indexFor(IndexIds).query(NodeId, new QueryContext(query).defaultOperator(Operator.OR));
     }
 
-    protected Index<Node> indexFor(String nodeType) {
-        return graphDb.index().forNodes(nodeType);
+    protected Index<Node> indexFor(String indexType) {
+        return graphDb.index().forNodes(indexType);
     }
 
     protected class UniqNodeFactory extends UniqueFactory.UniqueNodeFactory {
