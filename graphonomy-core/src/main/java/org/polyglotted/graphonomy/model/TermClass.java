@@ -56,6 +56,11 @@ public class TermClass implements GraphNode {
     }
 
     @Override
+    public String getNodeName() {
+        return getClassName();
+    }
+
+    @Override
     public NodeType getNodeType() {
         return NodeType.TERM_CLASS;
     }

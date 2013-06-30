@@ -91,6 +91,11 @@ public class Term implements GraphNode {
     }
 
     @Override
+    public String getNodeName() {
+        return getTermName();
+    }
+
+    @Override
     public NodeType getNodeType() {
         return NodeType.TERM;
     }

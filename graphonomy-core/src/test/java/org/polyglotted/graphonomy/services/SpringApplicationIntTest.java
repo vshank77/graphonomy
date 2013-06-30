@@ -1,6 +1,7 @@
 package org.polyglotted.graphonomy.services;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.polyglotted.graphonomy.dao.AbstractDaoTest.asStream;
 
 import java.io.File;
@@ -8,12 +9,14 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
+import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.kernel.impl.util.FileUtils;
 import org.polyglotted.graphonomy.dao.TermDao;
 import org.polyglotted.graphonomy.domain.PageResult;
@@ -61,6 +64,22 @@ public class SpringApplicationIntTest {
     @Test
     public void testFindAllTerms() {
         List<String> all = Lists.newArrayList();
+        IndexHits<Node> result = termDao.findAll();
+        try {
+            for (Node node : result) {
+                all.add((String) node.getProperty("termName"));
+            }
+        }
+        finally {
+            result.close();
+        }
+        Collections.sort(all);
+        assertThat(all, matchesAllTerms());
+    }
+
+    @Test
+    public void testFindAllTermsByPage() {
+        List<String> all = Lists.newArrayList();
         final int pageSize = 6;
         PageResult result = termDao.findAll(pageSize, 0);
         int totalSize = result.size(), index = 0, start = 0;
@@ -78,8 +97,28 @@ public class SpringApplicationIntTest {
                 result = termDao.findAll(pageSize, start++);
         }
         Collections.sort(all);
-        assertThat(all, Matchers.contains("Belgium", "China", "Chinese (Simplified)", "Chinese (Traditional)",
-                "Chinese, Wu", "Chinese, Xiang", "Countries", "English", "France", "French", "German", "Germany",
-                "Hong Kong", "India", "Norway", "Spain", "United Kingdom", "United States"));
+        assertThat(all, matchesAllTerms());
+    }
+
+    @Test
+    public void testSearchTerm() {
+        List<String> items = Lists.newArrayList();
+        PageResult result = termDao.search("chi", "Language Class", 10);
+        try {
+            for (Node node : result) {
+                items.add((String) node.getProperty("termName"));
+            }
+        }
+        finally {
+            result.close();
+        }
+        Collections.sort(items);
+        assertThat(items, contains("Chinese (Simplified)", "Chinese (Traditional)", "Chinese, Wu", "Chinese, Xiang"));
+    }
+
+    private Matcher<Iterable<? extends String>> matchesAllTerms() {
+        return Matchers.contains("Belgium", "China", "Chinese (Simplified)", "Chinese (Traditional)", "Chinese, Wu",
+                "Chinese, Xiang", "Countries", "English", "France", "French", "German", "Germany", "Hong Kong",
+                "India", "Norway", "Spain", "United Kingdom", "United States");
     }
 }

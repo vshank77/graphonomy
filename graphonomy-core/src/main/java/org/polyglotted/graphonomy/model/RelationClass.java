@@ -70,6 +70,11 @@ public class RelationClass implements GraphNode {
     }
 
     @Override
+    public String getNodeName() {
+        return getRelationName();
+    }
+
+    @Override
     public NodeType getNodeType() {
         return NodeType.RELATION_CLASS;
     }

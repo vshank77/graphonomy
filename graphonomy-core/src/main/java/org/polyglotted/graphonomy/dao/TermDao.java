@@ -1,5 +1,6 @@
 package org.polyglotted.graphonomy.dao;
 
+import org.polyglotted.graphonomy.domain.PageResult;
 import org.polyglotted.graphonomy.model.Term;
 
 public interface TermDao extends BaseDao<Term> {
@@ -13,4 +14,6 @@ public interface TermDao extends BaseDao<Term> {
      *            the Term origin for saving the relationships
      */
     void saveRelations(Term term);
+
+    PageResult search(String prefix, String className, int maxResults);
 }

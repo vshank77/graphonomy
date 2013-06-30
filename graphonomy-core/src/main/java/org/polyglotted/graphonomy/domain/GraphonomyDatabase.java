@@ -1,11 +1,13 @@
 package org.polyglotted.graphonomy.domain;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static org.neo4j.helpers.collection.MapUtil.stringMap;
+import static org.polyglotted.graphonomy.domain.DatabaseConstants.GlobalIndex;
 import static org.polyglotted.graphonomy.domain.DatabaseConstants.IndexIds;
 import static org.polyglotted.graphonomy.domain.DatabaseConstants.IndexLinks;
-import static org.polyglotted.graphonomy.domain.DatabaseConstants.IndexTypes;
 import static org.polyglotted.graphonomy.domain.DatabaseConstants.Link;
 import static org.polyglotted.graphonomy.domain.DatabaseConstants.NodeId;
+import static org.polyglotted.graphonomy.domain.DatabaseConstants.NodeName;
 import static org.polyglotted.graphonomy.domain.DatabaseConstants.NodeType;
 
 import java.util.List;
@@ -54,10 +56,9 @@ public class GraphonomyDatabase {
         try {
             Node node = nodeFactory.getOrCreate(NodeId, gnode.validate().getNodeId());
             checkNotNull(node, "error creating or accessing node");
-            node.setProperty(NodeType, gnode.getNodeType().name());
-            indexFor(IndexTypes).add(node, NodeType, gnode.getNodeType());
+            addToGlobalIndex(gnode, node);
             gnode.setId(node.getId());
-            updater.reflectUpdate(node, gnode);
+            updater.reflectUpdate(node, gnode); // remove props before??
             return node;
         }
         catch (Exception ex) {
@@ -88,17 +89,41 @@ public class GraphonomyDatabase {
         return indexFor(IndexIds).get(NodeId, code).getSingle();
     }
 
-    public PageResult findNodesByType(NodeType type, int pageSize, int pageStart) {
-        IndexHits<Node> source = indexFor(IndexTypes).get(NodeType, type);
-        return new PageResult(source, pageSize, pageStart);
-    }
-
     public IndexHits<Node> findNodesByCode(Iterable<String> codes) {
         String query = SPACE_JOINER.join(codes).toString();
         return indexFor(IndexIds).query(NodeId, new QueryContext(query).defaultOperator(Operator.OR));
     }
 
-    protected Index<Node> indexFor(String indexType) {
+    public IndexHits<Node> findNodesByType(NodeType type) {
+        return globalIndex().get(NodeType, type);
+    }
+
+    public IndexHits<Node> findNodes(String name, Map<String, String> keyFields) {
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, String> entry : keyFields.entrySet()) {
+            sb.append(entry.getKey());
+            sb.append(":\"");
+            sb.append(entry.getValue());
+            sb.append("\" AND ");
+        }
+        sb.append(SearchHelper.stem(name, NodeName));
+        System.out.println(sb);
+        QueryContext context = new QueryContext(sb.toString()).sortByScore();
+        return globalIndex().query(context);
+    }
+
+    protected void addToGlobalIndex(GraphNode gnode, Node node) {
+        globalIndex().remove(node);
+        globalIndex().add(node, NodeType, gnode.getNodeType());
+        globalIndex().add(node, NodeName, gnode.getNodeName());
+    }
+
+    public Index<Node> globalIndex() {
+        return graphDb.index().forNodes(GlobalIndex,
+                stringMap("provider", "lucene", "analyzer", "org.polyglotted.graphonomy.domain.SimpleSchemaAnalyzer"));
+    }
+
+    private Index<Node> indexFor(String indexType) {
         return graphDb.index().forNodes(indexType);
     }
 

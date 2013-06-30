@@ -1,6 +1,8 @@
 package org.polyglotted.graphonomy.dao;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static org.neo4j.helpers.collection.MapUtil.stringMap;
+import static org.polyglotted.graphonomy.domain.DatabaseConstants.NodeType;
 import static org.polyglotted.graphonomy.domain.DatabaseConstants.Status;
 import static org.polyglotted.graphonomy.model.Status.active;
 import static org.polyglotted.graphonomy.model.Status.deleted;
@@ -9,6 +11,7 @@ import java.lang.reflect.ParameterizedType;
 
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.index.IndexHits;
 import org.polyglotted.graphonomy.domain.DomainFailureException;
 import org.polyglotted.graphonomy.domain.GraphonomyDatabase;
 import org.polyglotted.graphonomy.domain.PageResult;
@@ -42,8 +45,20 @@ public abstract class AbstractDao<T extends GraphNode> implements BaseDao<T> {
     }
 
     @Override
+    public IndexHits<Node> findAll() {
+        return database.findNodesByType(getNodeType());
+    }
+
+    @Override
     public PageResult findAll(int pageSize, int pageStart) {
-        return database.findNodesByType(getNodeType(), pageSize, pageStart);
+        IndexHits<Node> source = database.findNodesByType(getNodeType());
+        return new PageResult(source, pageSize, pageStart);
+    }
+
+    @Override
+    public PageResult search(String prefix, int maxResults) {
+        IndexHits<Node> source = database.findNodes(prefix, stringMap(NodeType, getNodeType().name()));
+        return new PageResult(source, maxResults, 0);
     }
 
     @Override

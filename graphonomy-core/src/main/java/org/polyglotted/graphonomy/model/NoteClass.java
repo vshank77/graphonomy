@@ -75,6 +75,11 @@ public class NoteClass implements GraphNode {
     }
 
     @Override
+    public String getNodeName() {
+        return getNoteLabel();
+    }
+
+    @Override
     public NodeType getNodeType() {
         return NodeType.NOTE_CLASS;
     }
