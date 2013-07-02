@@ -1,13 +1,16 @@
 package org.polyglotted.graphonomy.model;
 
 import java.util.Date;
+import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import org.polyglotted.graphonomy.util.DateUtils;
 
+import com.google.common.collect.Maps;
+
 public enum TypeSafe {
-    str {
+    str("string", "normalizedString") {
         @Override
         @SuppressWarnings("unchecked")
         public String validatedValue(String value, NoteClass clazz) {
@@ -43,7 +46,7 @@ public enum TypeSafe {
             return value;
         }
     },
-    bool {
+    bool("boolean") {
         @Override
         @SuppressWarnings("unchecked")
         public Boolean validatedValue(String value, NoteClass clazz) {
@@ -58,7 +61,8 @@ public enum TypeSafe {
                     || "1".equalsIgnoreCase(value);
         }
     },
-    number {
+    number("byte", "short", "int", "integer", "long", "positiveIntger", "negativeInteger", "nonPositiveInteger",
+            "nonNegativeInteger", "unsignedByte", "unsignedShort", "unsignedInt", "unsignedLong") {
         @Override
         @SuppressWarnings("unchecked")
         public Number validatedValue(String value, NoteClass clazz) {
@@ -78,7 +82,7 @@ public enum TypeSafe {
             return number;
         }
     },
-    decimal {
+    decimal("decimal", "float", "double") {
         @Override
         @SuppressWarnings("unchecked")
         public Double validatedValue(String value, NoteClass clazz) {
@@ -98,7 +102,7 @@ public enum TypeSafe {
             return number;
         }
     },
-    date {
+    date("date", "dateTime") {
         @Override
         @SuppressWarnings("unchecked")
         public Date validatedValue(String value, NoteClass clazz) {
@@ -115,7 +119,26 @@ public enum TypeSafe {
         }
     };
 
+    private static final Map<String, TypeSafe> namesMap = Maps.newHashMap();
+    static {
+        for (TypeSafe type : TypeSafe.values()) {
+            for (String alt : type.altNames) {
+                namesMap.put(alt, type);
+            }
+        }
+    }
+
+    private final String[] altNames;
+
+    private TypeSafe(String... altNames) {
+        this.altNames = altNames;
+    }
+
     public abstract <T> T validatedValue(String value, NoteClass clazz);
+
+    public static TypeSafe from(String name) {
+        return namesMap.get(name);
+    }
 
     private static Number asNumber(String value, String message) {
         try {
