@@ -1,7 +1,6 @@
 package org.polyglotted.graphonomy.model;
 
-//marker interface
-public interface GraphNode {
+public interface GraphNode extends Validated<GraphNode> {
 
     long getId();
 
@@ -12,6 +11,4 @@ public interface GraphNode {
     String getNodeName();
 
     NodeType getNodeType();
-
-    GraphNode validate();
 }

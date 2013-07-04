@@ -25,7 +25,8 @@ public class PropertyUpdaterTest {
         PropertyUpdater updater = new PropertyUpdater();
         Term term = new Term("id", "value");
         term.addCategory(new Category("id", "Test Class"));
-        term.addPosting(new Posting("urn:isbn:12331Abcd28", "field", "325"));
-        updater.reflectUpdate(mockNode, term.validate());
+        term.addPosting(Posting.from("urn:isbn:12331Abcd28", "field", "325"));
+        term.validate();
+        updater.reflectUpdate(mockNode, term);
     }
 }

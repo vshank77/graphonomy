@@ -35,8 +35,8 @@ public class TermClassDaoTest extends AbstractDaoTest<TermClass> {
         final TermClass cls1 = new TermClass("parCls");
         final TermClass cls2 = new TermClass("relCls");
         final TermClass termClass = new TermClass("testCls").setParentClassName("parCls");
-        termClass.addMetaNote(new MetaNote(termClass, noteClass, true));
-        termClass.addMetaRelation(new MetaRelation(termClass, relClass, cls2));
+        termClass.addMetaNote(MetaNote.from(termClass, noteClass, true));
+        termClass.addMetaRelation(MetaRelation.from(termClass, relClass, cls2));
         Node node = execute(new TxCallback<Node>() {
             @Override
             public Node doInTransaction() {

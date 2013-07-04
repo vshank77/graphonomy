@@ -11,7 +11,7 @@ import org.neo4j.graphdb.Node;
 
 public class NoteClassJsonExporter extends AbstractJsonExporter<Node> {
 
-    private static final List<String> NOTECLASS_PROPS = asList("noteLabel", "type", "defaultValue", "required",
+    private static final List<String> NOTECLASS_PROPS = asList("noteId", "noteLabel", "type", "defaultValue", "required",
             "enums", "pattern", "$range");
 
     public NoteClassJsonExporter(OutputStream output) {
@@ -25,8 +25,8 @@ public class NoteClassJsonExporter extends AbstractJsonExporter<Node> {
     @Override
     protected void write(Node value) throws IOException {
         json.writeStartObject();
-        writeId(value);
         writeProperties(value, NOTECLASS_PROPS);
+        writeId(value);
         json.writeEndObject();
     }
 }

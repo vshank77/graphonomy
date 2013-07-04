@@ -39,13 +39,13 @@ public class TermDaoTest extends AbstractDaoTest<Term> {
         final RelationClass relClass = new RelationClass("relation");
         final TermClass termClass = new TermClass("testCls");
         final Term relTerm = new Term("relid", "relname");
-        relTerm.addCategory(new Category(relTerm, termClass));
+        relTerm.addCategory(Category.from(relTerm, termClass));
         final Term term = new Term("id", "name").setLanguage("english");
         term.setQualifier("qual1").setVocabulary("vocab").setSortkey("sorter");
-        term.addPosting(new Posting("urn:isbn123", "field1", "25"));
-        term.addCategory(new Category(term, termClass));
-        term.addNote(new Note(term, noteClass, "note value"));
-        term.addRelation(new Relation(term, relClass.toRelationshipType(), relTerm));
+        term.addPosting(Posting.from("urn:isbn123", "field1", "25"));
+        term.addCategory(Category.from(term, termClass));
+        term.addNote(Note.from(term, noteClass, "note value"));
+        term.addRelation(Relation.from(term, relClass.toRelationshipType(), relTerm));
 
         Node node = execute(new TxCallback<Node>() {
             @Override
@@ -71,6 +71,6 @@ public class TermDaoTest extends AbstractDaoTest<Term> {
 
     @Override
     protected Term loadTestSubject(String nodeId) {
-        return new Term(nodeId, nodeId).addCategory(new Category(nodeId, ROOTS));
+        return new Term(nodeId, nodeId).addCategory(Category.from(nodeId, ROOTS));
     }
 }

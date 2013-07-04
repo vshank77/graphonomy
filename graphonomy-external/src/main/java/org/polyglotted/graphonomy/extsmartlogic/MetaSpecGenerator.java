@@ -47,19 +47,19 @@ public class MetaSpecGenerator {
             if (classType.getAttributeTypesForClassType() != null) {
                 for (AttrTypeForClass attr : classType.getAttributeTypesForClassType().getAttributeTypeForClassType()) {
                     NoteClass noteCls = notesMap.get("attr" + attr.getTypeId());
-                    termCls.addMetaNote(new MetaNote(termCls, noteCls, false));
+                    termCls.addMetaNote(MetaNote.from(termCls, noteCls, false));
                 }
             }
             if (classType.getChoiceTypesForClassType() != null) {
                 for (OptionTypeForClass choice : classType.getChoiceTypesForClassType().getChoiceTypeForClassType()) {
                     NoteClass noteCls = notesMap.get("choice" + choice.getTypeId());
-                    termCls.addMetaNote(new MetaNote(termCls, noteCls, choice.isMandatory() == (byte) 1));
+                    termCls.addMetaNote(MetaNote.from(termCls, noteCls, choice.isMandatory() == (byte) 1));
                 }
             }
             if (classType.getNoteTypesForClassType() != null) {
                 for (OptionTypeForClass note : classType.getNoteTypesForClassType().getNoteTypeForClassType()) {
                     NoteClass noteCls = notesMap.get("note" + note.getTypeId());
-                    termCls.addMetaNote(new MetaNote(termCls, noteCls, note.isMandatory() == (byte) 1));
+                    termCls.addMetaNote(MetaNote.from(termCls, noteCls, note.isMandatory() == (byte) 1));
                 }
             }
             if (classType.getRelationshipTypesForClassType() != null) {
@@ -126,7 +126,8 @@ public class MetaSpecGenerator {
 
     private void generateNotesFromAttributes(List<AttributeTypeWrapper> attributes) {
         for (AttributeTypeWrapper attr : attributes) {
-            NoteClass cls = new NoteClass(attr.getName(), TypeSafe.bool).setDefaultValue("1");
+            NoteClass cls = new NoteClass(attr.getName(), attr.getName(), TypeSafe.bool);
+            cls.setDefaultValue("1");
             spec.addNoteClass(cls);
             notesMap.put("attr" + attr.getId(), cls);
         }

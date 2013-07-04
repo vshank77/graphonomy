@@ -12,7 +12,8 @@ import org.polyglotted.graphonomy.model.TypeSafe;
 
 public final class DatabaseDefaults {
 
-    public static final NoteClass SCOPE = new NoteClass("Scope Note", TypeSafe.str).setRange(0, 4000).setPattern(".*");
+    public static final NoteClass SCOPE = (NoteClass) new NoteClass("Scope Note", "Scope Note", TypeSafe.str).setRange(
+            0, 4000).setPattern(".*");
 
     public static final RelationClass BT = new RelationClass("BT", hierarchy, "Broader Term").setExtended(false);
     public static final RelationClass NT = new RelationClass("NT", hierarchy, "Narrower Term").setExtended(false);

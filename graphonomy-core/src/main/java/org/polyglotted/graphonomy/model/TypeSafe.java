@@ -13,7 +13,7 @@ public enum TypeSafe {
     str("string", "normalizedString") {
         @Override
         @SuppressWarnings("unchecked")
-        public String validatedValue(String value, NoteClass clazz) {
+        public String validatedValue(String value, AbstractNoteClass clazz) {
             if (value == null) {
                 if (clazz.getDefaultValue() != null)
                     return clazz.getDefaultValue();
@@ -49,7 +49,7 @@ public enum TypeSafe {
     bool("boolean") {
         @Override
         @SuppressWarnings("unchecked")
-        public Boolean validatedValue(String value, NoteClass clazz) {
+        public Boolean validatedValue(String value, AbstractNoteClass clazz) {
             if (value == null) {
                 if (clazz.getDefaultValue() != null) {
                     return Boolean.parseBoolean(clazz.getDefaultValue());
@@ -65,7 +65,7 @@ public enum TypeSafe {
             "nonNegativeInteger", "unsignedByte", "unsignedShort", "unsignedInt", "unsignedLong") {
         @Override
         @SuppressWarnings("unchecked")
-        public Number validatedValue(String value, NoteClass clazz) {
+        public Number validatedValue(String value, AbstractNoteClass clazz) {
             if (value == null) {
                 if (clazz.getDefaultValue() != null) {
                     return asNumber(clazz.getDefaultValue(), "unable to parse defaultValue as a number ");
@@ -85,7 +85,7 @@ public enum TypeSafe {
     decimal("decimal", "float", "double") {
         @Override
         @SuppressWarnings("unchecked")
-        public Double validatedValue(String value, NoteClass clazz) {
+        public Double validatedValue(String value, AbstractNoteClass clazz) {
             if (value == null) {
                 if (clazz.getDefaultValue() != null) {
                     return asDecimal(clazz.getDefaultValue(), "unable to parse defaultValue as a decimal ");
@@ -105,7 +105,7 @@ public enum TypeSafe {
     date("date", "dateTime") {
         @Override
         @SuppressWarnings("unchecked")
-        public Date validatedValue(String value, NoteClass clazz) {
+        public Date validatedValue(String value, AbstractNoteClass clazz) {
             if (value == null) {
                 if (clazz.getDefaultValue() != null) {
                     return asDate(clazz.getDefaultValue(), "unable to parse defaultValue as a date ");
@@ -134,7 +134,7 @@ public enum TypeSafe {
         this.altNames = altNames;
     }
 
-    public abstract <T> T validatedValue(String value, NoteClass clazz);
+    public abstract <T> T validatedValue(String value, AbstractNoteClass clazz);
 
     public static TypeSafe from(String name) {
         return namesMap.get(name);

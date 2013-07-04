@@ -20,4 +20,4 @@ test-output/
 
 #Jrebel
 src/main/resources/rebel.xml
-
+schema-repo/

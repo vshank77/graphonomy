@@ -91,7 +91,7 @@ public class ZthesOntologyParser {
         List<Posting> postings = Lists.transform(wrapper.getPostings(), new Function<PostingWrapper, Posting>() {
             @Override
             public Posting apply(PostingWrapper post) {
-                return new Posting(post.getSourceDb(), post.getFieldName(), post.getHitCount());
+                return Posting.from(post.getSourceDb(), post.getFieldName(), post.getHitCount());
             }
         });
         if (postings.size() > 0) {

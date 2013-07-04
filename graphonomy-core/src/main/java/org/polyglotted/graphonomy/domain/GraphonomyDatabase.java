@@ -58,7 +58,7 @@ public class GraphonomyDatabase {
             checkNotNull(node, "error creating or accessing node");
             addToGlobalIndex(gnode, node);
             gnode.setId(node.getId());
-            updater.reflectUpdate(node, gnode); // remove props before??
+            updater.reflectUpdate(node, gnode);
             return node;
         }
         catch (Exception ex) {
@@ -69,7 +69,8 @@ public class GraphonomyDatabase {
 
     public List<Relationship> saveRelations(GraphRelation relation) {
         List<Relationship> result = Lists.newArrayList();
-        for (Link link : relation.getLinks()) {
+        for (Link link : relation.validate().getLinks()) {
+            link.validate();
             try {
                 Relationship relationship = relFactory.getOrCreate(Link, link);
                 checkNotNull(relationship, "error creating or accessing relationship for " + link);
@@ -107,7 +108,6 @@ public class GraphonomyDatabase {
             sb.append("\" AND ");
         }
         sb.append(SearchHelper.stem(name, NodeName));
-        System.out.println(sb);
         QueryContext context = new QueryContext(sb.toString()).sortByScore();
         return globalIndex().query(context);
     }
