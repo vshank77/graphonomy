@@ -5,7 +5,8 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
-import org.polyglotted.graphonomy.exports.JsonException;
+import lombok.SneakyThrows;
+
 import org.polyglotted.graphonomy.model.TermType;
 import org.polyglotted.graphonomy.model.TermTypeFactory;
 
@@ -22,7 +23,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
-public class JsonUtils {
+public abstract class JsonUtils {
     protected static final ObjectMapper Mapper = new ObjectMapper();
     protected static final JsonFactory JsonFactory = new JsonFactory(Mapper);
     static {
@@ -44,31 +45,19 @@ public class JsonUtils {
         return createGenerator(new OutputStreamWriter(output));
     }
 
+    @SneakyThrows
     public static JsonGenerator createGenerator(Writer output) {
-        try {
-            return JsonFactory.createGenerator(output);
-        }
-        catch (IOException ioe) {
-            throw new JsonException("unable to create node writer", ioe);
-        }
+        return JsonFactory.createGenerator(output);
     }
 
+    @SneakyThrows
     public static String asPrettyJson(Object value) {
-        try {
-            return Mapper.writerWithDefaultPrettyPrinter().writeValueAsString(value);
-        }
-        catch (IOException ioe) {
-            throw new JsonException("asPrettyJson failed", ioe);
-        }
+        return Mapper.writerWithDefaultPrettyPrinter().writeValueAsString(value);
     }
 
+    @SneakyThrows
     public static String asJson(Object value) {
-        try {
-            return Mapper.writeValueAsString(value);
-        }
-        catch (IOException ioe) {
-            throw new JsonException("asJson failed", ioe);
-        }
+        return Mapper.writeValueAsString(value);
     }
 
     public static ObjectMapper mapper() {
@@ -76,7 +65,6 @@ public class JsonUtils {
     }
 
     static class TermTypeDeserializer extends StdDeserializer<TermType> {
-
         private static final long serialVersionUID = -3640287104633732032L;
 
         public TermTypeDeserializer() {

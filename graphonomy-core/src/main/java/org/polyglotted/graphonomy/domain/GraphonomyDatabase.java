@@ -13,6 +13,8 @@ import static org.polyglotted.graphonomy.domain.DatabaseConstants.NodeType;
 import java.util.List;
 import java.util.Map;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.lucene.queryParser.QueryParser.Operator;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
@@ -25,18 +27,18 @@ import org.polyglotted.graphonomy.model.GraphNode;
 import org.polyglotted.graphonomy.model.GraphRelation;
 import org.polyglotted.graphonomy.model.Link;
 import org.polyglotted.graphonomy.model.NodeType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 
-@Component
-public class GraphonomyDatabase {
+@Slf4j
+@Service
+public class GraphonomyDatabase implements InitializingBean, DisposableBean {
 
-    private static final Logger logger = LoggerFactory.getLogger(GraphonomyDatabase.class);
     private static final Joiner SPACE_JOINER = Joiner.on(" ");
 
     protected final GraphDatabaseService graphDb;
@@ -49,7 +51,18 @@ public class GraphonomyDatabase {
         this.graphDb = graphDb;
         this.nodeFactory = new UniqNodeFactory(graphDb);
         this.relFactory = new UniqRelFactory(graphDb);
+    }
+
+    @Override
+    public void afterPropertiesSet() {
+        log.debug("saving database defaults");
         DatabaseDefaults.saveAll(this);
+    }
+
+    @Override
+    public void destroy() {
+        log.debug("shutting down db");
+        graphDb.shutdown();
     }
 
     public Node saveNode(GraphNode gnode) {
@@ -62,7 +75,7 @@ public class GraphonomyDatabase {
             return node;
         }
         catch (Exception ex) {
-            logger.error("error creating node \n", ex);
+            log.error("error creating node \n", ex);
             throw new DomainFailureException();
         }
     }
@@ -78,8 +91,8 @@ public class GraphonomyDatabase {
                 result.add(relationship);
             }
             catch (Exception ex) {
-                logger.error("error in " + link.toString());
-                logger.error("error creating relationship \n", ex);
+                log.error("error in " + link.toString());
+                log.error("error creating relationship \n", ex);
                 throw new DomainFailureException();
             }
         }
@@ -146,15 +159,9 @@ public class GraphonomyDatabase {
         @Override
         protected Relationship create(Map<String, Object> properties) {
             Link link = (Link) properties.get(Link);
-            try {
-                Node fromNode = findNodeByCode(link.getFrom());
-                Node toNode = findNodeByCode(link.getTo());
-                return fromNode.createRelationshipTo(toNode, link.getRel());
-            }
-            catch (RuntimeException re) {
-                System.err.println("failed to create rel on " + link);
-                throw re;
-            }
+            Node fromNode = findNodeByCode(link.getFrom());
+            Node toNode = findNodeByCode(link.getTo());
+            return fromNode.createRelationshipTo(toNode, DatabaseConstants.typeFor(link.getRel()));
         }
     }
 }

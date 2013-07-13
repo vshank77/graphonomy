@@ -1,0 +1,930 @@
+{
+  "fields" : {
+    "urn:org.polyglotted.schemarepo/petstore/version" : {
+      "id" : -1,
+      "noteId" : "urn:org.polyglotted.schemarepo/petstore/version",
+      "noteLabel" : "version",
+      "type" : "str",
+      "defaultValue" : "1.0.1",
+      "required" : false,
+      "fieldType" : "ValueType",
+      "globalScope" : true
+    },
+    "urn:org.polyglotted.schemarepo/petstore/productid" : {
+      "id" : -1,
+      "noteId" : "urn:org.polyglotted.schemarepo/petstore/productid",
+      "noteLabel" : "productid",
+      "type" : "str",
+      "required" : false,
+      "range" : {
+        "min" : 0,
+        "max" : 10
+      },
+      "fieldType" : "ValueType",
+      "globalScope" : true
+    },
+    "urn:org.polyglotted.schemarepo/petstore/varchar5" : {
+      "id" : -1,
+      "noteId" : "urn:org.polyglotted.schemarepo/petstore/varchar5",
+      "noteLabel" : "varchar5",
+      "type" : "str",
+      "required" : false,
+      "range" : {
+        "min" : 0,
+        "max" : 5
+      },
+      "fieldType" : "ValueType",
+      "globalScope" : true
+    },
+    "urn:org.polyglotted.schemarepo/petstore/orderid" : {
+      "id" : -1,
+      "noteId" : "urn:org.polyglotted.schemarepo/petstore/orderid",
+      "noteLabel" : "orderid",
+      "type" : "decimal",
+      "required" : false,
+      "pattern" : "[\\-+]?[0-9]+",
+      "range" : {
+        "min" : 1,
+        "max" : 2147483647
+      },
+      "fieldType" : "ValueType",
+      "globalScope" : true
+    },
+    "urn:org.polyglotted.schemarepo/petstore/status" : {
+      "id" : -1,
+      "noteId" : "urn:org.polyglotted.schemarepo/petstore/status",
+      "noteLabel" : "status",
+      "type" : "str",
+      "required" : false,
+      "enums" : [ "not_started", "in_progress", "packed", "shipped", "delivered" ],
+      "fieldType" : "ValueType",
+      "globalScope" : true
+    },
+    "urn:org.polyglotted.schemarepo/petstore/itemid" : {
+      "id" : -1,
+      "noteId" : "urn:org.polyglotted.schemarepo/petstore/itemid",
+      "noteLabel" : "itemid",
+      "type" : "str",
+      "required" : false,
+      "range" : {
+        "min" : 0,
+        "max" : 10
+      },
+      "fieldType" : "ValueType",
+      "globalScope" : true
+    },
+    "urn:org.polyglotted.schemarepo/petstore/price" : {
+      "id" : -1,
+      "noteId" : "urn:org.polyglotted.schemarepo/petstore/price",
+      "noteLabel" : "price",
+      "type" : "decimal",
+      "required" : false,
+      "pattern" : "[\\-+]?[0-9]{8}.[0-9]{2}",
+      "fieldType" : "ValueType",
+      "globalScope" : true
+    },
+    "urn:org.polyglotted.schemarepo/petstore/userid" : {
+      "id" : -1,
+      "noteId" : "urn:org.polyglotted.schemarepo/petstore/userid",
+      "noteLabel" : "userid",
+      "type" : "str",
+      "required" : false,
+      "range" : {
+        "min" : 0,
+        "max" : 80
+      },
+      "fieldType" : "ValueType",
+      "globalScope" : true
+    },
+    "urn:org.polyglotted.schemarepo/petstore/catid" : {
+      "id" : -1,
+      "noteId" : "urn:org.polyglotted.schemarepo/petstore/catid",
+      "noteLabel" : "catid",
+      "type" : "str",
+      "required" : false,
+      "range" : {
+        "min" : 0,
+        "max" : 10
+      },
+      "fieldType" : "ValueType",
+      "globalScope" : true
+    },
+    "urn:org.polyglotted.schemarepo/petstore/suppid" : {
+      "id" : -1,
+      "noteId" : "urn:org.polyglotted.schemarepo/petstore/suppid",
+      "noteLabel" : "suppid",
+      "type" : "decimal",
+      "required" : false,
+      "pattern" : "[\\-+]?[0-9]+",
+      "range" : {
+        "min" : 1,
+        "max" : 2147483647
+      },
+      "fieldType" : "ValueType",
+      "globalScope" : true
+    },
+    "urn:org.polyglotted.schemarepo/petstore/email" : {
+      "id" : -1,
+      "noteId" : "urn:org.polyglotted.schemarepo/petstore/email",
+      "noteLabel" : "email",
+      "type" : "str",
+      "required" : false,
+      "pattern" : "[_A-Za-z0-9-]+(\\\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\\\.[A-Za-z0-9]+)*(\\\\.[A-Za-z]{2,})",
+      "fieldType" : "ValueType",
+      "globalScope" : true
+    },
+    "urn:org.polyglotted.schemarepo/petstore/linenum" : {
+      "id" : -1,
+      "noteId" : "urn:org.polyglotted.schemarepo/petstore/linenum",
+      "noteLabel" : "linenum",
+      "type" : "decimal",
+      "required" : false,
+      "pattern" : "[\\-+]?[0-9]+",
+      "range" : {
+        "min" : 1,
+        "max" : 2147483647
+      },
+      "fieldType" : "ValueType",
+      "globalScope" : true
+    },
+    "urn:org.polyglotted.schemarepo/petstore/Inventory#qty" : {
+      "id" : -1,
+      "noteId" : "urn:org.polyglotted.schemarepo/petstore/Inventory#qty",
+      "noteLabel" : "qty",
+      "type" : "decimal",
+      "required" : true,
+      "pattern" : "[\\-+]?[0-9]+",
+      "fieldType" : "ValueType",
+      "globalScope" : false
+    },
+    "urn:org.polyglotted.schemarepo/petstore/Inventory#expiry" : {
+      "id" : -1,
+      "noteId" : "urn:org.polyglotted.schemarepo/petstore/Inventory#expiry",
+      "noteLabel" : "expiry",
+      "type" : "date",
+      "required" : false,
+      "range" : {
+        "min" : 1370044800000,
+        "max" : 32503680000000
+      },
+      "fieldType" : "ValueType",
+      "globalScope" : false
+    },
+    "urn:org.polyglotted.schemarepo/petstore/Account#status" : {
+      "id" : -1,
+      "noteId" : "urn:org.polyglotted.schemarepo/petstore/Account#status",
+      "noteLabel" : "status",
+      "type" : "str",
+      "required" : true,
+      "enums" : [ "active", "disabled", "deleted" ],
+      "fieldType" : "ValueType",
+      "globalScope" : false
+    },
+    "urn:org.polyglotted.schemarepo/petstore/Supplier#status" : {
+      "id" : -1,
+      "noteId" : "urn:org.polyglotted.schemarepo/petstore/Supplier#status",
+      "noteLabel" : "status",
+      "type" : "str",
+      "required" : true,
+      "enums" : [ "evaluation", "approved", "rejected" ],
+      "fieldType" : "ValueType",
+      "globalScope" : false
+    },
+    "urn:org.polyglotted.schemarepo/petstore/LineItem#quantity" : {
+      "id" : -1,
+      "noteId" : "urn:org.polyglotted.schemarepo/petstore/LineItem#quantity",
+      "noteLabel" : "quantity",
+      "type" : "decimal",
+      "required" : true,
+      "pattern" : "[\\-+]?[0-9]+",
+      "fieldType" : "ValueType",
+      "globalScope" : false
+    },
+    "urn:org.polyglotted.schemarepo/petstore/Item#status" : {
+      "id" : -1,
+      "noteId" : "urn:org.polyglotted.schemarepo/petstore/Item#status",
+      "noteLabel" : "status",
+      "type" : "str",
+      "required" : false,
+      "enums" : [ "in_stock", "out_of_stock", "discontinued" ],
+      "fieldType" : "ValueType",
+      "globalScope" : false
+    }
+  },
+  "entities" : {
+    "urn:org.polyglotted.schemarepo/petstore/Inventory" : {
+      "id" : -1,
+      "termId" : "urn:org.polyglotted.schemarepo/petstore/Inventory",
+      "termName" : "Inventory",
+      "termType" : "PT",
+      "update" : "add",
+      "status" : "active",
+      "approval" : "approved",
+      "createdBy" : "admin",
+      "createdDate" : "2013-07-09T06:04:35Z",
+      "modifiedBy" : "admin",
+      "modifiedDate" : "2013-07-09T06:04:35Z",
+      "fields" : [ {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Inventory",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/itemid",
+        "fieldName" : "itemid",
+        "fieldType" : "ValueType",
+        "mandatory" : false,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Inventory",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/Inventory#qty",
+        "fieldName" : "qty",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Inventory",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/Inventory#expiry",
+        "fieldName" : "expiry",
+        "fieldType" : "ValueType",
+        "mandatory" : false,
+        "multiple" : false
+      } ]
+    },
+    "urn:org.polyglotted.schemarepo/petstore/Order" : {
+      "id" : -1,
+      "termId" : "urn:org.polyglotted.schemarepo/petstore/Order",
+      "termName" : "Order",
+      "termType" : "PT",
+      "update" : "add",
+      "status" : "active",
+      "approval" : "approved",
+      "createdBy" : "admin",
+      "createdDate" : "2013-07-09T06:04:35Z",
+      "modifiedBy" : "admin",
+      "modifiedDate" : "2013-07-09T06:04:35Z",
+      "fields" : [ {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Order",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/orderid",
+        "fieldName" : "orderid",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Order",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/userid",
+        "fieldName" : "userid",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Order",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/date",
+        "fieldName" : "orderdate",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Order",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/status",
+        "fieldName" : "status",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Order",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "shipaddr1",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Order",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "shipaddr2",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Order",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "shipcity",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Order",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "shipstate",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Order",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "shipzip",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Order",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "shipcountry",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Order",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "billaddr1",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Order",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "billaddr2",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Order",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "billcity",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Order",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "billstate",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Order",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "billzip",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Order",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "billcountry",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Order",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "courier",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Order",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/price",
+        "fieldName" : "totalprice",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Order",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "shiptofirstname",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Order",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "shiptolastname",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Order",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "billtofirstname",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Order",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "billtolastname",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Order",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "creditcard",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Order",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/date",
+        "fieldName" : "exprdate",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Order",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "cardtype",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Order",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "locale",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Order",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/LineItem",
+        "fieldName" : "lineitem",
+        "fieldType" : "EntityType",
+        "mandatory" : true,
+        "multiple" : true
+      } ]
+    },
+    "urn:org.polyglotted.schemarepo/petstore/Account" : {
+      "id" : -1,
+      "termId" : "urn:org.polyglotted.schemarepo/petstore/Account",
+      "termName" : "Account",
+      "termType" : "PT",
+      "update" : "add",
+      "status" : "active",
+      "approval" : "approved",
+      "createdBy" : "admin",
+      "createdDate" : "2013-07-09T06:04:35Z",
+      "modifiedBy" : "admin",
+      "modifiedDate" : "2013-07-09T06:04:35Z",
+      "fields" : [ {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Account",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/userid",
+        "fieldName" : "userid",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Account",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/email",
+        "fieldName" : "email",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Account",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "firstname",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Account",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "lastname",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Account",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/Account#status",
+        "fieldName" : "status",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Account",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "addr1",
+        "fieldType" : "ValueType",
+        "mandatory" : false,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Account",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "addr2",
+        "fieldType" : "ValueType",
+        "mandatory" : false,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Account",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "city",
+        "fieldType" : "ValueType",
+        "mandatory" : false,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Account",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "state",
+        "fieldType" : "ValueType",
+        "mandatory" : false,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Account",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "country",
+        "fieldType" : "ValueType",
+        "mandatory" : false,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Account",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/varchar5",
+        "fieldName" : "zip",
+        "fieldType" : "ValueType",
+        "mandatory" : false,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Account",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "phone",
+        "fieldType" : "ValueType",
+        "mandatory" : false,
+        "multiple" : false
+      } ]
+    },
+    "urn:org.polyglotted.schemarepo/petstore/Supplier" : {
+      "id" : -1,
+      "termId" : "urn:org.polyglotted.schemarepo/petstore/Supplier",
+      "termName" : "Supplier",
+      "termType" : "PT",
+      "update" : "add",
+      "status" : "active",
+      "approval" : "approved",
+      "createdBy" : "admin",
+      "createdDate" : "2013-07-09T06:04:35Z",
+      "modifiedBy" : "admin",
+      "modifiedDate" : "2013-07-09T06:04:35Z",
+      "fields" : [ {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Supplier",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/suppid",
+        "fieldName" : "suppid",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Supplier",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "name",
+        "fieldType" : "ValueType",
+        "mandatory" : false,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Supplier",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/Supplier#status",
+        "fieldName" : "status",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Supplier",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "addr1",
+        "fieldType" : "ValueType",
+        "mandatory" : false,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Supplier",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "addr2",
+        "fieldType" : "ValueType",
+        "mandatory" : false,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Supplier",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "city",
+        "fieldType" : "ValueType",
+        "mandatory" : false,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Supplier",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "state",
+        "fieldType" : "ValueType",
+        "mandatory" : false,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Supplier",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/varchar5",
+        "fieldName" : "zip",
+        "fieldType" : "ValueType",
+        "mandatory" : false,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Supplier",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "phone",
+        "fieldType" : "ValueType",
+        "mandatory" : false,
+        "multiple" : false
+      } ]
+    },
+    "urn:org.polyglotted.schemarepo/petstore/Profile" : {
+      "id" : -1,
+      "termId" : "urn:org.polyglotted.schemarepo/petstore/Profile",
+      "termName" : "Profile",
+      "termType" : "PT",
+      "update" : "add",
+      "status" : "active",
+      "approval" : "approved",
+      "createdBy" : "admin",
+      "createdDate" : "2013-07-09T06:04:35Z",
+      "modifiedBy" : "admin",
+      "modifiedDate" : "2013-07-09T06:04:35Z",
+      "fields" : [ {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Profile",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "langpref",
+        "fieldType" : "ValueType",
+        "mandatory" : false,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Profile",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/boolean",
+        "fieldName" : "listopt",
+        "fieldType" : "ValueType",
+        "mandatory" : false,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Profile",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/userid",
+        "fieldName" : "userid",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Profile",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/userid",
+        "fieldName" : "favCategory",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      } ]
+    },
+    "urn:org.polyglotted.schemarepo/petstore/LineItem#orderstatus" : {
+      "id" : -1,
+      "termId" : "urn:org.polyglotted.schemarepo/petstore/LineItem#orderstatus",
+      "termName" : "orderstatus",
+      "termType" : "PT",
+      "update" : "add",
+      "status" : "active",
+      "approval" : "approved",
+      "createdBy" : "admin",
+      "createdDate" : "2013-07-09T06:04:35Z",
+      "modifiedBy" : "admin",
+      "modifiedDate" : "2013-07-09T06:04:35Z",
+      "fields" : [ {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/LineItem#orderstatus",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/orderid",
+        "fieldName" : "orderid",
+        "fieldType" : "ValueType",
+        "mandatory" : false,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/LineItem#orderstatus",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/linenum",
+        "fieldName" : "linenum",
+        "fieldType" : "ValueType",
+        "mandatory" : false,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/LineItem#orderstatus",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/dateTime",
+        "fieldName" : "timestamp",
+        "fieldType" : "ValueType",
+        "mandatory" : false,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/LineItem#orderstatus",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/status",
+        "fieldName" : "status",
+        "fieldType" : "ValueType",
+        "mandatory" : false,
+        "multiple" : false
+      } ]
+    },
+    "urn:org.polyglotted.schemarepo/petstore/LineItem" : {
+      "id" : -1,
+      "termId" : "urn:org.polyglotted.schemarepo/petstore/LineItem",
+      "termName" : "LineItem",
+      "termType" : "PT",
+      "update" : "add",
+      "status" : "active",
+      "approval" : "approved",
+      "createdBy" : "admin",
+      "createdDate" : "2013-07-09T06:04:35Z",
+      "modifiedBy" : "admin",
+      "modifiedDate" : "2013-07-09T06:04:35Z",
+      "fields" : [ {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/LineItem",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/orderid",
+        "fieldName" : "orderid",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/LineItem",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/linenum",
+        "fieldName" : "linenum",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/LineItem",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/itemid",
+        "fieldName" : "itemid",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/LineItem",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/LineItem#quantity",
+        "fieldName" : "quantity",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/LineItem",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/price",
+        "fieldName" : "unitprice",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/LineItem",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/LineItem#orderstatus",
+        "fieldName" : "orderstatus",
+        "fieldType" : "EntityType",
+        "mandatory" : true,
+        "multiple" : false
+      } ]
+    },
+    "urn:org.polyglotted.schemarepo/petstore/Category" : {
+      "id" : -1,
+      "termId" : "urn:org.polyglotted.schemarepo/petstore/Category",
+      "termName" : "Category",
+      "termType" : "PT",
+      "update" : "add",
+      "status" : "active",
+      "approval" : "approved",
+      "createdBy" : "admin",
+      "createdDate" : "2013-07-09T06:04:35Z",
+      "modifiedBy" : "admin",
+      "modifiedDate" : "2013-07-09T06:04:35Z",
+      "fields" : [ {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Category",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/catid",
+        "fieldName" : "catid",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Category",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "name",
+        "fieldType" : "ValueType",
+        "mandatory" : false,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Category",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "icon",
+        "fieldType" : "ValueType",
+        "mandatory" : false,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Category",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "descn",
+        "fieldType" : "ValueType",
+        "mandatory" : false,
+        "multiple" : false
+      } ]
+    },
+    "urn:org.polyglotted.schemarepo/petstore/Item" : {
+      "id" : -1,
+      "termId" : "urn:org.polyglotted.schemarepo/petstore/Item",
+      "termName" : "Item",
+      "termType" : "PT",
+      "update" : "add",
+      "status" : "active",
+      "approval" : "approved",
+      "createdBy" : "admin",
+      "createdDate" : "2013-07-09T06:04:35Z",
+      "modifiedBy" : "admin",
+      "modifiedDate" : "2013-07-09T06:04:35Z",
+      "fields" : [ {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Item",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/itemid",
+        "fieldName" : "itemid",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Item",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/productid",
+        "fieldName" : "productid",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Item",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/price",
+        "fieldName" : "listprice",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Item",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/price",
+        "fieldName" : "unitcost",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Item",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/suppid",
+        "fieldName" : "supplier",
+        "fieldType" : "ValueType",
+        "mandatory" : false,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Item",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/Item#status",
+        "fieldName" : "status",
+        "fieldType" : "ValueType",
+        "mandatory" : false,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Item",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "attr",
+        "fieldType" : "ValueType",
+        "mandatory" : false,
+        "multiple" : true
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Item",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/Inventory",
+        "fieldName" : "inventory",
+        "fieldType" : "EntityType",
+        "mandatory" : true,
+        "multiple" : false
+      } ]
+    },
+    "urn:org.polyglotted.schemarepo/petstore/Product" : {
+      "id" : -1,
+      "termId" : "urn:org.polyglotted.schemarepo/petstore/Product",
+      "termName" : "Product",
+      "termType" : "PT",
+      "update" : "add",
+      "status" : "active",
+      "approval" : "approved",
+      "createdBy" : "admin",
+      "createdDate" : "2013-07-09T06:04:35Z",
+      "modifiedBy" : "admin",
+      "modifiedDate" : "2013-07-09T06:04:35Z",
+      "fields" : [ {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Product",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/productid",
+        "fieldName" : "productid",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Product",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/catid",
+        "fieldName" : "category",
+        "fieldType" : "ValueType",
+        "mandatory" : true,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Product",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "name",
+        "fieldType" : "ValueType",
+        "mandatory" : false,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Product",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "icon",
+        "fieldType" : "ValueType",
+        "mandatory" : false,
+        "multiple" : false
+      }, {
+        "entityId" : "urn:org.polyglotted.schemarepo/petstore/Product",
+        "fieldId" : "http://www.w3.org/2001/XMLSchema/string",
+        "fieldName" : "descn",
+        "fieldType" : "ValueType",
+        "mandatory" : false,
+        "multiple" : false
+      } ]
+    }
+  }
+}

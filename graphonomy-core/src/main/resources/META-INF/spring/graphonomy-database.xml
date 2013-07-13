@@ -8,15 +8,14 @@
     <context:annotation-config />
 
     <context:component-scan
-        base-package="org.polyglotted.graphonomy.domain,org.polyglotted.graphonomy.dao,
-                org.polyglotted.graphonomy.imports,org.polyglotted.graphonomy.services" />
+        base-package="org.polyglotted.graphonomy.domain,org.polyglotted.graphonomy.meta,org.polyglotted.graphonomy.terms" />
 
     <tx:annotation-driven transaction-manager="domain.neo4jTransactionManager" />
 
-    <bean id="domain.graphDb" class="org.polyglotted.graphonomy.domain.GraphonomyDatabaseFactory" factory-method="createDatabase"
-        destroy-method="shutdown" lazy-init="false" depends-on="domain.neo4jTransactionManager">
-        <constructor-arg value="${graphonomy.neo4j.db.location}" />
-        <constructor-arg value="classpath:/properties/neo4j-config.properties" />
+    <bean id="domain.graphDb" class="org.polyglotted.graphonomy.domain.GraphonomyDatabaseFactory" lazy-init="false"
+        depends-on="domain.neo4jTransactionManager">
+        <property name="location" value="${graphonomy.neo4j.db.location}" />
+        <property name="config" value="classpath:/properties/neo4j-config.properties" />
     </bean>
 
     <alias name="domain.neo4jTransactionManager" alias="transactionManager" />

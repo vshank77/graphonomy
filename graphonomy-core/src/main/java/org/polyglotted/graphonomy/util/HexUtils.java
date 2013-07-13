@@ -2,7 +2,7 @@ package org.polyglotted.graphonomy.util;
 
 import java.security.SecureRandom;
 
-public class HexUtils {
+public abstract class HexUtils {
 
     public static final String DEFAULT_CHARSET_NAME = "UTF-8";
     public static final SecureRandom RANDOM = new SecureRandom();
@@ -93,25 +93,17 @@ public class HexUtils {
         return digit;
     }
 
-    public static final class DecoderException extends RuntimeException {
-        private static final long serialVersionUID = 2046495095878254314L;
-
-        public DecoderException() {
-            super();
-        }
-
-        public DecoderException(String arg0, Throwable arg1) {
-            super(arg0, arg1);
-        }
-
-        public DecoderException(String arg0) {
-            super(arg0);
-        }
-    }
-
     public static String generateUniqueId(int numChars) {
         byte[] result = new byte[numChars];
         RANDOM.nextBytes(result);
         return encodeHex(result);
+    }
+
+    public static final class DecoderException extends RuntimeException {
+        private static final long serialVersionUID = 2046495095878254314L;
+
+        public DecoderException(String arg0) {
+            super(arg0);
+        }
     }
 }

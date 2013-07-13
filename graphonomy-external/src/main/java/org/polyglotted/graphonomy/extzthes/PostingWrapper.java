@@ -5,15 +5,18 @@ import java.io.IOException;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @XmlType
 public class PostingWrapper {
 
     @XmlElement
     private String sourceDb;
-
     @XmlElement
     private String fieldName;
-
     @XmlElement
     private String hitCount;
 
@@ -24,29 +27,5 @@ public class PostingWrapper {
         TermWrapper.appendItem(sb, "hitCount", hitCount, "      ");
         sb.append("    </postings>\n");
         return sb;
-    }
-
-    public String getSourceDb() {
-        return sourceDb;
-    }
-
-    public void setSourceDb(String sourceDb) {
-        this.sourceDb = sourceDb;
-    }
-
-    public String getFieldName() {
-        return fieldName;
-    }
-
-    public void setFieldName(String fieldName) {
-        this.fieldName = fieldName;
-    }
-
-    public String getHitCount() {
-        return hitCount;
-    }
-
-    public void setHitCount(String hitCount) {
-        this.hitCount = hitCount;
     }
 }

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<thesaurusStructure version="5">
+  <properties>
+    <property>
+      <pName>SchemaVersion</pName>
+      <pValue>34</pValue>
+    </property>
+  </properties>
+  <attributeTypes>
+    <attributeType addToNewTerms="0" changeable="1" propagateToChildren="0" id="8">
+      <name>ROOT NODE</name>
+    </attributeType>
+  </attributeTypes>
+  <choiceTypes>
+    <choiceType changeable="0" defaultValueId="23" id="8">
+      <name>Match on stemmed term</name>
+      <values>
+        <value id="23">Yes</value>
+        <value id="24">No</value>
+      </values>
+    </choiceType>
+  </choiceTypes>
+  <noteTypes>
+    <noteType changeable="1" unique="0" id="58">
+      <name>Search Engine Note</name>
+      <defaultValue>DO NOT INDEX</defaultValue>
+      <regexpType minLength="0" maxLength="15" expr=".*"/>
+    </noteType>
+    <noteType changeable="1" unique="0" id="93">
+      <name>ISO 3166-1 3 Digit codes</name>
+      <defaultValue/>
+      <regexpType minLength="0" maxLength="3" expr="[A-Z]{3}"/>
+    </noteType>
+  </noteTypes>
+  <relationshipTypes>
+    <relationshipType baseTypeCode="0" changeable="0" id="1">
+      <forwardName abbreviation="NT">Narrower Term</forwardName>
+      <reverseName abbreviation="BT">Broader Term</reverseName>
+    </relationshipType>
+    <relationshipType baseTypeCode="1" changeable="0" id="2">
+      <forwardName abbreviation="RT">Related To</forwardName>
+      <reverseName abbreviation="RT">Related To</reverseName>
+    </relationshipType>
+    <relationshipType baseTypeCode="1" changeable="1" id="45">
+      <forwardName abbreviation="Language Spoken">Language Spoken</forwardName>
+      <reverseName abbreviation="Spoken In">Spoken In</reverseName>
+    </relationshipType>
+  </relationshipTypes>
+  <classTypes>
+    <classType id="14">
+      <classTypeName>Country Class</classTypeName>
+      <attributeTypesForClassType>
+        <attributeTypeForClassType typeId="8"/>
+      </attributeTypesForClassType>
+      <noteTypesForClassType>
+        <noteTypeForClassType typeId="58" mandatory="0"/>
+        <noteTypeForClassType typeId="93" mandatory="1"/>
+      </noteTypesForClassType>
+      <relationshipTypesForClassType>
+        <relationshipTypeForClassType typeId="1" targetClassTypeId="14"/>
+        <relationshipTypeForClassType typeId="45" targetClassTypeId="119"/>
+      </relationshipTypesForClassType>
+    </classType>
+    <classType id="119">
+      <classTypeName>Language Class</classTypeName>
+      <choiceTypesForClassType>
+        <choiceTypeForClassType typeId="8" mandatory="0"/>
+      </choiceTypesForClassType>
+      <relationshipTypesForClassType>
+        <relationshipTypeForClassType typeId="1" targetClassTypeId="119"/>
+      </relationshipTypesForClassType>
+    </classType>
+    <classType id="191" parentClassTypeId="14">
+      <classTypeName>Cross Country Class</classTypeName>
+      <choiceTypesForClassType>
+        <choiceTypeForClassType typeId="8" mandatory="1"/>
+      </choiceTypesForClassType>
+    </classType>
+  </classTypes>
+</thesaurusStructure>

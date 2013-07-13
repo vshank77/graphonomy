@@ -10,17 +10,22 @@
   "createdDate" : "20110217T16:58:27",
   "modifiedBy" : "admin",
   "modifiedDate" : "20111206T16:26:55",
+  "postings" : [ {
+    "sourceDb" : "urn:countries/list",
+    "fieldName" : "countriesList",
+    "hitCount" : "0"
+  } ],
   "categories" : [ {
     "termId" : "1120462919",
     "className" : "Country Class"
   } ],
   "notes" : [ {
     "termId" : "1120462919",
-    "noteLabel" : "Search Engine Note",
+    "noteId" : "Search Engine Note",
     "value" : "DO NOT INDEX"
   }, {
     "termId" : "1120462919",
-    "noteLabel" : "ROOT NODE"
+    "noteId" : "ROOT NODE"
   } ],
   "relations" : [ {
     "termId" : "1120462919",
@@ -81,7 +86,7 @@
   } ],
   "notes" : [ {
     "termId" : "1517528396",
-    "noteLabel" : "ISO 3166-1 3 Digit codes",
+    "noteId" : "ISO 3166-1 3 Digit codes",
     "value" : "CHN"
   } ],
   "relations" : [ {
@@ -119,7 +124,7 @@
   } ],
   "notes" : [ {
     "termId" : "1562990748",
-    "noteLabel" : "ISO 3166-1 3 Digit codes",
+    "noteId" : "ISO 3166-1 3 Digit codes",
     "value" : "NOR"
   } ],
   "relations" : [ {
@@ -145,7 +150,7 @@
   } ],
   "notes" : [ {
     "termId" : "2069613425",
-    "noteLabel" : "ISO 3166-1 3 Digit codes",
+    "noteId" : "ISO 3166-1 3 Digit codes",
     "value" : "FRA"
   } ],
   "relations" : [ {
@@ -171,7 +176,7 @@
   } ],
   "notes" : [ {
     "termId" : "1551323960",
-    "noteLabel" : "ISO 3166-1 3 Digit codes",
+    "noteId" : "ISO 3166-1 3 Digit codes",
     "value" : "BEL"
   } ],
   "relations" : [ {
@@ -197,7 +202,7 @@
   } ],
   "notes" : [ {
     "termId" : "876658068",
-    "noteLabel" : "ISO 3166-1 3 Digit codes",
+    "noteId" : "ISO 3166-1 3 Digit codes",
     "value" : "IND"
   } ],
   "relations" : [ {
@@ -223,7 +228,7 @@
   } ],
   "notes" : [ {
     "termId" : "1380064706",
-    "noteLabel" : "ISO 3166-1 3 Digit codes",
+    "noteId" : "ISO 3166-1 3 Digit codes",
     "value" : "ESP"
   } ]
 }, {
@@ -244,7 +249,7 @@
   } ],
   "notes" : [ {
     "termId" : "2113440844",
-    "noteLabel" : "ISO 3166-1 3 Digit codes",
+    "noteId" : "ISO 3166-1 3 Digit codes",
     "value" : "DEU"
   } ],
   "relations" : [ {
@@ -270,7 +275,7 @@
   } ],
   "notes" : [ {
     "termId" : "1256304112",
-    "noteLabel" : "ISO 3166-1 3 Digit codes",
+    "noteId" : "ISO 3166-1 3 Digit codes",
     "value" : "GBR"
   } ],
   "relations" : [ {
@@ -296,7 +301,7 @@
   } ],
   "notes" : [ {
     "termId" : "1620897072",
-    "noteLabel" : "ISO 3166-1 3 Digit codes",
+    "noteId" : "ISO 3166-1 3 Digit codes",
     "value" : "USA"
   } ],
   "relations" : [ {
@@ -322,7 +327,7 @@
   } ],
   "notes" : [ {
     "termId" : "1481036092",
-    "noteLabel" : "ISO 3166-1 3 Digit codes",
+    "noteId" : "ISO 3166-1 3 Digit codes",
     "value" : "HKG"
   } ]
 }, {

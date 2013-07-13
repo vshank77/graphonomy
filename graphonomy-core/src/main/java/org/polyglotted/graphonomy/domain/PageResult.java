@@ -32,6 +32,6 @@ public class PageResult implements Iterable<Node> {
 
     @Override
     public Iterator<Node> iterator() {
-        return iterator;
+        return iterator.nextPage();
     }
 }

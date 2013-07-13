@@ -4,7 +4,7 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
-class Neo4jSupportedTypes {
+abstract class Neo4jSupportedTypes {
 
     private static final Map<Class<?>, Object> defaultClasses = Maps.newHashMap();
     static {

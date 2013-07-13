@@ -24,7 +24,10 @@
     </scm>
 
     <modules>
+        <module>graphonomy-api</module>
         <module>graphonomy-core</module>
+        <module>graphonomy-external</module>
+        <module>schema-repo</module>
     </modules>
 
     <properties>
