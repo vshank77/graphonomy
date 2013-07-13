@@ -5,18 +5,20 @@ import java.io.IOException;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @XmlType
 public class RelationWrapper {
 
     @XmlElement
     private String relationType;
-
     @XmlElement
     private String sourceDb;
-
     @XmlElement
     private String termId;
-
     @XmlElement
     private String termName;
 
@@ -28,37 +30,5 @@ public class RelationWrapper {
         TermWrapper.appendItem(sb, "termName", termName, "      ");
         sb.append("    </relation>\n");
         return sb;
-    }
-
-    public String getRelationType() {
-        return relationType;
-    }
-
-    public void setRelationType(String relationType) {
-        this.relationType = relationType;
-    }
-
-    public String getSourceDb() {
-        return sourceDb;
-    }
-
-    public void setSourceDb(String sourceDb) {
-        this.sourceDb = sourceDb;
-    }
-
-    public String getTermId() {
-        return termId;
-    }
-
-    public void setTermId(String termId) {
-        this.termId = termId;
-    }
-
-    public String getTermName() {
-        return termName;
-    }
-
-    public void setTermName(String termName) {
-        this.termName = termName;
     }
 }

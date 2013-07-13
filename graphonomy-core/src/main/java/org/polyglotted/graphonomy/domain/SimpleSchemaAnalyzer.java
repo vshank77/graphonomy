@@ -9,6 +9,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import lombok.SneakyThrows;
+
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.KeywordAnalyzer;
 import org.apache.lucene.analysis.SimpleAnalyzer;
@@ -48,9 +50,10 @@ public final class SimpleSchemaAnalyzer extends Analyzer {
     }
 
     private Analyzer defaultAnalyzer = TokenizerType.Keyword.create();
-    private Map<String, Analyzer> analyzerMap = Maps.newHashMap();
+    private Map<String, Analyzer> analyzerMap = Maps.newLinkedHashMap();
 
-    public SimpleSchemaAnalyzer() throws IOException {
+    @SneakyThrows
+    public SimpleSchemaAnalyzer() {
         URL config = getClass().getClassLoader().getResource("properties/search-config.properties");
         List<String> allLines = Resources.readLines(config, Charsets.UTF_8);
         for (String line : allLines) {
@@ -96,6 +99,6 @@ public final class SimpleSchemaAnalyzer extends Analyzer {
 
     @Override
     public String toString() {
-        return "SimpleSchemaAnalyzer(" + analyzerMap + ", default=" + defaultAnalyzer + ")";
+        return "SimpleSchemaAnalyzer(" + analyzerMap.keySet() + ")";
     }
 }

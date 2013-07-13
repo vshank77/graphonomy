@@ -13,7 +13,7 @@ import org.polyglotted.graphonomy.model.GraphProperty;
 import org.polyglotted.graphonomy.util.DateUtils;
 import org.polyglotted.graphonomy.util.JsonUtils;
 
-class PropertySetters {
+abstract class PropertySetters {
     public interface PropertySetter {
         void setProperty(PropertyContainer node, Field field, Object value);
     }

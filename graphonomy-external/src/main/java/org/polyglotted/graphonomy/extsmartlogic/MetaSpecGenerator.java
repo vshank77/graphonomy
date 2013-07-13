@@ -53,13 +53,13 @@ public class MetaSpecGenerator {
             if (classType.getChoiceTypesForClassType() != null) {
                 for (OptionTypeForClass choice : classType.getChoiceTypesForClassType().getChoiceTypeForClassType()) {
                     NoteClass noteCls = notesMap.get("choice" + choice.getTypeId());
-                    termCls.addMetaNote(MetaNote.from(termCls, noteCls, choice.isMandatory() == (byte) 1));
+                    termCls.addMetaNote(MetaNote.from(termCls, noteCls, choice.getMandatory() == (byte) 1));
                 }
             }
             if (classType.getNoteTypesForClassType() != null) {
                 for (OptionTypeForClass note : classType.getNoteTypesForClassType().getNoteTypeForClassType()) {
                     NoteClass noteCls = notesMap.get("note" + note.getTypeId());
-                    termCls.addMetaNote(MetaNote.from(termCls, noteCls, note.isMandatory() == (byte) 1));
+                    termCls.addMetaNote(MetaNote.from(termCls, noteCls, note.getMandatory() == (byte) 1));
                 }
             }
             if (classType.getRelationshipTypesForClassType() != null) {
@@ -101,7 +101,7 @@ public class MetaSpecGenerator {
     private void generateNotesFromNotes(List<NoteTypeWrapper> notes) {
         for (NoteTypeWrapper note : notes) {
             RegExpr regEx = note.getRegexpType();
-            NoteClass cls = new NoteClass(note.getName(), TypeSafe.str);
+            NoteClass cls = new NoteClass(note.getName(), note.getName(), TypeSafe.str);
             cls.setDefaultValue(note.getDefaultValue());
             cls.setRange(regEx.getMinLength(), regEx.getMaxLength());
             cls.setPattern(regEx.getExpr());
@@ -112,7 +112,7 @@ public class MetaSpecGenerator {
 
     private void generateNotesFromChoices(List<ChoiceTypeWrapper> choices) {
         for (ChoiceTypeWrapper choice : choices) {
-            NoteClass cls = new NoteClass(choice.getName(), TypeSafe.str);
+            NoteClass cls = new NoteClass(choice.getName(), choice.getName(), TypeSafe.str);
             for (ChoiceTypeWrapper.Value val : choice.getValues().getValue()) {
                 cls.addEnum(val.getValue());
                 if (val.getId().equals(choice.getDefaultValueId())) {

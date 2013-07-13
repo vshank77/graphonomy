@@ -1,48 +1,39 @@
 package org.polyglotted.graphonomy.domain;
 
-import static org.polyglotted.graphonomy.model.RelationClass.BaseType.hierarchy;
-import static org.polyglotted.graphonomy.model.RelationClass.BaseType.related;
-import static org.polyglotted.graphonomy.model.RelationClass.BaseType.usefor;
-
 import org.neo4j.graphdb.Transaction;
+import org.polyglotted.graphonomy.model.Defaults;
 import org.polyglotted.graphonomy.model.NoteClass;
 import org.polyglotted.graphonomy.model.RelationClass;
-import org.polyglotted.graphonomy.model.TermClass;
-import org.polyglotted.graphonomy.model.TypeSafe;
 
-public final class DatabaseDefaults {
+abstract class DatabaseDefaults {
 
-    public static final NoteClass SCOPE = (NoteClass) new NoteClass("Scope Note", "Scope Note", TypeSafe.str).setRange(
-            0, 4000).setPattern(".*");
-
-    public static final RelationClass BT = new RelationClass("BT", hierarchy, "Broader Term").setExtended(false);
-    public static final RelationClass NT = new RelationClass("NT", hierarchy, "Narrower Term").setExtended(false);
-    public static final RelationClass RT = new RelationClass("RT", related, "Related To").setExtended(false);
-    public static final RelationClass USE = new RelationClass("USE", usefor, "Use").setExtended(false);
-    public static final RelationClass UF = new RelationClass("UF", usefor, "Use For").setExtended(false);
-
-    public static final TermClass ROOTS = new TermClass("Roots Class");
-
-    static void saveAll(GraphonomyDatabase database) {
+    public static void saveAll(GraphonomyDatabase database) {
         Transaction tx = database.graphDb.beginTx();
         try {
-            database.saveNode(SCOPE);
-            database.saveNode(BT);
-            database.saveNode(NT);
-            database.saveNode(RT);
-            database.saveNode(USE);
-            database.saveNode(UF);
-            database.saveNode(ROOTS);
+            for (NoteClass noteClass : Defaults.getAllNotes()) {
+                database.saveNode(noteClass);
+            }
+            for (RelationClass relationClass : Defaults.getAllRelations()) {
+                database.saveNode(relationClass);
+            }
+            database.saveNode(Defaults.ROOTS);
+            database.saveNode(Defaults.ENTITIES);
             tx.success();
         }
         catch (Exception ex) {
             tx.failure();
-            throw new RuntimeException(ex);
+            throw new DbException(ex);
         }
         finally {
             tx.finish();
         }
     }
 
-    private DatabaseDefaults() {}
+    public static class DbException extends RuntimeException {
+        private static final long serialVersionUID = -137850585478729566L;
+
+        public DbException(Throwable cause) {
+            super(cause);
+        }
+    }
 }

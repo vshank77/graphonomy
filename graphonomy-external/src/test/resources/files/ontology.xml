@@ -1,0 +1,358 @@
+<Zthes>
+  <term>
+    <termId>1120462919</termId>
+    <termUpdate>add</termUpdate>
+    <termName>Countries</termName>
+    <termType>PT</termType>
+    <termCategory>Country Class</termCategory>
+    <termStatus>active</termStatus>
+    <termApproval>approved</termApproval>
+    <termCreatedDate>20110217T16:58:27</termCreatedDate>
+    <termCreatedBy>admin</termCreatedBy>
+    <termModifiedDate>20111206T16:26:55</termModifiedDate>
+    <termModifiedBy>admin</termModifiedBy>
+    <termNote label="Search Engine Note" vocab="en">DO NOT INDEX</termNote>
+    <termNote label="ROOT NODE"/>
+    <postings>
+      <sourceDb>urn:countries/list</sourceDb>
+      <fieldName>countriesList</fieldName>
+      <hitCount>0</hitCount>
+    </postings>
+    <relation>
+      <relationType>NT</relationType>
+      <termId>1517528396</termId>
+      <termName>China</termName>
+    </relation>
+    <relation>
+      <relationType>NT</relationType>
+      <termId>1562990748</termId>
+      <termName>Norway</termName>
+    </relation>
+    <relation>
+      <relationType>NT</relationType>
+      <termId>2069613425</termId>
+      <termName>France</termName>
+    </relation>
+    <relation>
+      <relationType>NT</relationType>
+      <termId>1551323960</termId>
+      <termName>Belgium</termName>
+    </relation>
+    <relation>
+      <relationType>NT</relationType>
+      <termId>876658068</termId>
+      <termName>India</termName>
+    </relation>
+    <relation>
+      <relationType>NT</relationType>
+      <termId>1380064706</termId>
+      <termName>Spain</termName>
+    </relation>
+    <relation>
+      <relationType>NT</relationType>
+      <termId>2113440844</termId>
+      <termName>Germany</termName>
+    </relation>
+    <relation>
+      <relationType>NT</relationType>
+      <termId>1481036092</termId>
+      <termName>Hong Kong</termName>
+    </relation>
+    <relation>
+      <relationType>NT</relationType>
+      <termId>1256304112</termId>
+      <termName>United Kingdom</termName>
+    </relation>
+    <relation>
+      <relationType>NT</relationType>
+      <termId>1620897072</termId>
+      <termName>United States</termName>
+    </relation>
+  </term>
+  <term>
+    <termId>1517528396</termId>
+    <termUpdate>add</termUpdate>
+    <termName>China</termName>
+    <termType>PT</termType>
+    <termCategory>Country Class</termCategory>
+    <termStatus>active</termStatus>
+    <termApproval>approved</termApproval>
+    <termCreatedDate>20110217T16:58:27</termCreatedDate>
+    <termCreatedBy>admin</termCreatedBy>
+    <termModifiedDate>20120308T16:09:23</termModifiedDate>
+    <termModifiedBy>admin</termModifiedBy>
+    <termNote label="ISO 3166-1 3 Digit codes">CHN</termNote>
+    <relation>
+      <relationType>X-Language Spoken</relationType>
+      <termId>1217881740</termId>
+      <termName>Chinese (Traditional)</termName>
+    </relation>
+    <relation>
+      <relationType>X-Language Spoken</relationType>
+      <termId>1873874428</termId>
+      <termName>Chinese (Simplified)</termName>
+    </relation>
+    <relation>
+      <relationType>X-Language Spoken</relationType>
+      <termId>961401474</termId>
+      <termName>Chinese, Xiang</termName>
+    </relation>
+    <relation>
+      <relationType>X-Language Spoken</relationType>
+      <termId>1509368814</termId>
+      <termName>Chinese, Wu</termName>
+    </relation>
+  </term>
+  <term>
+    <termId>1562990748</termId>
+    <termUpdate>add</termUpdate>
+    <termName>Norway</termName>
+    <termType>PT</termType>
+    <termCategory>Country Class</termCategory>
+    <termStatus>active</termStatus>
+    <termApproval>approved</termApproval>
+    <termCreatedDate>20110217T16:58:27</termCreatedDate>
+    <termCreatedBy>admin</termCreatedBy>
+    <termModifiedDate>20120302T13:59:32</termModifiedDate>
+    <termModifiedBy>admin</termModifiedBy>
+    <termNote label="ISO 3166-1 3 Digit codes">NOR</termNote>
+    <relation>
+      <relationType>X-Language Spoken</relationType>
+      <termId>1691342633</termId>
+      <termName>English</termName>
+    </relation>
+  </term>
+  <term>
+    <termId>2069613425</termId>
+    <termUpdate>add</termUpdate>
+    <termName>France</termName>
+    <termType>PT</termType>
+    <termCategory>Country Class</termCategory>
+    <termStatus>active</termStatus>
+    <termApproval>approved</termApproval>
+    <termCreatedDate>20110217T16:58:27</termCreatedDate>
+    <termCreatedBy>admin</termCreatedBy>
+    <termModifiedDate>20120308T16:31:56</termModifiedDate>
+    <termModifiedBy>admin</termModifiedBy>
+    <termNote label="ISO 3166-1 3 Digit codes">FRA</termNote>
+    <relation>
+      <relationType>X-Language Spoken</relationType>
+      <termId>463221806</termId>
+      <termName>French</termName>
+    </relation>
+  </term>
+  <term>
+    <termId>1551323960</termId>
+    <termUpdate>add</termUpdate>
+    <termName>Belgium</termName>
+    <termType>PT</termType>
+    <termCategory>Country Class</termCategory>
+    <termStatus>active</termStatus>
+    <termApproval>approved</termApproval>
+    <termCreatedDate>20110217T16:58:27</termCreatedDate>
+    <termCreatedBy>admin</termCreatedBy>
+    <termModifiedDate>20120301T13:53:31</termModifiedDate>
+    <termModifiedBy>admin</termModifiedBy>
+    <termNote label="ISO 3166-1 3 Digit codes">BEL</termNote>
+    <relation>
+      <relationType>X-Language Spoken</relationType>
+      <termId>463221806</termId>
+      <termName>French</termName>
+    </relation>
+  </term>
+  <term>
+    <termId>876658068</termId>
+    <termUpdate>add</termUpdate>
+    <termName>India</termName>
+    <termType>PT</termType>
+    <termCategory>Country Class</termCategory>
+    <termStatus>active</termStatus>
+    <termApproval>approved</termApproval>
+    <termCreatedDate>20110217T16:58:27</termCreatedDate>
+    <termCreatedBy>admin</termCreatedBy>
+    <termModifiedDate>20120308T15:26:27</termModifiedDate>
+    <termModifiedBy>admin</termModifiedBy>
+    <termNote label="ISO 3166-1 3 Digit codes">IND</termNote>
+    <relation>
+      <relationType>X-Language Spoken</relationType>
+      <termId>1691342633</termId>
+      <termName>English</termName>
+    </relation>
+  </term>
+  <term>
+    <termId>1380064706</termId>
+    <termUpdate>add</termUpdate>
+    <termName>Spain</termName>
+    <termType>PT</termType>
+    <termCategory>Country Class</termCategory>
+    <termStatus>active</termStatus>
+    <termApproval>approved</termApproval>
+    <termCreatedDate>20110217T16:58:27</termCreatedDate>
+    <termCreatedBy>admin</termCreatedBy>
+    <termModifiedDate>20120308T16:06:38</termModifiedDate>
+    <termModifiedBy>admin</termModifiedBy>
+    <termNote label="ISO 3166-1 3 Digit codes">ESP</termNote>
+  </term>
+  <term>
+    <termId>2113440844</termId>
+    <termUpdate>add</termUpdate>
+    <termName>Germany</termName>
+    <termType>PT</termType>
+    <termCategory>Country Class</termCategory>
+    <termStatus>active</termStatus>
+    <termApproval>approved</termApproval>
+    <termCreatedDate>20110217T16:58:27</termCreatedDate>
+    <termCreatedBy>admin</termCreatedBy>
+    <termModifiedDate>20120302T12:39:04</termModifiedDate>
+    <termModifiedBy>admin</termModifiedBy>
+    <termNote label="ISO 3166-1 3 Digit codes">DEU</termNote>
+    <relation>
+      <relationType>X-Language Spoken</relationType>
+      <termId>5778366967</termId>
+      <termName>German</termName>
+    </relation>
+  </term>
+  <term>
+    <termId>1256304112</termId>
+    <termUpdate>add</termUpdate>
+    <termName>United Kingdom</termName>
+    <termType>PT</termType>
+    <termCategory>Country Class</termCategory>
+    <termStatus>active</termStatus>
+    <termApproval>approved</termApproval>
+    <termCreatedDate>20110217T16:58:27</termCreatedDate>
+    <termCreatedBy>admin</termCreatedBy>
+    <termModifiedDate>20120308T15:04:24</termModifiedDate>
+    <termModifiedBy>admin</termModifiedBy>
+    <termNote label="ISO 3166-1 3 Digit codes">GBR</termNote>
+    <relation>
+      <relationType>X-Language Spoken</relationType>
+      <termId>1691342633</termId>
+      <termName>English</termName>
+    </relation>
+  </term>
+  <term>
+    <termId>1620897072</termId>
+    <termUpdate>add</termUpdate>
+    <termName>United States</termName>
+    <termType>PT</termType>
+    <termCategory>Country Class</termCategory>
+    <termStatus>active</termStatus>
+    <termApproval>approved</termApproval>
+    <termCreatedDate>20110217T16:58:27</termCreatedDate>
+    <termCreatedBy>admin</termCreatedBy>
+    <termModifiedDate>20120308T16:31:28</termModifiedDate>
+    <termModifiedBy>admin</termModifiedBy>
+    <termNote label="ISO 3166-1 3 Digit codes">USA</termNote>
+    <relation>
+      <relationType>X-Language Spoken</relationType>
+      <termId>1691342633</termId>
+      <termName>English</termName>
+    </relation>
+  </term>
+  <term>
+    <termId>1481036092</termId>
+    <termUpdate>add</termUpdate>
+    <termName>Hong Kong</termName>
+    <termType>PT</termType>
+    <termCategory>Country Class</termCategory>
+    <termStatus>active</termStatus>
+    <termApproval>approved</termApproval>
+    <termCreatedDate>20110217T16:58:27</termCreatedDate>
+    <termCreatedBy>admin</termCreatedBy>
+    <termModifiedDate>20120301T11:49:33</termModifiedDate>
+    <termModifiedBy>admin</termModifiedBy>
+    <termNote label="ISO 3166-1 3 Digit codes">HKG</termNote>
+  </term>
+  <term>
+    <termId>1509368814</termId>
+    <termUpdate>add</termUpdate>
+    <termName>Chinese, Wu</termName>
+    <termType>PT</termType>
+    <termCategory>Language Class</termCategory>
+    <termStatus>active</termStatus>
+    <termApproval>approved</termApproval>
+    <termCreatedDate>20120123T14:44:54</termCreatedDate>
+    <termCreatedBy>admin</termCreatedBy>
+    <termModifiedDate>20120308T16:09:23</termModifiedDate>
+    <termModifiedBy>admin</termModifiedBy>
+  </term>
+  <term>
+    <termId>961401474</termId>
+    <termUpdate>add</termUpdate>
+    <termName>Chinese, Xiang</termName>
+    <termType>PT</termType>
+    <termCategory>Language Class</termCategory>
+    <termStatus>active</termStatus>
+    <termApproval>approved</termApproval>
+    <termCreatedDate>20120123T14:45:00</termCreatedDate>
+    <termCreatedBy>admin</termCreatedBy>
+    <termModifiedDate>20120308T16:09:23</termModifiedDate>
+    <termModifiedBy>admin</termModifiedBy>
+  </term>
+  <term>
+    <termId>1691342633</termId>
+    <termUpdate>add</termUpdate>
+    <termName>English</termName>
+    <termType>PT</termType>
+    <termCategory>Language Class</termCategory>
+    <termStatus>active</termStatus>
+    <termApproval>approved</termApproval>
+    <termCreatedDate>20120123T10:21:55</termCreatedDate>
+    <termCreatedBy>admin</termCreatedBy>
+    <termModifiedDate>20120308T16:31:38</termModifiedDate>
+    <termModifiedBy>admin</termModifiedBy>
+  </term>
+  <term>
+    <termId>463221806</termId>
+    <termUpdate>add</termUpdate>
+    <termName>French</termName>
+    <termType>PT</termType>
+    <termCategory>Language Class</termCategory>
+    <termStatus>active</termStatus>
+    <termApproval>approved</termApproval>
+    <termCreatedDate>20120123T10:21:55</termCreatedDate>
+    <termCreatedBy>admin</termCreatedBy>
+    <termModifiedDate>20120308T16:31:56</termModifiedDate>
+    <termModifiedBy>admin</termModifiedBy>
+  </term>
+  <term>
+    <termId>5778366967</termId>
+    <termUpdate>add</termUpdate>
+    <termName>German</termName>
+    <termType>PT</termType>
+    <termCategory>Language Class</termCategory>
+    <termStatus>active</termStatus>
+    <termApproval>approved</termApproval>
+    <termCreatedDate>20120123T10:21:55</termCreatedDate>
+    <termCreatedBy>admin</termCreatedBy>
+    <termModifiedDate>20120308T15:17:52</termModifiedDate>
+    <termModifiedBy>admin</termModifiedBy>
+  </term>
+  <term>
+    <termId>1873874428</termId>
+    <termUpdate>add</termUpdate>
+    <termName>Chinese (Simplified)</termName>
+    <termType>PT</termType>
+    <termCategory>Language Class</termCategory>
+    <termStatus>active</termStatus>
+    <termApproval>approved</termApproval>
+    <termCreatedDate>20120123T10:21:55</termCreatedDate>
+    <termCreatedBy>admin</termCreatedBy>
+    <termModifiedDate>20120308T16:09:23</termModifiedDate>
+    <termModifiedBy>admin</termModifiedBy>
+  </term>
+  <term>
+    <termId>1217881740</termId>
+    <termUpdate>add</termUpdate>
+    <termName>Chinese (Traditional)</termName>
+    <termType>PT</termType>
+    <termCategory>Language Class</termCategory>
+    <termStatus>active</termStatus>
+    <termApproval>approved</termApproval>
+    <termCreatedDate>20120123T10:21:55</termCreatedDate>
+    <termCreatedBy>admin</termCreatedBy>
+    <termModifiedDate>20120308T16:09:23</termModifiedDate>
+    <termModifiedBy>admin</termModifiedBy>
+  </term>
+</Zthes>

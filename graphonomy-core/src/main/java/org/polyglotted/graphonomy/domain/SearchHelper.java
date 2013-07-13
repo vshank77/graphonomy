@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-public class SearchHelper {
+public abstract class SearchHelper {
 
     public static String stem(String input, String... fields) {
         StringBuilder builder = new StringBuilder();
@@ -19,8 +19,10 @@ public class SearchHelper {
                 builder.delete(0, builder.length());
             }
         }
-        words.add(builder.toString());
-        builder.delete(0, builder.length());
+        if (builder.length() > 0) {
+            words.add(builder.toString());
+            builder.delete(0, builder.length());
+        }
 
         for (String field : fields) {
             builder.append("(");

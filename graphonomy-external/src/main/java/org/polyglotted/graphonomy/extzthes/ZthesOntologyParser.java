@@ -1,7 +1,5 @@
 package org.polyglotted.graphonomy.extzthes;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
@@ -13,30 +11,13 @@ import org.polyglotted.graphonomy.model.Posting;
 import org.polyglotted.graphonomy.model.Relation;
 import org.polyglotted.graphonomy.model.Term;
 import org.polyglotted.graphonomy.model.TermTypeFactory;
-import org.polyglotted.graphonomy.util.JsonUtils;
 import org.polyglotted.xpathstax.XPathStaxParser;
 import org.polyglotted.xpathstax.bind.NodeConverter;
 
-import com.google.common.base.Charsets;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
-import com.google.common.io.Files;
 
 public class ZthesOntologyParser {
-
-    public static void main(String ar[]) {
-        try {
-            FileInputStream input = new FileInputStream("src/do_not_git_version/simple-ontology.xml");
-            ZthesOntologyParser reader = new ZthesOntologyParser();
-            List<Term> list = reader.parse(input);
-
-            Files.write(JsonUtils.asPrettyJson(list), new File("src/do_not_git_version/ontology-sample.txt"),
-                    Charsets.UTF_8);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     public List<Term> parse(InputStream input) throws IOException {
         XPathStaxParser parser = new XPathStaxParser();
@@ -51,6 +32,19 @@ public class ZthesOntologyParser {
         return terms;
     }
 
+    public List<TermWrapper> parseRaw(InputStream input) throws IOException {
+        XPathStaxParser parser = new XPathStaxParser();
+        final List<TermWrapper> terms = Lists.newArrayList();
+        parser.addHandler(new NodeConverter<TermWrapper>("/Zthes/term/*") {
+            @Override
+            public void process(TermWrapper wrapper) {
+                terms.add(wrapper);
+            }
+        });
+        parser.parse(input);
+        return terms;
+    }
+    
     private Term convertWrapperToTerm(TermWrapper wrapper) {
         final String termId = wrapper.getTermId();
         Term term = new Term();
