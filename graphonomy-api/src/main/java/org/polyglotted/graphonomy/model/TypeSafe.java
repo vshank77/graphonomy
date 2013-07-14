@@ -1,5 +1,7 @@
 package org.polyglotted.graphonomy.model;
 
+import static org.polyglotted.graphonomy.util.DateUtils.formatAsDate;
+
 import java.util.Date;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -101,7 +103,7 @@ public enum TypeSafe {
             return number;
         }
     },
-    date("date", "dateTime", "time") {
+    date("date", "dateTime") {
         @Override
         @SuppressWarnings("unchecked")
         public Date validatedValue(String value, NoteClass clazz) {
@@ -113,8 +115,29 @@ public enum TypeSafe {
                     throw new TypeValidationException("value is required for this note type");
                 return null;
             }
-            // TODO should we support range for dates?
-            return asDate(value, "unable to parse value as date ");
+            Date dateVal = asDate(value, "unable to parse value as date ");
+            if (clazz.hasRange() && !(clazz.isInRange(dateVal.getTime()))) {
+                throw new TypeValidationException("value " + value + " is not in range ["
+                        + formatAsDate(clazz.getRangeMin()) + "," + formatAsDate(clazz.getRangeMax()) + "]");
+            }
+            return dateVal;
+        }
+    },
+    time("time") { // cannot parse time as date as it yields unspecified dates
+        @Override
+        @SuppressWarnings("unchecked")
+        public String validatedValue(String value, NoteClass clazz) {
+            if (value == null) {
+                if (clazz.getDefaultValue() != null) {
+                    return clazz.getDefaultValue();
+                }
+                else if (clazz.isRequired())
+                    throw new TypeValidationException("value is required for this note type");
+                return null;
+            }
+            if (!DateUtils.isTime(value))
+                throw new TypeValidationException("invalid time format " + value);
+            return value;
         }
     };
 
@@ -163,7 +186,7 @@ public enum TypeSafe {
 
     private static Date asDate(String value, String message) {
         try {
-            return DateUtils.parseSilent(value);
+            return DateUtils.parseDate(value);
         }
         catch (RuntimeException e) {
             throw new TypeValidationException(message + value);

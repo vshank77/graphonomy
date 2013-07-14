@@ -7,7 +7,7 @@ import java.util.Set;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
-public class GenericUtils {
+public abstract class GenericUtils {
 
     public static <T> List<T> addOrCreateList(List<T> list, T value) {
         List<T> result = list;

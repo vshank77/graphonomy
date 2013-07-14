@@ -194,10 +194,11 @@ public class XmlSchemaParser {
         FieldClass field = new FieldClass();
         field.setNoteId(id);
         field.setNoteLabel(name);
-        field.setType(typeFrom(simpleType));
+        TypeSafe typeSafe = typeFrom(simpleType);
+        field.setType(typeSafe);
         field.setRequired(required);
         field.setDefaultValue(defaultValue);
-        Restriction restriction = Restriction.parseFrom(simpleType);
+        Restriction restriction = Restriction.parseFrom(simpleType, typeSafe);
         field.setEnums(restriction.getEnumeration());
         field.setPattern(restriction.getPattern());
         field.setRange(restriction.getRange());

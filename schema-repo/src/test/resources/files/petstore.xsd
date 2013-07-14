@@ -194,7 +194,13 @@
                 </xs:restriction>
             </xs:simpleType>
         </xs:attribute>
-        <xs:attribute name="expiry" type="xs:dateTime" use="optional" />
+        <xs:attribute name="expiry" use="optional">
+            <xs:simpleType>
+                <xs:restriction base="xs:dateTime">
+                    <xs:minInclusive value="2013-06-01T00:00:00Z" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="Order">

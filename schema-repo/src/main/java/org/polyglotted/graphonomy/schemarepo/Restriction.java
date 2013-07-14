@@ -8,6 +8,8 @@ import lombok.experimental.Accessors;
 
 import org.apache.xerces.xs.XSSimpleTypeDefinition;
 import org.polyglotted.graphonomy.model.Range;
+import org.polyglotted.graphonomy.model.TypeSafe;
+import org.polyglotted.graphonomy.util.DateUtils;
 import org.polyglotted.graphonomy.util.GenericUtils;
 
 @Accessors(chain = true)
@@ -15,30 +17,34 @@ import org.polyglotted.graphonomy.util.GenericUtils;
 @ToString
 class Restriction {
     private static final int DUMMY = Integer.MIN_VALUE;
+    private static final long Y19X = -2208988800000L;
+    private static final long Y3K = 32503680000000L;
 
+    private boolean dateType;
     private String pattern;
     private List<String> enumeration = null;
-    private int fractionDigits = DUMMY;
-    private int totalDigits = DUMMY;
-    private int length = DUMMY;
-    private int maxExclusive = DUMMY;
-    private int maxInclusive = DUMMY;
-    private int minExclusive = DUMMY;
-    private int minInclusive = DUMMY;
-    private int maxLength = DUMMY;
-    private int minLength = DUMMY;
+    private long fractionDigits = DUMMY;
+    private long totalDigits = DUMMY;
+    private long length = DUMMY;
+    private long maxExclusive = DUMMY;
+    private long maxInclusive = DUMMY;
+    private long minExclusive = DUMMY;
+    private long minInclusive = DUMMY;
+    private long maxLength = DUMMY;
+    private long minLength = DUMMY;
 
-    public static Restriction parseFrom(XSSimpleTypeDefinition simpleType) {
+    public static Restriction parseFrom(XSSimpleTypeDefinition simpleType, TypeSafe typeSafe) {
         Restriction result = new Restriction();
-        result.fractionDigits = intValueOf(simpleType, XSSimpleTypeDefinition.FACET_FRACTIONDIGITS);
-        result.length = intValueOf(simpleType, XSSimpleTypeDefinition.FACET_LENGTH);
-        result.maxExclusive = intValueOf(simpleType, XSSimpleTypeDefinition.FACET_MAXEXCLUSIVE);
-        result.maxInclusive = intValueOf(simpleType, XSSimpleTypeDefinition.FACET_MAXINCLUSIVE);
-        result.maxLength = intValueOf(simpleType, XSSimpleTypeDefinition.FACET_MAXLENGTH);
-        result.minExclusive = intValueOf(simpleType, XSSimpleTypeDefinition.FACET_MINEXCLUSIVE);
-        result.minInclusive = intValueOf(simpleType, XSSimpleTypeDefinition.FACET_MININCLUSIVE);
-        result.minLength = intValueOf(simpleType, XSSimpleTypeDefinition.FACET_MINLENGTH);
-        result.totalDigits = intValueOf(simpleType, XSSimpleTypeDefinition.FACET_TOTALDIGITS);
+        result.dateType = (typeSafe == TypeSafe.date);
+        result.fractionDigits = longValueOf(simpleType, XSSimpleTypeDefinition.FACET_FRACTIONDIGITS);
+        result.totalDigits = longValueOf(simpleType, XSSimpleTypeDefinition.FACET_TOTALDIGITS);
+        result.length = longValueOf(simpleType, XSSimpleTypeDefinition.FACET_LENGTH);
+        result.maxLength = longValueOf(simpleType, XSSimpleTypeDefinition.FACET_MAXLENGTH);
+        result.minLength = longValueOf(simpleType, XSSimpleTypeDefinition.FACET_MINLENGTH);
+        result.maxExclusive = dateOrLongValueOf(simpleType, result.dateType, XSSimpleTypeDefinition.FACET_MAXEXCLUSIVE);
+        result.maxInclusive = dateOrLongValueOf(simpleType, result.dateType, XSSimpleTypeDefinition.FACET_MAXINCLUSIVE);
+        result.minExclusive = dateOrLongValueOf(simpleType, result.dateType, XSSimpleTypeDefinition.FACET_MINEXCLUSIVE);
+        result.minInclusive = dateOrLongValueOf(simpleType, result.dateType, XSSimpleTypeDefinition.FACET_MININCLUSIVE);
         for (Object obj : simpleType.getLexicalEnumeration()) {
             result.addEnumeration((String) obj);
         }
@@ -83,33 +89,52 @@ class Restriction {
             return new Range(minInclusive, maxInclusive);
         }
 
+        if (dateType) {
+            if (isAvailable(minExclusive)) {
+                return new Range(minExclusive + 1, Y3K);
+            }
+            else if (isAvailable(minInclusive)) {
+                return new Range(minInclusive, Y3K);
+            }
+            else if (isAvailable(maxExclusive)) {
+                return new Range(Y19X, maxExclusive - 1);
+            }
+            else if (isAvailable(maxInclusive)) {
+                return new Range(Y19X, maxInclusive);
+            }
+        }
+
         return null;
     }
 
     private Range rangeFromLength() {
-        int min = isAvailable(minLength) ? minLength : 0;
-        int max = isAvailable(maxLength) ? maxLength : Integer.MAX_VALUE;
+        long min = isAvailable(minLength) ? minLength : 0;
+        long max = isAvailable(maxLength) ? maxLength : Integer.MAX_VALUE;
         return new Range(min, max);
     }
 
-    static boolean isOneAvailable(int val1, int val2) {
+    static boolean isOneAvailable(long val1, long val2) {
         return isAvailable(val1) || isAvailable(val2);
     }
 
-    static boolean isBothAvailable(int val1, int val2) {
+    static boolean isBothAvailable(long val1, long val2) {
         return isAvailable(val1) && isAvailable(val2);
     }
 
-    static boolean isAvailable(int value) {
+    static boolean isAvailable(long value) {
         return value != DUMMY;
     }
 
-    static int intValueOf(XSSimpleTypeDefinition simpleType, short facetName) {
-        String value = simpleType.getLexicalFacetValue(facetName);
-        if (value != null) {
-            Double dbl = Double.parseDouble(value);
-            return dbl.intValue();
+    static long dateOrLongValueOf(XSSimpleTypeDefinition simpleType, boolean dateType, short facetName) {
+        if (dateType) {
+            String value = simpleType.getLexicalFacetValue(facetName);
+            return (value != null) ? DateUtils.parseTime(value) : DUMMY;
         }
-        return DUMMY;
+        return longValueOf(simpleType, facetName);
+    }
+
+    static long longValueOf(XSSimpleTypeDefinition simpleType, short facetName) {
+        String value = simpleType.getLexicalFacetValue(facetName);
+        return (value != null) ? Double.valueOf(value).longValue() : DUMMY;
     }
 }

@@ -232,11 +232,52 @@ public class NoteClassTest {
         assertEquals(getDate(), new NoteClass("id", "name", TypeSafe.date).validate("20130618T15:05:47"));
     }
 
+    @Test
+    public void testValidDateRange() {
+        assertEquals(getDate(), new NoteClass("id", "name", TypeSafe.date).setDateRange("2013-01-01", "2014-01-01")
+                .validate("20130618T15:05:47"));
+    }
+
+    @Test(expected = TypeValidationException.class)
+    public void testInvalidDateRangeLow() {
+        new NoteClass("id", "name", TypeSafe.date).setDateRange("2013-01-01", "2014-01-01").validate("2012-12-31");
+    }
+
+    @Test(expected = TypeValidationException.class)
+    public void testInvalidDateRangeHigh() {
+        new NoteClass("id", "name", TypeSafe.date).setDateRange("2013-01-01", "2014-01-01").validate(
+                "2014-01-01T00:00:01Z");
+    }
+
     private Date getDate() {
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Zulu"));
         calendar.set(2013, 5, 18, 15, 05, 47);
         calendar.set(Calendar.MILLISECOND, 0);
-        Date date = calendar.getTime();
-        return date;
+        return calendar.getTime();
+    }
+
+    @Test
+    public void testNullTime() {
+        assertNull(new NoteClass("id", "name", TypeSafe.time).validate(null));
+    }
+
+    @Test
+    public void testDefaultTime() {
+        assertEquals("12:03:45", new NoteClass("id", "name", TypeSafe.time).setDefaultValue("12:03:45").validate(null));
+    }
+
+    @Test(expected = TypeValidationException.class)
+    public void testRequiredTime() {
+        new NoteClass("id", "name", TypeSafe.time).setRequired(true).validate(null);
+    }
+
+    @Test
+    public void testTimeValue() {
+        assertEquals("12:03:45", new NoteClass("id", "name", TypeSafe.time).validate("12:03:45"));
+    }
+
+    @Test(expected = TypeValidationException.class)
+    public void testInvalidTimeError() {
+        new NoteClass("id", "name", TypeSafe.time).validate("1:2:3");
     }
 }

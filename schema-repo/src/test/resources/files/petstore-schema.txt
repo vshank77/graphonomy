@@ -157,6 +157,19 @@
       "fieldType" : "ValueType",
       "globalScope" : false
     },
+    "urn:org.polyglotted.schemarepo/petstore/Inventory#expiry" : {
+      "id" : -1,
+      "noteId" : "urn:org.polyglotted.schemarepo/petstore/Inventory#expiry",
+      "noteLabel" : "expiry",
+      "type" : "date",
+      "required" : false,
+      "range" : {
+        "min" : 1370044800000,
+        "max" : 32503680000000
+      },
+      "fieldType" : "ValueType",
+      "globalScope" : false
+    },
     "urn:org.polyglotted.schemarepo/petstore/Account#status" : {
       "id" : -1,
       "noteId" : "urn:org.polyglotted.schemarepo/petstore/Account#status",
@@ -227,7 +240,7 @@
         "multiple" : false
       }, {
         "entityId" : "urn:org.polyglotted.schemarepo/petstore/Inventory",
-        "fieldId" : "http://www.w3.org/2001/XMLSchema/dateTime",
+        "fieldId" : "urn:org.polyglotted.schemarepo/petstore/Inventory#expiry",
         "fieldName" : "expiry",
         "fieldType" : "ValueType",
         "mandatory" : false,

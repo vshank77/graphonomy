@@ -9,6 +9,7 @@ import org.apache.xerces.impl.xs.util.StringListImpl;
 import org.apache.xerces.xs.XSSimpleTypeDefinition;
 import org.junit.Test;
 import org.polyglotted.graphonomy.model.Range;
+import org.polyglotted.graphonomy.model.TypeSafe;
 
 public class RestrictionTest {
 
@@ -18,7 +19,7 @@ public class RestrictionTest {
     @Test
     public void testNoRange() {
         basicExpectations();
-        assertNull(Restriction.parseFrom(simpleType).getRange());
+        assertNull(Restriction.parseFrom(simpleType, TypeSafe.str).getRange());
     }
 
     @Test
@@ -30,7 +31,7 @@ public class RestrictionTest {
                 returns("25");
             }
         };
-        Range res = Restriction.parseFrom(simpleType).getRange();
+        Range res = Restriction.parseFrom(simpleType, TypeSafe.str).getRange();
         assertEquals(25, res.getMin());
         assertEquals(25, res.getMax());
     }
@@ -44,7 +45,7 @@ public class RestrictionTest {
                 returns("0");
             }
         };
-        Range res = Restriction.parseFrom(simpleType).getRange();
+        Range res = Restriction.parseFrom(simpleType, TypeSafe.str).getRange();
         assertEquals(0, res.getMin());
         assertEquals(Integer.MAX_VALUE, res.getMax());
     }
@@ -58,7 +59,7 @@ public class RestrictionTest {
                 returns("25");
             }
         };
-        Range res = Restriction.parseFrom(simpleType).getRange();
+        Range res = Restriction.parseFrom(simpleType, TypeSafe.str).getRange();
         assertEquals(0, res.getMin());
         assertEquals(25, res.getMax());
     }
@@ -74,7 +75,7 @@ public class RestrictionTest {
                 returns("25");
             }
         };
-        Range res = Restriction.parseFrom(simpleType).getRange();
+        Range res = Restriction.parseFrom(simpleType, TypeSafe.decimal).getRange();
         assertEquals(1, res.getMin());
         assertEquals(24, res.getMax());
     }
@@ -90,7 +91,7 @@ public class RestrictionTest {
                 returns("25");
             }
         };
-        Range res = Restriction.parseFrom(simpleType).getRange();
+        Range res = Restriction.parseFrom(simpleType, TypeSafe.decimal).getRange();
         assertEquals(1, res.getMin());
         assertEquals(25, res.getMax());
     }
@@ -106,7 +107,7 @@ public class RestrictionTest {
                 returns("25");
             }
         };
-        Range res = Restriction.parseFrom(simpleType).getRange();
+        Range res = Restriction.parseFrom(simpleType, TypeSafe.decimal).getRange();
         assertEquals(0, res.getMin());
         assertEquals(24, res.getMax());
     }
@@ -122,9 +123,129 @@ public class RestrictionTest {
                 returns("25");
             }
         };
-        Range res = Restriction.parseFrom(simpleType).getRange();
+        Range res = Restriction.parseFrom(simpleType, TypeSafe.decimal).getRange();
         assertEquals(0, res.getMin());
         assertEquals(25, res.getMax());
+    }
+
+    @Test
+    public void testDateMinExMaxEx() {
+        basicExpectations();
+        new Expectations() {
+            {
+                simpleType.getLexicalFacetValue(XSSimpleTypeDefinition.FACET_MINEXCLUSIVE);
+                returns("2013-06-01");
+                simpleType.getLexicalFacetValue(XSSimpleTypeDefinition.FACET_MAXEXCLUSIVE);
+                returns("2013-12-01");
+            }
+        };
+        Range res = Restriction.parseFrom(simpleType, TypeSafe.date).getRange();
+        assertEquals(1370044800001L, res.getMin());
+        assertEquals(1385855999999L, res.getMax());
+    }
+
+    @Test
+    public void testDateMinInMaxEx() {
+        basicExpectations();
+        new Expectations() {
+            {
+                simpleType.getLexicalFacetValue(XSSimpleTypeDefinition.FACET_MININCLUSIVE);
+                returns("2013-06-01");
+                simpleType.getLexicalFacetValue(XSSimpleTypeDefinition.FACET_MAXEXCLUSIVE);
+                returns("2013-12-01");
+            }
+        };
+        Range res = Restriction.parseFrom(simpleType, TypeSafe.date).getRange();
+        assertEquals(1370044800000L, res.getMin());
+        assertEquals(1385855999999L, res.getMax());
+    }
+
+    @Test
+    public void testDateMinExMaxIn() {
+        basicExpectations();
+        new Expectations() {
+            {
+                simpleType.getLexicalFacetValue(XSSimpleTypeDefinition.FACET_MINEXCLUSIVE);
+                returns("2013-06-01");
+                simpleType.getLexicalFacetValue(XSSimpleTypeDefinition.FACET_MAXINCLUSIVE);
+                returns("2013-12-01");
+            }
+        };
+        Range res = Restriction.parseFrom(simpleType, TypeSafe.date).getRange();
+        assertEquals(1370044800001L, res.getMin());
+        assertEquals(1385856000000L, res.getMax());
+    }
+
+    @Test
+    public void testDateMinInMaxIn() {
+        basicExpectations();
+        new Expectations() {
+            {
+                simpleType.getLexicalFacetValue(XSSimpleTypeDefinition.FACET_MININCLUSIVE);
+                returns("2013-06-01");
+                simpleType.getLexicalFacetValue(XSSimpleTypeDefinition.FACET_MAXINCLUSIVE);
+                returns("2013-12-01");
+            }
+        };
+        Range res = Restriction.parseFrom(simpleType, TypeSafe.date).getRange();
+        assertEquals(1370044800000L, res.getMin());
+        assertEquals(1385856000000L, res.getMax());
+    }
+
+    @Test
+    public void testDateMinEx() {
+        basicExpectations();
+        new Expectations() {
+            {
+                simpleType.getLexicalFacetValue(XSSimpleTypeDefinition.FACET_MINEXCLUSIVE);
+                returns("2013-06-01");
+            }
+        };
+        Range res = Restriction.parseFrom(simpleType, TypeSafe.date).getRange();
+        assertEquals(1370044800001L, res.getMin());
+        assertEquals(32503680000000L, res.getMax());
+    }
+
+    @Test
+    public void testDateMinIn() {
+        basicExpectations();
+        new Expectations() {
+            {
+                simpleType.getLexicalFacetValue(XSSimpleTypeDefinition.FACET_MININCLUSIVE);
+                returns("2013-06-01");
+            }
+        };
+        Range res = Restriction.parseFrom(simpleType, TypeSafe.date).getRange();
+        assertEquals(1370044800000L, res.getMin());
+        assertEquals(32503680000000L, res.getMax());
+    }
+
+    @Test
+    public void testDateMaxEx() {
+        basicExpectations();
+        new Expectations() {
+            {
+                simpleType.getLexicalFacetValue(XSSimpleTypeDefinition.FACET_MAXEXCLUSIVE);
+                returns("2013-06-01");
+            }
+        };
+        Range res = Restriction.parseFrom(simpleType, TypeSafe.date).getRange();
+        assertEquals(-2208988800000L, res.getMin());
+        assertEquals(1370044799999L, res.getMax());
+    }
+
+    @Test
+    public void testDateMaxIn() {
+        basicExpectations();
+        new Expectations() {
+            {
+                simpleType.getLexicalFacetValue(XSSimpleTypeDefinition.FACET_MAXINCLUSIVE);
+                returns("2013-06-01");
+            }
+        };
+        Range res = Restriction.parseFrom(simpleType, TypeSafe.date).getRange();
+        assertEquals(-2208988800000L, res.getMin());
+        assertEquals(1370044800000L, res.getMax());
     }
 
     private void basicExpectations() {
@@ -137,5 +258,4 @@ public class RestrictionTest {
             }
         };
     }
-
 }

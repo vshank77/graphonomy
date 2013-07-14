@@ -16,7 +16,7 @@ import lombok.experimental.Accessors;
 @Setter
 @ToString(includeFieldNames = false)
 public class Range {
-    private long min; // TODO add exclusive
+    private long min;
     private long max;
 
     public boolean isInRange(double value) {

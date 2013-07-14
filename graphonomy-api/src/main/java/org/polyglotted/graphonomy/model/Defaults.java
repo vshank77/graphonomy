@@ -30,7 +30,7 @@ public class Defaults {
         add(notesMap, new NoteClass("http://www.w3.org/2001/XMLSchema/double", "double", TypeSafe.decimal));
         add(notesMap, new NoteClass("http://www.w3.org/2001/XMLSchema/date", "date", TypeSafe.date));
         add(notesMap, new NoteClass("http://www.w3.org/2001/XMLSchema/dateTime", "dateTime", TypeSafe.date));
-        add(notesMap, new NoteClass("http://www.w3.org/2001/XMLSchema/time", "time", TypeSafe.date));
+        add(notesMap, new NoteClass("http://www.w3.org/2001/XMLSchema/time", "time", TypeSafe.time));
 
         add(relationsMap, new RelationClass("BT", BaseType.hierarchy, "Broader Term").setExtended(false));
         add(relationsMap, new RelationClass("NT", BaseType.hierarchy, "Narrower Term").setExtended(false));

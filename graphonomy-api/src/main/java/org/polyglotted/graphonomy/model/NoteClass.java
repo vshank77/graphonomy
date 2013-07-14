@@ -1,6 +1,7 @@
 package org.polyglotted.graphonomy.model;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static org.polyglotted.graphonomy.util.DateUtils.parseTime;
 
 import java.util.List;
 
@@ -100,8 +101,13 @@ public class NoteClass implements GraphNode {
         return hasRange() ? range.getMax() : -1;
     }
 
-    public NoteClass setRange(int min, int max) {
+    public NoteClass setRange(long min, long max) {
         this.range = new Range(min, max);
+        return this;
+    }
+    
+    public NoteClass setDateRange(String minDate, String maxDate) {
+        this.range = new Range(parseTime(minDate), parseTime(maxDate));
         return this;
     }
 
