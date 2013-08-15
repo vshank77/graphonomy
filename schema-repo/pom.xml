@@ -71,7 +71,7 @@
             <groupId>org.polyglotted.graphonomy</groupId>
             <artifactId>graphonomy-core</artifactId>
             <version>${project.version}</version>
-            <classifier>tests</classifier>
+            <type>test-jar</type>
             <scope>test</scope>
         </dependency>
     </dependencies>
