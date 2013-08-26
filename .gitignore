@@ -1,6 +1,9 @@
 # eclipse
+.project
+.classpath
 .settings/
 .DS_Store
+*.launch
 
 do_not_git_version/
 
