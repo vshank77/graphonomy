@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:sec="http://www.springframework.org/schema/security"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+      http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+    <bean id="authenticationManager" class="org.springframework.security.authentication.ProviderManager">
+        <property name="providers">
+            <list>
+                <bean id="authenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+                    <property name="userDetailsService" ref="userService" />
+                </bean>
+                <bean id="anonymousProvider" class="org.springframework.security.authentication.AnonymousAuthenticationProvider">
+                    <property name="key" value="8aba2a547f8cd7a33623625ee408432f" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <sec:user-service id="userService">
+        <sec:user name="admin" password="21232f297a57a5a743894a0e4a801fc3" authorities="ROLE_SUPERVISOR, ROLE_USER" />
+        <sec:user name="shankar" password="password" authorities="ROLE_USER" />
+    </sec:user-service>
+
+    <bean id="cookieService" class="org.polyglotted.web.security.CookieService.Impl" />
+
+    <alias name="filterChainProxy" alias="springSecurityFilterChain" />
+    <bean id="filterChainProxy" class="org.springframework.security.web.FilterChainProxy">
+        <sec:filter-chain-map path-type="ant">
+            <sec:filter-chain pattern="/assets/**" filters="none" />
+            <sec:filter-chain pattern="/**"
+                filters="cookieAuthFilter, logoutFilter, formLoginFilter, servletApiFilter, anonFilter, 
+                exceptionTranslator, filterSecurityInterceptor" />
+        </sec:filter-chain-map>
+    </bean>
+
+    <bean id="cookieAuthFilter" class="org.polyglotted.web.security.CookieAuthenticationFilter">
+        <constructor-arg ref="userService" />
+        <constructor-arg ref="cookieService" />
+    </bean>
+
+    <bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
+        <constructor-arg value="/login.html" />
+        <constructor-arg>
+            <bean class="org.polyglotted.web.security.CookieLogoutHandler">
+                <constructor-arg ref="cookieService" />
+            </bean>
+        </constructor-arg>
+    </bean>
+
+    <bean id="formLoginFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
+        <property name="authenticationManager" ref="authenticationManager" />
+        <property name="allowSessionCreation" value="false" />
+        <property name="authenticationSuccessHandler">
+            <bean class="org.polyglotted.web.security.AuthSuccessHandler">
+                <constructor-arg ref="cookieService" />
+            </bean>
+        </property>
+        <property name="authenticationFailureHandler">
+            <bean class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+                <constructor-arg value="/login.html?login_error=1" />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="servletApiFilter" class="org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter">
+        <property name="rolePrefix" value="ROLE_" />
+    </bean>
+
+    <bean id="anonFilter" class="org.springframework.security.web.authentication.AnonymousAuthenticationFilter">
+        <property name="key" value="8aba2a547f8cd7a33623625ee408432f" />
+        <property name="userAttribute" value="anonymousUser,ROLE_ANONYMOUS" />
+    </bean>
+
+    <bean id="exceptionTranslator" class="org.springframework.security.web.access.ExceptionTranslationFilter">
+        <constructor-arg>
+            <bean class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+                <constructor-arg value="/login.html" />
+            </bean>
+        </constructor-arg>
+        <constructor-arg>
+            <bean class="org.springframework.security.web.savedrequest.NullRequestCache" />
+        </constructor-arg>
+        <property name="accessDeniedHandler">
+            <bean class="org.springframework.security.web.access.AccessDeniedHandlerImpl">
+                <property name="errorPage" value="/login.html?login_error=1" />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="filterSecurityInterceptor" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+        <property name="securityMetadataSource">
+            <sec:filter-security-metadata-source>
+                <sec:intercept-url pattern="/secure/admin/*" access="ROLE_SUPERVISOR" />
+                <sec:intercept-url pattern="/secure/**" access="IS_AUTHENTICATED_FULLY" />
+                <sec:intercept-url pattern="/login.html" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+                <sec:intercept-url pattern="/**" access="ROLE_USER" />
+            </sec:filter-security-metadata-source>
+        </property>
+        <property name="authenticationManager" ref="authenticationManager" />
+        <property name="accessDecisionManager" ref="accessDecisionManager" />
+    </bean>
+
+    <bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+        <property name="decisionVoters">
+            <list>
+                <bean class="org.springframework.security.access.vote.RoleVoter" />
+                <bean class="org.springframework.security.access.vote.AuthenticatedVoter" />
+            </list>
+        </property>
+    </bean>
+</beans>

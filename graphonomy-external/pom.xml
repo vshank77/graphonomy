@@ -10,6 +10,7 @@
 
     <groupId>org.polyglotted.graphonomy</groupId>
     <artifactId>graphonomy-external</artifactId>
+    <name>Graphonomy External</name>
     <packaging>jar</packaging>
 
     <dependencies>
