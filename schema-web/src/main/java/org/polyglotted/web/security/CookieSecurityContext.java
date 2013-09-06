@@ -23,7 +23,7 @@ public class CookieSecurityContext implements SecurityContext {
 
     @Override
     public void setAuthentication(Authentication authentication) {
-        throw new UnsupportedOperationException("Should not be called by the code path");
+        this.authentication = authentication;
     }
 
     private static class AuthenticationImpl implements Authentication {
