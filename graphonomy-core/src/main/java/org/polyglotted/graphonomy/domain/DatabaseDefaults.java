@@ -8,8 +8,7 @@ import org.polyglotted.graphonomy.model.RelationClass;
 abstract class DatabaseDefaults {
 
     public static void saveAll(GraphonomyDatabase database) {
-        Transaction tx = database.graphDb.beginTx();
-        try {
+        try (Transaction tx = database.graphDb.beginTx()) {
             for (NoteClass noteClass : Defaults.getAllNotes()) {
                 database.saveNode(noteClass);
             }
@@ -21,11 +20,7 @@ abstract class DatabaseDefaults {
             tx.success();
         }
         catch (Exception ex) {
-            tx.failure();
             throw new DbException(ex);
-        }
-        finally {
-            tx.finish();
         }
     }
 

@@ -38,7 +38,7 @@ public class FieldClassDaoTest extends AbstractDaoTest<FieldClass> {
             }
         });
         final ByteArrayOutputStream byteos = new ByteArrayOutputStream();
-        new FieldClassJsonExporter(byteos).safeWrite(node);
+        new FieldClassJsonExporter(byteos, graphDb).safeWrite(node);
         assertEquals(JsonUtils.asJson(fieldClass), new String(byteos.toByteArray()));
     }
 

@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.polyglotted</groupId>
         <artifactId>oss-parent</artifactId>
-        <version>1.0.2</version>
+        <version>1.0.3</version>
     </parent>
 
     <artifactId>graphonomy</artifactId>
@@ -28,17 +28,15 @@
         <module>graphonomy-core</module>
         <module>graphonomy-external</module>
         <module>schema-repo</module>
-        <module>schema-web</module>
     </modules>
 
     <properties>
         <slf4j.version>1.7.5</slf4j.version>
         <guava.version>14.0.1</guava.version>
         <httpclient.version>4.2.5</httpclient.version>
-        <jackson.version>2.2.2</jackson.version>
-        <neo4j.version>1.9.1</neo4j.version>
+        <jackson.version>2.2.3</jackson.version>
+        <neo4j.version>2.0.0-M05</neo4j.version>
         <spring.version>3.2.2.RELEASE</spring.version>
-        <springSecurity.version>3.1.4.RELEASE</springSecurity.version>
         <lombok.version>0.12.0</lombok.version>
         <log4j.version>1.2.17</log4j.version>
         <junit.version>4.11</junit.version>

@@ -8,6 +8,7 @@ import java.util.List;
 
 import lombok.SneakyThrows;
 
+import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.PropertyContainer;
 import org.neo4j.graphdb.Relationship;
@@ -20,9 +21,11 @@ import com.google.common.collect.Lists;
 public abstract class AbstractJsonExporter<T> {
 
     protected final JsonGenerator json;
+    protected final GraphDatabaseService graphDb;
 
-    public AbstractJsonExporter(OutputStream output) {
+    public AbstractJsonExporter(OutputStream output, GraphDatabaseService graphDb) {
         this.json = JsonUtils.createGenerator(output);
+        this.graphDb = graphDb;
     }
 
     @SneakyThrows

@@ -46,6 +46,7 @@ public class SpringApplicationIntTest {
         log.debug("Setting up test db location");
         String dbLocation = "target/graphonomydb";
         FileUtils.deleteRecursively(new File(dbLocation));
+        System.out.println(new File(dbLocation).isDirectory());
         System.setProperty("graphonomy.neo4j.db.location", dbLocation);
     }
 

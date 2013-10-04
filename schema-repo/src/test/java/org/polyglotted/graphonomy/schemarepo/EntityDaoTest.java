@@ -35,7 +35,7 @@ public class EntityDaoTest extends AbstractDaoTest<Entity> {
             }
         });
         final ByteArrayOutputStream byteos = new ByteArrayOutputStream();
-        new EntityJsonExporter(byteos).safeWrite(node);
+        new EntityJsonExporter(byteos, graphDb).safeWrite(node);
         assertEquals(JsonUtils.asJson(entity), new String(byteos.toByteArray()));
     }
 
