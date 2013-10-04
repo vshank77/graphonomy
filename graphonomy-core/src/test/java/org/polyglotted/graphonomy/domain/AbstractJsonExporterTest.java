@@ -19,7 +19,7 @@ public class AbstractJsonExporterTest extends AbstractJsonExporter<String> {
     private static ByteArrayOutputStream byteos = new ByteArrayOutputStream();
 
     public AbstractJsonExporterTest() {
-        super(byteos);
+        super(byteos, null);
     }
 
     @Test

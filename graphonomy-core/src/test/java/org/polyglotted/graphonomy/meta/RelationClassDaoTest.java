@@ -31,7 +31,7 @@ public class RelationClassDaoTest extends AbstractDaoTest<RelationClass> {
             }
         });
         final ByteArrayOutputStream byteos = new ByteArrayOutputStream();
-        new RelationClassJsonExporter(byteos).safeWrite(node);
+        new RelationClassJsonExporter(byteos, graphDb).safeWrite(node);
         assertEquals(JsonUtils.asJson(relationClass), new String(byteos.toByteArray()));
     }
 

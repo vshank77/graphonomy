@@ -17,12 +17,12 @@ public class DatabaseDefaultsTest extends DatabaseDefaults {
             IndexManager indexMgr;
             Transaction tx;
             {
+                graphDb.beginTx();
+                returns(tx);
                 graphDb.index(); maxTimes = 2;
                 returns(indexMgr);
                 graphDb.beginTx();
                 returns(tx);
-                tx.failure();
-                tx.finish();
             }
         };
         saveAll(new GraphonomyDatabase(graphDb));
@@ -32,7 +32,10 @@ public class DatabaseDefaultsTest extends DatabaseDefaults {
     public void testSaveRels(@Mocked final GraphDatabaseService graphDb) {
         new Expectations() {
             IndexManager indexMgr;
+            Transaction tx;
             {
+                graphDb.beginTx();
+                returns(tx);
                 graphDb.index(); maxTimes = 2;
                 returns(indexMgr);
             }

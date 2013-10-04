@@ -36,7 +36,7 @@ public class NoteClassDaoTest extends AbstractDaoTest<NoteClass> {
             }
         });
         final ByteArrayOutputStream byteos = new ByteArrayOutputStream();
-        new NoteClassJsonExporter(byteos).safeWrite(node);
+        new NoteClassJsonExporter(byteos, graphDb).safeWrite(node);
         assertEquals(JsonUtils.asJson(noteClass), new String(byteos.toByteArray()));
     }
 

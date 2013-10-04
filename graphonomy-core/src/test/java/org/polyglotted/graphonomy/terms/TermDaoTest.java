@@ -67,7 +67,7 @@ public class TermDaoTest extends AbstractDaoTest<Term> {
             }
         });
         final ByteArrayOutputStream byteos = new ByteArrayOutputStream();
-        new TermJsonExporter(byteos).safeWrite(node);
+        new TermJsonExporter(byteos, graphDb).safeWrite(node);
         assertEquals(JsonUtils.asJson(term), new String(byteos.toByteArray()));
     }
 

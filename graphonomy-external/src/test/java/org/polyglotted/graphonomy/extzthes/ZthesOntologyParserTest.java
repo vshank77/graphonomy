@@ -36,10 +36,14 @@ public class ZthesOntologyParserTest {
         builder.append("</Zthes>");
         
         String expected = Resources.toString(asResource("files/ontology.xml"), Charsets.UTF_8);
-        assertEquals(expected, builder.toString());
+        assertEquals(sanitizeNl(expected), sanitizeNl(builder.toString()));
     }
     
     URL asResource(String file) {
         return getClass().getClassLoader().getResource(file);
+    }
+    
+    static String sanitizeNl(String in) {
+        return in.replace("\r\n", "\n");
     }
 }

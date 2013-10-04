@@ -19,6 +19,7 @@ import org.apache.lucene.queryParser.QueryParser.Operator;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.graphdb.index.UniqueFactory;
@@ -49,8 +50,11 @@ public class GraphonomyDatabase implements InitializingBean, DisposableBean {
     @Autowired
     public GraphonomyDatabase(GraphDatabaseService graphDb) {
         this.graphDb = graphDb;
-        this.nodeFactory = new UniqNodeFactory(graphDb);
-        this.relFactory = new UniqRelFactory(graphDb);
+        try (Transaction tx = graphDb.beginTx()) {
+            this.nodeFactory = new UniqNodeFactory(graphDb);
+            this.relFactory = new UniqRelFactory(graphDb);
+            tx.success();
+        }
     }
 
     @Override
@@ -132,8 +136,10 @@ public class GraphonomyDatabase implements InitializingBean, DisposableBean {
     }
 
     public Index<Node> globalIndex() {
-        return graphDb.index().forNodes(GlobalIndex,
-                stringMap("provider", "lucene", "analyzer", "org.polyglotted.graphonomy.domain.SimpleSchemaAnalyzer"));
+        return graphDb.index().forNodes(
+                        GlobalIndex,
+                        stringMap("provider", "lucene", "analyzer",
+                                        "org.polyglotted.graphonomy.domain.SimpleSchemaAnalyzer"));
     }
 
     private Index<Node> indexFor(String indexType) {

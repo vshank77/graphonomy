@@ -8,26 +8,31 @@ import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.List;
 
+import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Transaction;
 import org.polyglotted.graphonomy.domain.AbstractJsonExporter;
 
 public class EntityJsonExporter extends AbstractJsonExporter<Node> {
 
     private static final List<String> ENTITY_PROPS = Arrays.asList("termId", "termName", "termType", "update",
-            "status", "approval", "createdBy", "createdDate", "modifiedBy", "modifiedDate");
+                    "status", "approval", "createdBy", "createdDate", "modifiedBy", "modifiedDate");
     private static final List<String> FIELD_PROPS = Arrays.asList("entityId", "fieldId", "fieldName", "fieldType",
-            "mandatory", "multiple");
+                    "mandatory", "multiple");
 
-    public EntityJsonExporter(OutputStream output) {
-        super(output);
+    public EntityJsonExporter(OutputStream output, GraphDatabaseService graphDb) {
+        super(output, graphDb);
     }
 
     @Override
     protected void write(Node value) throws IOException {
-        json.writeStartObject();
-        writeId(value);
-        writeProperties(value, ENTITY_PROPS);
-        writeRelationships("fields", value.getRelationships(OUTGOING, HAS_FIELD), FIELD_PROPS);
-        json.writeEndObject();
+        try (Transaction tx = graphDb.beginTx()) {
+            json.writeStartObject();
+            writeId(value);
+            writeProperties(value, ENTITY_PROPS);
+            writeRelationships("fields", value.getRelationships(OUTGOING, HAS_FIELD), FIELD_PROPS);
+            json.writeEndObject();
+            tx.success();
+        }
     }
 }
